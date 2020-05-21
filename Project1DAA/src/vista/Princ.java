@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 public class Princ {
 	static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
 	private static JTextField txtNum;
+	volatile static boolean ejecutar = true;
 
 	
 	public static void main(String[] args) {
@@ -40,26 +41,39 @@ public class Princ {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int n = moverNumero();
-				System.out.println(""+listaNumerica);
-				System.out.println(""+listaNumerica.size());
 				JLabel prueba = new JLabel(""+n);
-				prueba.setBounds(30, 130, 46, 14);
+				prueba.setBounds(10, 130, 46, 14);
 				txtNum.setText(null);
 				dib.add(prueba);
 				agregarNumero(n);
+				System.out.println(""+listaNumerica);
+				System.out.println(""+listaNumerica.size());
+				int pos = listaNumerica.size();
 				new Thread() {
 					public void run() {
 						
 						int y = prueba.getLocation().y;
 						int x = prueba.getLocation().x;
-						while(true) {
+						while(ejecutar) {
+							if(x<=30*pos) {
 							x++;
-							if( x == ) {
-								x = 0;
-							}
 							prueba.setLocation(x, y);
+								if(x==30*pos) {
+									while(y<320) {
+										y++;
+										prueba.setLocation(x, y);
+										try {
+											sleep(5);
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+								}
+							}
+							
 							try {
-								sleep(10);
+								sleep(5);
 							} catch (Exception e2) {
 								// TODO: handle exception
 							}
@@ -72,20 +86,22 @@ public class Princ {
 			}
 		});
 		btnNewButton.setBounds(106, 106, 89, 23);
-		dib.add(btnNewButton);
+		dib.add(btnNewButton);	
 		
-		
-		
-		int posX = 40;
+		int posX = 30;
 		for(int i = 0;i<10;i++) {
-			JLabel label = new JLabel("       "+i);
+			JLabel label = new JLabel(""+i);
 			label.setBounds(posX, 350, 50, 14);
-			posX = posX + 50;
+			posX = posX + 30;
 			dib.add(label);
 		}
 		
 		ventana.setSize(1000,600);
 		ventana.setVisible(true);
+	}
+	
+	public void detener() {
+	    ejecutar = false;
 	}
 	
 	public static void agregarNumero(int n) {

@@ -11,12 +11,12 @@ public class unCuadrado extends JPanel{
 		   setBackground(new Color(235,137,4));//color medio naranjo
 	   }
 		public void paintComponent(Graphics g) {
-			int posicionX = 40;
+			int posicionX = 20;
 	        super.paintComponent(g);
 	        for(int i=0; i<10; i++) {
 	        	g.setColor(new Color(38,121,255));
-	        	g.drawRect(posicionX, 300, 50, 50);
-	        	posicionX = posicionX + 50;
+	        	g.drawRect(posicionX, 315, 30, 30);
+	        	posicionX = posicionX + 30;
 	        	
 	        }
 	    }
