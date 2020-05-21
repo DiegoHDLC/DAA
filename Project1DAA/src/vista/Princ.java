@@ -34,7 +34,6 @@ public class Princ {
 		lblHeap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
 			}
 		});
 		
@@ -42,10 +41,6 @@ public class Princ {
 		mer.setBounds(0, 0, 984, 561);
 		ventana.getContentPane().add(mer);
 		mer.setLayout(null);
-		
-		JLabel lblHeap1 = new JLabel("HeapSort");
-		lblHeap1.setBounds(10, 70, 86, 14);
-		heap.add(lblHeap1);
 		
 		txtNum = new JTextField();
 		txtNum.setBounds(10, 107, 86, 20);
@@ -70,30 +65,7 @@ public class Princ {
 						
 						int y = prueba.getLocation().y;
 						int x = prueba.getLocation().x;
-						while(ejecutar) {
-							if(x<=30*pos) {
-							x++;
-							prueba.setLocation(x, y);
-								if(x==30*pos) {
-									while(y<320) {
-										y++;
-										prueba.setLocation(x, y);
-										try {
-											sleep(5);
-										} catch (InterruptedException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-									}
-								}
-							}
-							
-							try {
-								sleep(5);
-							} catch (Exception e2) {
-								// TODO: handle exception
-							}					
-						}			
+						animacion(x,y,pos,prueba);		
 					}
 				}.start();
 			}
@@ -110,6 +82,33 @@ public class Princ {
 		
 		ventana.setSize(1000,600);
 		ventana.setVisible(true);
+	}
+	
+	public static void animacion(int x, int y, int pos, JLabel prueba1) {
+		while(ejecutar) {
+		if(x<=30*pos) {
+			x++;
+			prueba1.setLocation(x, y);
+				if(x==30*pos) {
+					while(y<320) {
+						y++;
+						prueba1.setLocation(x, y);
+						try {
+							Thread.sleep(5);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
+			try {
+				Thread.sleep(5);
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}			
+	}
 	}
 	
 	public void detener() {
