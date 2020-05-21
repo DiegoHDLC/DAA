@@ -23,9 +23,16 @@ public class Princ {
 	}
 	
 	public static void initComponents() {
+		JFrame ventana = new JFrame();
+		//crear Panel MergeSort
+		MergeSort mer = new MergeSort();
+		mer.setBounds(0, 0, 984, 561);
+		ventana.getContentPane().add(mer);
+		mer.setLayout(null);
+		//crear Panel HeapSort
 		HeapSort heap = new HeapSort();
 		heap.setBounds(0, 0, 984, 561);
-		JFrame ventana = new JFrame();
+		
 		ventana.getContentPane().setLayout(null);
 		ventana.getContentPane().add(heap);
 		heap.setLayout(null);
@@ -37,10 +44,7 @@ public class Princ {
 			}
 		});
 		
-		MergeSort mer = new MergeSort();
-		mer.setBounds(0, 0, 984, 561);
-		ventana.getContentPane().add(mer);
-		mer.setLayout(null);
+		
 		
 		txtNum = new JTextField();
 		txtNum.setBounds(10, 107, 86, 20);
@@ -51,14 +55,11 @@ public class Princ {
 		btnNewButton.setBounds(106, 106, 89, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int n = moverNumero();
+				
+				int n = iniciarNumeros();
 				JLabel prueba = new JLabel(""+n);
 				prueba.setBounds(10, 130, 46, 14);
-				txtNum.setText(null);
 				heap.add(prueba);
-				agregarNumero(n);
-				System.out.println(""+listaNumerica);
-				System.out.println(""+listaNumerica.size());
 				int pos = listaNumerica.size();
 				new Thread() {
 					public void run() {
@@ -71,6 +72,7 @@ public class Princ {
 			}
 		});
 		heap.add(btnNewButton);
+
 		
 		int posX = 30;
 		for(int i = 0;i<10;i++) {
@@ -82,6 +84,18 @@ public class Princ {
 		
 		ventana.setSize(1000,600);
 		ventana.setVisible(true);
+	}
+	
+	public static int iniciarNumeros() {
+		int n = moverNumero();
+		
+		txtNum.setText(null);
+		
+		agregarNumero(n);
+		System.out.println(""+listaNumerica);
+		System.out.println(""+listaNumerica.size());
+		
+		return n;
 	}
 	
 	public static void animacion(int x, int y, int pos, JLabel prueba1) {
