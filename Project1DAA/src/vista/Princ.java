@@ -137,22 +137,25 @@ public class Princ {
 		pestHeap.add(lblHeap);
 		
 		txtNum = new JTextField();
+		txtNum.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNum.setBackground(new Color(208, 121, 3));
-		txtNum.setBounds(10, 107, 86, 20);
+		txtNum.setBounds(10, 11, 46, 35);
 		heap.add(txtNum);
 		txtNum.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Agregar");
-		btnNewButton.setBounds(106, 106, 89, 23);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(66, 17, 89, 23);
+		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(listaNumerica.size()==9) {
 					txtNum.setEditable(false);
-					System.out.println("Lista llena, no puede agregar más números");
+					btnAgregar.setEnabled(false);
+							txtMensaje.setText("Lista llena, no puede agregar más números.");
+						
 				}
 				int n = iniciarNumeros();
 				JLabel prueba = new JLabel(""+n);
-				prueba.setBounds(10, 130, 46, 14);
+				prueba.setBounds(20, 50, 46, 14);
 				heap.add(prueba);
 				int pos = listaNumerica.size();
 				new Thread() {
@@ -166,57 +169,22 @@ public class Princ {
 				}.start();
 			}
 		});
-		heap.add(btnNewButton);
+		heap.add(btnAgregar);
+		JLabel numerosArr[] = new JLabel[10];
+		for(int i = 0;i < 10; i++){
+			numerosArr[i]= new JLabel("" +(i));
+			numerosArr[i].setBounds(30+(30*i), 345, 30, 14);
+			heap.add(numerosArr[i]);
+		}	
 		
-		JLabel pos0 = new JLabel("0");
-		pos0.setHorizontalAlignment(SwingConstants.CENTER);
-		pos0.setBounds(20, 345, 30, 14);
-		heap.add(pos0);
-		
-		JLabel pos1 = new JLabel("1");
-		pos1.setHorizontalAlignment(SwingConstants.CENTER);
-		pos1.setBounds(50, 345, 30, 14);
-		heap.add(pos1);
-		
-		JLabel pos3 = new JLabel("2");
-		pos3.setHorizontalAlignment(SwingConstants.CENTER);
-		pos3.setBounds(80, 345, 30, 14);
-		heap.add(pos3);
-		
-		JLabel pos4 = new JLabel("3");
-		pos4.setHorizontalAlignment(SwingConstants.CENTER);
-		pos4.setBounds(110, 345, 30, 14);
-		heap.add(pos4);
-		
-		JLabel pos5 = new JLabel("4");
-		pos5.setHorizontalAlignment(SwingConstants.CENTER);
-		pos5.setBounds(140, 345, 30, 14);
-		heap.add(pos5);
-		
-		JLabel pos6 = new JLabel("5");
-		pos6.setHorizontalAlignment(SwingConstants.CENTER);
-		pos6.setBounds(170, 345, 30, 14);
-		heap.add(pos6);
-		
-		JLabel pos7 = new JLabel("6");
-		pos7.setHorizontalAlignment(SwingConstants.CENTER);
-		pos7.setBounds(200, 345, 30, 14);
-		heap.add(pos7);
-		
-		JLabel pos8 = new JLabel("7");
-		pos8.setHorizontalAlignment(SwingConstants.CENTER);
-		pos8.setBounds(230, 345, 30, 14);
-		heap.add(pos8);
-		
-		JLabel pos9 = new JLabel("8");
-		pos9.setHorizontalAlignment(SwingConstants.CENTER);
-		pos9.setBounds(260, 345, 30, 14);
-		heap.add(pos9);
-		
-		JLabel pos10 = new JLabel("9");
-		pos10.setHorizontalAlignment(SwingConstants.CENTER);
-		pos10.setBounds(290, 345, 30, 14);
-		heap.add(pos10);
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//prueba(0)
+			}
+		});
+		btnEliminar.setBounds(165, 17, 89, 23);
+		heap.add(btnEliminar);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
@@ -224,12 +192,13 @@ public class Princ {
 		pnlMensajes.setBackground(new Color(208, 121, 3));
 		pnlMensajes.setLayout(null);
 		
-		
-		lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMensaje.setForeground(new Color(33, 44, 61));
-		lblMensaje.setFont(new Font("Sitka Small", Font.BOLD, 15));
-		lblMensaje.setBounds(0, 0, 984, 42);
-		pnlMensajes.add(lblMensaje);
+		txtMensaje = new JTextField();
+		txtMensaje.setFont(new Font("Sitka Small", Font.BOLD, 15));
+		txtMensaje.setEditable(false);
+		txtMensaje.setBackground(new Color(208, 121, 3));
+		txtMensaje.setBounds(0, 0, 984, 46);
+		pnlMensajes.add(txtMensaje);
+		txtMensaje.setColumns(10);
 		
 		
 		ventana.setSize(1000,600);
@@ -248,7 +217,6 @@ public class Princ {
 		agregarNumero(n);
 		System.out.println(""+listaNumerica);
 		System.out.println(""+listaNumerica.size());
-		
 		return n;
 	}
 	
@@ -292,11 +260,10 @@ public class Princ {
 		n = Integer.parseInt(txtNum.getText());
     	return n;
 	}
-	
-	static JLabel lblMensaje = new JLabel("");
 	static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
 	private static JTextField txtNum;
 	volatile static boolean ejecutar = true;
 	static JPanel pestHeap = new JPanel();
 	static HeapSort heap = new HeapSort();
+	private static JTextField txtMensaje;
 }
