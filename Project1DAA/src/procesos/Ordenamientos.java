@@ -5,7 +5,7 @@
  */
 package procesos;
 
-
+import java.util.List;
 
 /**
  *
@@ -43,17 +43,17 @@ public class Ordenamientos {
            }*/
     }
     
-    public static void heapSort(int[] a){
-    	int contador = a.length;
+    public static void heapSort(List<Integer> a){
+    	int contador = a.size();
     	
     	heapify(a, contador);
     	int fin = contador -1;
     	while(fin > 0) {
     		//intercambia la raiz(maximo valor) de el heap con el
     		//ultimo elemento del heap
-    		int tmp = a[fin];
-    		a[fin] = a[0];
-    		a[0] = tmp;
+    		int tmp = a.get(fin);
+    		a.set(fin, a.get(0));
+    		a.set(0, tmp);
     		
     		//coloca el heap de vuelta en el orden de max-heap 
     		siftDown(a, 0, fin - 1);
@@ -63,7 +63,7 @@ public class Ordenamientos {
     	}
     }
     
-    public static void heapify(int[] a, int contador) {
+    public static void heapify(List<Integer> a, int contador) {
     	//el comienzo es asignado por el indice por el ultimo nodo padre
     	int comienzo = (contador - 2)/2; //binary heap
     	while(comienzo >= 0) {
@@ -76,23 +76,25 @@ public class Ordenamientos {
     	//después de filtrar la raíz, todos los nodos / elementos están en orden de almacenamiento dinámico
     }
     
-    public static void siftDown(int[] a, int comienzo, int fin) {
+    public static void siftDown(List<Integer> a, int comienzo, int fin) {
     	//fin representa el límite de qué tan lejos del montón se debe tamizar
     	int raiz = comienzo;
     	while((raiz * 2 + 1) <= fin) {       //Mientras que la raíz tiene al menos un hijo
     		int hijo = raiz * 2 + 1;		//raiz*2+1 Señala al hijo izquierdo
     		//si el hijo tiene un hermano y el valor del hijo es menor que el de su hermano ...
-    		if(hijo + 1 <= fin && a[hijo] < a[hijo + 1]) {
+    		if(hijo + 1 <= fin && a.get(hijo) < a.get(hijo + 1)) {
     			hijo++;
     		}
-    		if(a[raiz] < a[hijo]) {
-    			int tmp = a[raiz];
-    			a[raiz] = a[hijo];
-    			a[hijo] = tmp;
+    		if(a.get(raiz) < a.get(hijo)) {
+    			int tmp = a.get(raiz);
+    			a.set(raiz, a.get(hijo));
+    			a.set(hijo, tmp);
     			raiz = hijo;
     		}else {
     			return;
     		}
     	}
     }
+    
+    
 }

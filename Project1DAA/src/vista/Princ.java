@@ -1,6 +1,7 @@
 package vista;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +18,7 @@ import java.awt.Font;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import utils.Numeros;
+import procesos.Ordenamientos;
 
 import javax.swing.SwingConstants;
 
@@ -142,48 +143,56 @@ public class Princ {
 		pestHeap.add(lblHeap);
 		
 		txtNum = new JTextField();
+		txtNum.setText("");
 		txtNum.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNum.setBackground(new Color(208, 121, 3));
 		txtNum.setBounds(10, 11, 46, 35);
 		heap.add(txtNum);
 		txtNum.setColumns(10);
+	
 		
 		contadorNumeros = -1;
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(66, 17, 89, 23);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtMensaje.setText("");
-				contadorNumeros++;
-				if(listaNumerica.size()==9) {
-					txtNum.setEditable(false);
-					btnAgregar.setEnabled(false);
-							txtMensaje.setText("Lista llena, no puede agregar más números.");
-						
-				}
-				n = iniciarNumeros();
-				//JLabel numeros = new JLabel(""+n);
-				//listaNumericaUsuario.add(numeros);
-				System.out.println("lista label:");
-				for(int i = 0; i < listaNumericaUsuario.size();i++) {
-					System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
-				}
-				
-				System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
-				System.out.println("numero final:"+listaNumericaUsuario.get(contadorNumeros).getText());
-				System.out.println("posicion:"+contadorNumeros);
-				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
-				heap.add(listaNumericaUsuario.get(contadorNumeros));
-				new Thread() {
-					public void run() {
-						
-						int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
-						int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
-						int pos = verificarPos();
-						animacion(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
-						
+				if(txtNum.getText().isEmpty()) {
+					txtMensaje.setText("Digite un número");
+					txtNum.requestFocus();
+				}else {
+					txtNum.requestFocus();
+					txtMensaje.setText("");
+					contadorNumeros++;
+					if(listaNumerica.size()==9) {
+						txtNum.setEditable(false);
+						btnAgregar.setEnabled(false);
+								txtMensaje.setText("Lista llena, no puede agregar más números.");
+							
 					}
-				}.start();
+					n = iniciarNumeros();
+					//JLabel numeros = new JLabel(""+n);
+					//listaNumericaUsuario.add(numeros);
+					System.out.println("lista label:");
+					for(int i = 0; i < listaNumericaUsuario.size();i++) {
+						System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
+					}
+					
+					System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
+					System.out.println("numero final:"+listaNumericaUsuario.get(contadorNumeros).getText());
+					System.out.println("posicion:"+contadorNumeros);
+					listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
+					heap.add(listaNumericaUsuario.get(contadorNumeros));
+					new Thread() {
+						public void run() {
+							
+							int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
+							int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
+							int pos = verificarPos();
+							animacion(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
+							
+						}
+					}.start();
+				}
 			}
 		});
 		heap.add(btnAgregar);
@@ -198,30 +207,35 @@ public class Princ {
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-						txtMensaje.setText("");
-						heap.remove(listaNumericaUsuario.get(contadorNumeros));
-						heap.repaint();
-						listaNumerica.remove(contadorNumeros);
-						listaNumericaUsuario.remove(contadorNumeros);
-						System.out.println(""+listaNumerica);
-						System.out.println("cantidad de numeros:"+listaNumerica.size());
-						contadorNumeros--;
-						btnAgregar.setEnabled(true);
-						txtNum.setEditable(true);
-						if(listaNumerica.size()==0) {
-							txtMensaje.setText("No hay número que eliminar");
-							btnEliminar.setEnabled(false);
-						}
-						
-						
-					
-					
-				
+				txtNum.requestFocus();
+				txtMensaje.setText("");
+				heap.remove(listaNumericaUsuario.get(contadorNumeros));
+				heap.repaint();
+				listaNumerica.remove(contadorNumeros);
+				listaNumericaUsuario.remove(contadorNumeros);
+				System.out.println(""+listaNumerica);
+				System.out.println("cantidad de numeros:"+listaNumerica.size());
+				contadorNumeros--;
+				btnAgregar.setEnabled(true);
+				txtNum.setEditable(true);
+				if(listaNumerica.size()==0) {
+					txtMensaje.setText("No hay número que eliminar");
+					btnEliminar.setEnabled(false);
+				}	
 			}
 		});
 		btnEliminar.setBounds(165, 17, 89, 23);
 		heap.add(btnEliminar);
+		
+		JButton btnOrdenarHeap = new JButton("Ordenar");
+		btnOrdenarHeap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Ordenamientos.heapSort(listaNumerica);
+				imprimirListaNumerica(listaNumerica);
+			}
+		});
+		btnOrdenarHeap.setBounds(264, 17, 89, 23);
+		heap.add(btnOrdenarHeap);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
@@ -268,7 +282,6 @@ public class Princ {
 				posicion = i;
 		}
 		return posicion+1;
-		
 	}
 	
 	public static void animacion(int x, int y, int pos, JLabel prueba1) {
@@ -309,6 +322,12 @@ public class Princ {
 		numero.setText(""+n);
 		listaNumericaUsuario.add(numero);
 		btnEliminar.setEnabled(true);
+	}
+	
+	public static void imprimirListaNumerica(List<Integer> lista) {
+		for(int i = 0; i < lista.size();i++) {
+			System.out.print("["+lista.get(i)+"] ");
+		}
 	}
 	
 	public static int moverNumero() {
