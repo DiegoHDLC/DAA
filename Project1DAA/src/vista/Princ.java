@@ -18,13 +18,18 @@ import java.awt.Font;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import procesos.Animaciones;
 import procesos.Ordenamientos;
 
 import javax.swing.SwingConstants;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class Princ {
 	public static int n;
 	public static int contadorNumeros;
+	public static int TAMANOARREGLO = 11;
 	public static void main(String[] args) {
 		initComponents();
 	}
@@ -149,7 +154,24 @@ public class Princ {
 		txtNum.setBounds(10, 11, 46, 35);
 		heap.add(txtNum);
 		txtNum.setColumns(10);
-	
+		ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
+		ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
+		for(int i = 0;i < TAMANOARREGLO; i++){
+			JLabel label = new JLabel();
+			label.setText(""+i);
+			numerosArreglo.add(label);
+			numerosArreglo.get(i).setBounds(30+(30*i), 345, 30, 14);
+			heap.add(numerosArreglo.get(i));
+		}
+		
+		for(int i = 0;i < TAMANOARREGLO; i++){
+			JLabel lblTmp = new JLabel();
+			lblTmp.setText("t"+i);
+			tmpsArreglo.add(lblTmp);
+			tmpsArreglo.get(i).setBounds(30+(30*i), 300, 30, 14);
+			heap.add(tmpsArreglo.get(i));
+		}
+		
 		
 		contadorNumeros = -1;
 		JButton btnAgregar = new JButton("Agregar");
@@ -163,7 +185,7 @@ public class Princ {
 					txtNum.requestFocus();
 					txtMensaje.setText("");
 					contadorNumeros++;
-					if(listaNumerica.size()==9) {
+					if(listaNumerica.size()==numerosArreglo.size()-1) {
 						txtNum.setEditable(false);
 						btnAgregar.setEnabled(false);
 								txtMensaje.setText("Lista llena, no puede agregar más números.");
@@ -184,24 +206,17 @@ public class Princ {
 					heap.add(listaNumericaUsuario.get(contadorNumeros));
 					new Thread() {
 						public void run() {
-							
 							int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
 							int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
 							int pos = verificarPos();
 							animacion(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
-							
 						}
 					}.start();
 				}
 			}
 		});
 		heap.add(btnAgregar);
-		JLabel numerosArr[] = new JLabel[10];
-		for(int i = 0;i < 10; i++){
-			numerosArr[i]= new JLabel("" +(i));
-			numerosArr[i].setBounds(30+(30*i), 345, 30, 14);
-			heap.add(numerosArr[i]);
-		}	
+		
 		
 		//BOTON ELIMINAR
 		btnEliminar.setEnabled(false);
@@ -230,12 +245,23 @@ public class Princ {
 		JButton btnOrdenarHeap = new JButton("Ordenar");
 		btnOrdenarHeap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Ordenamientos.heapSort(listaNumerica);
-				imprimirListaNumerica(listaNumerica);
+				imprimirListaNumericaUsuario(listaNumericaUsuario);
+				Ordenamientos.HeapSort(listaNumerica,listaNumericaUsuario,tmpsArreglo);
+				//imprimirListaNumerica(listaNumerica);
+				//imprimirListaNumericaUsuario(listaNumericaUsuario);
 			}
 		});
 		btnOrdenarHeap.setBounds(264, 17, 89, 23);
 		heap.add(btnOrdenarHeap);
+		
+		JButton btnAnimacionHeap = new JButton("OrdAnimacion");
+		btnAnimacionHeap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Animaciones.moverPrueba(listaNumericaUsuario, 0, 2);
+			}
+		});
+		btnAnimacionHeap.setBounds(363, 17, 89, 23);
+		heap.add(btnAnimacionHeap);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
@@ -286,25 +312,25 @@ public class Princ {
 	
 	public static void animacion(int x, int y, int pos, JLabel prueba1) {
 		while(ejecutar) {
-		if(x<=30*pos) {
-			x++;
-			prueba1.setLocation(x, y);
-				if(x==30*pos) {
-					while(y<320) {
-						y++;
-						prueba1.setLocation(x, y);
-						try {
-							Thread.sleep(1);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+			if(x<=30*pos) {
+				x++;
+				prueba1.setLocation(x, y);
+					if(x==30*pos) {
+						while(y<320) {
+							y++;
+							prueba1.setLocation(x, y);
+							try {
+								Thread.sleep(5);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
-				}
 			}
 			
 			try {
-				Thread.sleep(1);
+				Thread.sleep(5);
 			} catch (Exception e2) {
 				// TODO: handle exception
 			}			
@@ -314,6 +340,14 @@ public class Princ {
 	
 	public void detener() {
 	    ejecutar = false;
+	}
+	
+	public static void imprimirListaNumericaUsuario(List<JLabel> a) {
+		for(int i = 0; i < a.size(); i++) {
+			
+			System.out.print("["+a.get(i).getText()+"] ");
+		}
+		System.out.print("\n");
 	}
 	
 	public static void agregarNumero(int n) {
@@ -328,6 +362,7 @@ public class Princ {
 		for(int i = 0; i < lista.size();i++) {
 			System.out.print("["+lista.get(i)+"] ");
 		}
+		System.out.print("\n");
 	}
 	
 	public static int moverNumero() {
@@ -340,7 +375,7 @@ public class Princ {
 	private static JTextField txtNum;
 	volatile static boolean ejecutar = true;
 	static JPanel pestHeap = new JPanel();
-	static HeapSort heap = new HeapSort();
+	public static HeapSort heap = new HeapSort();
 	private static JTextField txtMensaje;
 	static JButton btnEliminar = new JButton("Eliminar");
 }
