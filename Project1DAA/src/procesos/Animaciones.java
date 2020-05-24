@@ -30,13 +30,93 @@ public class Animaciones {
 		}
 	}
 	
-	public static void moverNumero(List<JLabel> a, List<JLabel> tmp, int pos) {
+	public static void bajar() {
+		new Thread() {
+			public void run() {
+				
+			}
+		}.start();
+	}
+	public static void moverDerecha(List<JLabel> a, List<JLabel> tmp, int destino, int posNum) {
+		new Thread() {
+			public void run() {
+				//moverIzquierda(a, tmp, destino, posNum, 1);
+			}
+		}.start();
+	}
+	
+	public static void moverDireccion(List<JLabel> a, List<JLabel> tmp, int destino, int posNum, int direccion) {
+		new Thread() {
+			public void run() {
+				int xTmp = tmp.get(destino).getX();
+				int yTmp = tmp.get(destino).getY();
+				int x = a.get(posNum).getX();
+				int y = a.get(posNum).getY();
+				if(direccion == 0) {
+					while(x>xTmp) {
+						x--;
+						a.get(posNum).setLocation(x, y);
+						try {
+							Thread.sleep(30);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}	
+				}else {
+					while(x<xTmp) {
+						x++;
+						a.get(posNum).setLocation(x, y);
+						try {
+							Thread.sleep(30);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}.start();
+			
+	}
+	
+	
+	public static void moverDerecha() {
+		
+	}
+	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int posFin) {
+		new Thread() {
+			int x = a.get(posFin).getX();
+			int y = a.get(posFin).getY();
+			int xTmp = tmp.get(posFin).getX();
+			int yTmp = tmp.get(posFin).getY();
+			public void run() {
+				System.out.println("posicion0:"+a.get(0).getText());
+				Princ.imprimirListaNumericaUsuario(a);
+				Princ.imprimirListaNumericaUsuario(tmp);
+				System.out.println("posicion que entra: "+posFin);
+				while(y>yTmp) {
+					y--;
+					a.get(posFin).setLocation(x, y);
+					try {
+						Thread.sleep(30);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+			}
+		}.start();
+	}
+	public static void moverNumero(List<JLabel> a, List<JLabel> tmp, int posFin) {
 		new Thread() {
 			
-			int x = a.get(pos-1).getX();
-			int y = a.get(pos-1).getY();
-			int xTemp = tmp.get(pos).getX();
-			int yTemp = tmp.get(pos).getY();
+			int x = a.get(posFin).getX();
+			int y = a.get(posFin).getY();
+			int xTemp = tmp.get(posFin).getX();
+			int yTemp = tmp.get(posFin).getY();
 			public void run() {
 				System.out.println("xNumero:"+x);
 				System.out.println("yNumero:"+y);
@@ -44,16 +124,16 @@ public class Animaciones {
 				System.out.println("yTemp:"+yTemp);
 				
 				while(y > yTemp) {
-					a.get(pos).setLocation(x,y);
+					a.get(posFin).setLocation(x,y);
 					y--;
 					System.out.println("yNumero:"+y);
 					System.out.println("xNumero:"+x);
 					if(y ==yTemp) {
-						int x = a.get(pos).getX();
+						int x = a.get(posFin).getX();
 						System.out.println("entra");
 						while(x < xTemp) {
 							System.out.println("xNumero:"+x);
-							a.get(pos).setLocation(x,y);
+							a.get(posFin).setLocation(x,y);
 							x++;
 							try {
 								Thread.sleep(30);
@@ -74,29 +154,37 @@ public class Animaciones {
 	
 	public static void moverNumeroRecto(List<JLabel> a, List<JLabel> tmp, int posIni, int posFin) {
 		new Thread() {
-			int x1 = a.get(posIni).getX();
-			int y1 = a.get(posIni).getY();
-			int x2 = tmp.get(posFin).getX();
-			int y2 = tmp.get(posFin).getY();
+			int x1 = a.get(posFin).getX();
+			int y1 = a.get(posFin).getY();
+			int x2 = tmp.get(posIni).getX();
+			int y2 = tmp.get(posIni).getY();
 			public void run() {
 				System.out.println("entra a moverRecto");
 				System.out.println("numero a mover: "+a.get(posIni).getText());
 				System.out.println("xNumero:"+x1);
-				System.out.println("yNumero:"+y2);
+				System.out.println("yNumero:"+y1);
 				System.out.println("xTemp:"+x2);
 				System.out.println("yTemp:"+y2);
-				if(x1 < x2) {
-					x1 = a.get(posIni).getX();
-					a.get(posIni).setLocation(x1,y1);
-					while(x1 < x2) {
+				if(x1 > x2) {
+					//x1 = a.get(posFin).getX();
+					//a.get(posFin).setLocation(x1,y1);
+					System.out.println("entra al if");
+					System.out.println("posInicial:"+posFin);
+					System.out.println("xTemp:"+x2);
+					System.out.println("xNumero:"+x1);
+					while(x1 > x2) {
 						x1--;
-						a.get(posIni).setLocation(x1,y1);
+						System.out.println("xNumero11111111:"+x1);
+						a.get(posFin).setLocation(x1,y1);
+						System.out.println("xNumero11111111:"+x1);
+	
 					}
 					try {
 						Thread.sleep(30);
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
+					
 					
 				}
 			}

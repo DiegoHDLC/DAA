@@ -30,6 +30,7 @@ public class Princ {
 	public static int n;
 	public static int contadorNumeros;
 	public static int TAMANOARREGLO = 11;
+	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static void main(String[] args) {
 		initComponents();
 	}
@@ -155,7 +156,7 @@ public class Princ {
 		heap.add(txtNum);
 		txtNum.setColumns(10);
 		ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
-		ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
+		
 		for(int i = 0;i < TAMANOARREGLO; i++){
 			JLabel label = new JLabel();
 			label.setText(""+i);
@@ -245,7 +246,7 @@ public class Princ {
 		JButton btnOrdenarHeap = new JButton("Ordenar");
 		btnOrdenarHeap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				imprimirListaNumericaUsuario(listaNumericaUsuario);
+				//imprimirListaNumericaUsuario(listaNumericaUsuario);
 				Ordenamientos.HeapSort(listaNumerica,listaNumericaUsuario,tmpsArreglo);
 				//imprimirListaNumerica(listaNumerica);
 				//imprimirListaNumericaUsuario(listaNumericaUsuario);
@@ -262,6 +263,34 @@ public class Princ {
 		});
 		btnAnimacionHeap.setBounds(363, 17, 89, 23);
 		heap.add(btnAnimacionHeap);
+		
+		JButton btnLevantar = new JButton("Levantar");
+		btnLevantar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Animaciones.levantarNumero(listaNumericaUsuario, tmpsArreglo, 5);
+				imprimirListaNumericaUsuario(listaNumericaUsuario);
+			}
+		});
+		btnLevantar.setBounds(264, 70, 89, 23);
+		heap.add(btnLevantar);
+		
+		JButton btnIzquierda = new JButton("Izquierda");
+		btnIzquierda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Animaciones.moverDireccion(listaNumericaUsuario, tmpsArreglo, 0, 5, 0);
+			}
+		});
+		btnIzquierda.setBounds(264, 104, 89, 23);
+		heap.add(btnIzquierda);
+		
+		JButton btnDerecha = new JButton("Derecha");
+		btnDerecha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Animaciones.moverDireccion(listaNumericaUsuario, tmpsArreglo, 9, 5,1);
+			}
+		});
+		btnDerecha.setBounds(363, 104, 89, 23);
+		heap.add(btnDerecha);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);

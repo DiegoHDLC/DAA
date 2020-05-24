@@ -57,11 +57,16 @@ public class Ordenamientos {
     		//intercambia la raiz(maximo valor) de el heap con el
     		//ultimo elemento del heap
     		//Animaciones.moverPrueba(b, 0, fin);
+    		Animaciones.levantarNumero(b, tmpList, fin);
     		int tmp = a.get(fin);
-    		Animaciones.moverNumero(b, tmpList, fin);
+    		
+    		//Animaciones.moverNumero(b, tmpList, fin);
+    		//System.out.println("entra al heapsort-----------\n");
     		JLabel tmp2 = b.get(fin);
+    		//Animaciones.moverNumeroRecto(b, tmpList, 0, fin);
+    		
     		b.set(fin, b.get(0));
-    		Animaciones.moverNumeroRecto(b, tmpList, 0, fin);
+    		//Animaciones.moverNumeroRecto(b, tmpList, 0, fin);
     		a.set(fin, a.get(0));
     		b.set(0, tmp2);
     		a.set(0, tmp);
