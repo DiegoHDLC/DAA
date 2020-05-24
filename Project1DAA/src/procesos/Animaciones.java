@@ -30,11 +30,29 @@ public class Animaciones {
 		}
 	}
 	
-	public static void bajar() {
+	public static void bajar(List<JLabel> a, List<JLabel> tmp, int pos) {
 		new Thread() {
-			public void run() {
-				
-			}
+				int x = a.get(pos).getX();
+				int y = a.get(pos).getY();
+				int xTmp = tmp.get(pos).getX();
+				int yTmp = tmp.get(pos).getY();
+				public void run() {
+					System.out.println("posicion0:"+a.get(0).getText());
+					Princ.imprimirListaNumericaUsuario(a);
+					Princ.imprimirListaNumericaUsuario(tmp);
+					System.out.println("posicion que entra: "+pos);
+					while(y<320) {
+						y++;
+						a.get(pos).setLocation(x, y);
+						try {
+							Thread.sleep(30);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}	
+				}
+		
 		}.start();
 	}
 	public static void moverDerecha(List<JLabel> a, List<JLabel> tmp, int destino, int posNum) {
@@ -84,29 +102,27 @@ public class Animaciones {
 	public static void moverDerecha() {
 		
 	}
-	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int posFin) {
+	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int pos) {
 		new Thread() {
-			int x = a.get(posFin).getX();
-			int y = a.get(posFin).getY();
-			int xTmp = tmp.get(posFin).getX();
-			int yTmp = tmp.get(posFin).getY();
+			int x = a.get(pos).getX();
+			int y = a.get(pos).getY();
+			int xTmp = tmp.get(pos).getX();
+			int yTmp = tmp.get(pos).getY();
 			public void run() {
 				System.out.println("posicion0:"+a.get(0).getText());
 				Princ.imprimirListaNumericaUsuario(a);
 				Princ.imprimirListaNumericaUsuario(tmp);
-				System.out.println("posicion que entra: "+posFin);
+				System.out.println("posicion que entra: "+pos);
 				while(y>yTmp) {
 					y--;
-					a.get(posFin).setLocation(x, y);
+					a.get(pos).setLocation(x, y);
 					try {
 						Thread.sleep(30);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-				
-				
+				}	
 			}
 		}.start();
 	}

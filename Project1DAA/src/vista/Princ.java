@@ -271,7 +271,7 @@ public class Princ {
 				imprimirListaNumericaUsuario(listaNumericaUsuario);
 			}
 		});
-		btnLevantar.setBounds(264, 70, 89, 23);
+		btnLevantar.setBounds(317, 72, 89, 23);
 		heap.add(btnLevantar);
 		
 		JButton btnIzquierda = new JButton("Izquierda");
@@ -291,6 +291,15 @@ public class Princ {
 		});
 		btnDerecha.setBounds(363, 104, 89, 23);
 		heap.add(btnDerecha);
+		
+		JButton btnBajar = new JButton("Bajar");
+		btnBajar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Animaciones.bajar(listaNumericaUsuario, tmpsArreglo, 5);
+			}
+		});
+		btnBajar.setBounds(317, 138, 89, 23);
+		heap.add(btnBajar);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
