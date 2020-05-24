@@ -301,6 +301,27 @@ public class Princ {
 		btnBajar.setBounds(317, 138, 89, 23);
 		heap.add(btnBajar);
 		
+		JButton btnIntercambio = new JButton("Intercambio");
+		btnIntercambio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+					Animaciones.intercambio(listaNumericaUsuario, tmpsArreglo, 3, 0);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Animaciones.intercambio(listaNumericaUsuario, tmpsArreglo, 4, 1);
+				
+				
+				
+			}
+		});
+		btnIntercambio.setBounds(485, 104, 89, 23);
+		heap.add(btnIntercambio);
+		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
 		ventana.getContentPane().add(pnlMensajes);

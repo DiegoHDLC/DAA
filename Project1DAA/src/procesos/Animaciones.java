@@ -45,7 +45,7 @@ public class Animaciones {
 						y++;
 						a.get(pos).setLocation(x, y);
 						try {
-							Thread.sleep(30);
+							Thread.sleep(10);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -53,13 +53,6 @@ public class Animaciones {
 					}	
 				}
 		
-		}.start();
-	}
-	public static void moverDerecha(List<JLabel> a, List<JLabel> tmp, int destino, int posNum) {
-		new Thread() {
-			public void run() {
-				//moverIzquierda(a, tmp, destino, posNum, 1);
-			}
 		}.start();
 	}
 	
@@ -75,7 +68,7 @@ public class Animaciones {
 						x--;
 						a.get(posNum).setLocation(x, y);
 						try {
-							Thread.sleep(30);
+							Thread.sleep(10);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -86,7 +79,7 @@ public class Animaciones {
 						x++;
 						a.get(posNum).setLocation(x, y);
 						try {
-							Thread.sleep(30);
+							Thread.sleep(10);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -99,9 +92,25 @@ public class Animaciones {
 	}
 	
 	
-	public static void moverDerecha() {
+	public static void intercambio(List<JLabel> a, List<JLabel> tmp, int n1, int n2) {
 		
+		
+			//levantarNumero(a, tmp, n1);
+				
+			
+					if(n1<n2) {
+						moverDireccion(a, tmp, n2, n1, 1);
+						moverDireccion(a, tmp, n1, n2, 0);
+					}else {
+						moverDireccion(a, tmp, n2, n1, 0);
+						moverDireccion(a, tmp, n1, n2, 1);
+					}
+			
+
+			
+			
 	}
+	
 	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int pos) {
 		new Thread() {
 			int x = a.get(pos).getX();
@@ -117,7 +126,7 @@ public class Animaciones {
 					y--;
 					a.get(pos).setLocation(x, y);
 					try {
-						Thread.sleep(30);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -152,14 +161,14 @@ public class Animaciones {
 							a.get(posFin).setLocation(x,y);
 							x++;
 							try {
-								Thread.sleep(30);
+								Thread.sleep(10);
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
 						}
 					}
 					try {
-						Thread.sleep(30);
+						Thread.sleep(10);
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
