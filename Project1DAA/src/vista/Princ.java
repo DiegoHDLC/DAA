@@ -40,7 +40,7 @@ public class Princ {
 		JFrame ventana = new JFrame();
 		ventana.getContentPane().setLayout(null);
 		//crear panel de control
-		;
+		
 		JPanel PanelControl = new JPanel();
 		PanelControl.setBackground(new Color(218, 165, 32));
 		PanelControl.setBounds(0, 0, 984, 87);
@@ -160,8 +160,9 @@ public class Princ {
 		for(int i = 0;i < TAMANOARREGLO; i++){
 			JLabel label = new JLabel();
 			label.setText(""+i);
+			label.setFont(new Font("Calibri", 3, 19));
 			numerosArreglo.add(label);
-			numerosArreglo.get(i).setBounds(30+(30*i), 345, 30, 14);
+			numerosArreglo.get(i).setBounds(30+(30*i), 245, 30, 14);
 			heap.add(numerosArreglo.get(i));
 		}
 		
@@ -169,7 +170,8 @@ public class Princ {
 			JLabel lblTmp = new JLabel();
 			lblTmp.setText("");
 			tmpsArreglo.add(lblTmp);
-			tmpsArreglo.get(i).setBounds(30+(30*i), 300, 30, 14);
+			tmpsArreglo.get(i).setFont(new Font("Calibri", 3, 19));
+			tmpsArreglo.get(i).setBounds(30+(30*i), 200, 30, 14);
 			heap.add(tmpsArreglo.get(i));
 		}
 		
@@ -189,12 +191,10 @@ public class Princ {
 					if(listaNumerica.size()==numerosArreglo.size()-1) {
 						txtNum.setEditable(false);
 						btnAgregar.setEnabled(false);
-								txtMensaje.setText("Lista llena, no puede agregar más números.");
+						txtMensaje.setText("Lista llena, no puede agregar más números.");
 							
 					}
 					n = iniciarNumeros();
-					//JLabel numeros = new JLabel(""+n);
-					//listaNumericaUsuario.add(numeros);
 					System.out.println("lista label:");
 					for(int i = 0; i < listaNumericaUsuario.size();i++) {
 						System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
@@ -210,7 +210,7 @@ public class Princ {
 							int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
 							int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
 							int pos = verificarPos();
-							colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
+							colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros),tmpsArreglo);
 						}
 					}.start();
 				}
@@ -243,89 +243,10 @@ public class Princ {
 		btnEliminar.setBounds(165, 17, 89, 23);
 		heap.add(btnEliminar);
 		
-		JButton btnOrdenarHeap = new JButton("Ordenar");
-		btnOrdenarHeap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//imprimirListaNumericaUsuario(listaNumericaUsuario);
-				Ordenamientos.HeapSort(listaNumerica,listaNumericaUsuario,tmpsArreglo);
-				//imprimirListaNumerica(listaNumerica);
-				//imprimirListaNumericaUsuario(listaNumericaUsuario);
-			}
-		});
-		btnOrdenarHeap.setBounds(264, 17, 89, 23);
-		heap.add(btnOrdenarHeap);
-		
-		JButton btnAnimacionHeap = new JButton("OrdAnimacion");
-		btnAnimacionHeap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Animaciones.moverPrueba(listaNumericaUsuario, 0, 2);
-			}
-		});
-		btnAnimacionHeap.setBounds(363, 17, 89, 23);
-		heap.add(btnAnimacionHeap);
-		
-		JButton btnLevantar = new JButton("Levantar");
-		btnLevantar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new Thread() {
-					public void run() {
-					
-					}
-				}.start();
-				
-			}
-		});
-		btnLevantar.setBounds(317, 72, 89, 23);
-		heap.add(btnLevantar);
-		
-		JButton btnIzquierda = new JButton("Izquierda");
-		btnIzquierda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new Thread() {
-					public void run() {
-					Animaciones.moverDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 0, 5, 0);
-					}
-				}.start();
-			}
-		});
-		btnIzquierda.setBounds(264, 104, 89, 23);
-		heap.add(btnIzquierda);
-		
-		JButton btnDerecha = new JButton("Derecha");
-		btnDerecha.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				Animaciones.animacionDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 9, 5, 1);
-				Animaciones.animacionDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 5,9,0);
-				
-			
-			}
-		});
-		btnDerecha.setBounds(363, 104, 89, 23);
-		heap.add(btnDerecha);
-		
-		JButton btnBajar = new JButton("Bajar");
-		btnBajar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new Thread() {
-					public void run() {
-						//Animaciones.bajar(listaNumericaUsuario, tmpsArreglo, 5);
-					}
-				}.start();
-				
-			}
-		});
-		btnBajar.setBounds(317, 138, 89, 23);
-		heap.add(btnBajar);
-		
 		JButton btnIntercambio = new JButton("Intercambio");
 		btnIntercambio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Animaciones.variosIntercambios(listaNumericaUsuario, listaNumerica, tmpsArreglo);
-				//Animaciones.animHeap(listaNumerica, listaNumericaUsuario);
-				
-				//imprimirListaNumerica(listaNumerica);
-		
 			}
 		});
 		btnIntercambio.setBounds(485, 104, 89, 23);
@@ -345,19 +266,15 @@ public class Princ {
 		pnlMensajes.add(txtMensaje);
 		txtMensaje.setColumns(10);
 		
-		
 		ventana.setSize(1000,600);
 		ventana.setVisible(true);
 	}
 		
 	public static int iniciarNumeros() {
 		int n = moverNumero();
-		
 		txtNum.setText(null);
-		
 		agregarNumero(n);
 		System.out.println(""+listaNumerica);
-		//System.out.println("cantidad de numeros:"+listaNumerica.size());
 		return n;
 	}
 	public static Boolean verificarContenidoArreglo() {
@@ -378,47 +295,37 @@ public class Princ {
 		return posicion+1;
 	}
 	
-	public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel numero) {
+	public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel numero, List<JLabel> listTmp) {
 		
 		System.out.println("El estado del hilo al empezar: "+ Thread.currentThread().isInterrupted());
+		System.out.println("tmp coordenada Y: "+ listTmp.get(1).getY());
 		while(!Thread.currentThread().isInterrupted()) {
 			if(x<=30*posObjetivo) {
 				x++;
 				numero.setLocation(x, y);
 					if(x==30*posObjetivo) {
-						while(y<320) {
+						while(y<listTmp.get(1).getY()+20) {
 							y++;
 							numero.setLocation(x, y);
-							if(y == 320) {
+							if(y == listTmp.get(1).getY()+20) {
 								Thread.currentThread().interrupt();
 							}
-							
-							try {
-								Thread.sleep(5);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								//e.printStackTrace();
-								Thread.currentThread().interrupt();
-							}
+							dormir(5);
 						}
 					}
 			}
-			
-			try {
-				Thread.sleep(5);
-			} catch (Exception e2) {
-				// TODO: handle exception
-				Thread.currentThread().interrupt();
-			}			
+			dormir(5);
 		}
 		System.out.println("El estado del hilo al terminar: "+ Thread.currentThread().isInterrupted());
 	}
 	
-	public static void detener() {
-	    //ejecutar = false;
-		
+	public static void dormir(int tiempoDormir) {
+		try {
+			Thread.sleep(tiempoDormir);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
-	
 	public static void imprimirListaNumericaDeLabels(List<JLabel> a) {
 		for(int i = 0; i < a.size(); i++) {
 			
