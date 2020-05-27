@@ -167,7 +167,7 @@ public class Princ {
 		
 		for(int i = 0;i < TAMANOARREGLO; i++){
 			JLabel lblTmp = new JLabel();
-			lblTmp.setText("t"+i);
+			lblTmp.setText("");
 			tmpsArreglo.add(lblTmp);
 			tmpsArreglo.get(i).setBounds(30+(30*i), 300, 30, 14);
 			heap.add(tmpsArreglo.get(i));
@@ -210,7 +210,7 @@ public class Princ {
 							int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
 							int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
 							int pos = verificarPos();
-							animacion(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
+							colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros));
 						}
 					}.start();
 				}
@@ -267,8 +267,12 @@ public class Princ {
 		JButton btnLevantar = new JButton("Levantar");
 		btnLevantar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Animaciones.levantarNumero(listaNumericaUsuario, tmpsArreglo, 5);
-				imprimirListaNumericaUsuario(listaNumericaUsuario);
+				new Thread() {
+					public void run() {
+					
+					}
+				}.start();
+				
 			}
 		});
 		btnLevantar.setBounds(317, 72, 89, 23);
@@ -277,7 +281,11 @@ public class Princ {
 		JButton btnIzquierda = new JButton("Izquierda");
 		btnIzquierda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Animaciones.moverDireccion(listaNumericaUsuario, tmpsArreglo, 0, 5, 0);
+				new Thread() {
+					public void run() {
+					Animaciones.moverDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 0, 5, 0);
+					}
+				}.start();
 			}
 		});
 		btnIzquierda.setBounds(264, 104, 89, 23);
@@ -286,7 +294,11 @@ public class Princ {
 		JButton btnDerecha = new JButton("Derecha");
 		btnDerecha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Animaciones.moverDireccion(listaNumericaUsuario, tmpsArreglo, 9, 5,1);
+				
+				Animaciones.animacionDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 9, 5, 1);
+				Animaciones.animacionDeLadoNumero(listaNumericaUsuario, tmpsArreglo, 5,9,0);
+				
+			
 			}
 		});
 		btnDerecha.setBounds(363, 104, 89, 23);
@@ -295,7 +307,12 @@ public class Princ {
 		JButton btnBajar = new JButton("Bajar");
 		btnBajar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Animaciones.bajar(listaNumericaUsuario, tmpsArreglo, 5);
+				new Thread() {
+					public void run() {
+						//Animaciones.bajar(listaNumericaUsuario, tmpsArreglo, 5);
+					}
+				}.start();
+				
 			}
 		});
 		btnBajar.setBounds(317, 138, 89, 23);
@@ -304,19 +321,11 @@ public class Princ {
 		JButton btnIntercambio = new JButton("Intercambio");
 		btnIntercambio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Animaciones.variosIntercambios(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+				//Animaciones.animHeap(listaNumerica, listaNumericaUsuario);
 				
-				
-					Animaciones.intercambio(listaNumericaUsuario, tmpsArreglo, 3, 0);
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Animaciones.intercambio(listaNumericaUsuario, tmpsArreglo, 4, 1);
-				
-				
-				
+				//imprimirListaNumerica(listaNumerica);
+		
 			}
 		});
 		btnIntercambio.setBounds(485, 104, 89, 23);
@@ -348,7 +357,7 @@ public class Princ {
 		
 		agregarNumero(n);
 		System.out.println(""+listaNumerica);
-		System.out.println("cantidad de numeros:"+listaNumerica.size());
+		//System.out.println("cantidad de numeros:"+listaNumerica.size());
 		return n;
 	}
 	public static Boolean verificarContenidoArreglo() {
@@ -369,20 +378,27 @@ public class Princ {
 		return posicion+1;
 	}
 	
-	public static void animacion(int x, int y, int pos, JLabel prueba1) {
-		while(ejecutar) {
-			if(x<=30*pos) {
+	public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel numero) {
+		
+		System.out.println("El estado del hilo al empezar: "+ Thread.currentThread().isInterrupted());
+		while(!Thread.currentThread().isInterrupted()) {
+			if(x<=30*posObjetivo) {
 				x++;
-				prueba1.setLocation(x, y);
-					if(x==30*pos) {
+				numero.setLocation(x, y);
+					if(x==30*posObjetivo) {
 						while(y<320) {
 							y++;
-							prueba1.setLocation(x, y);
+							numero.setLocation(x, y);
+							if(y == 320) {
+								Thread.currentThread().interrupt();
+							}
+							
 							try {
 								Thread.sleep(5);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
+								//e.printStackTrace();
+								Thread.currentThread().interrupt();
 							}
 						}
 					}
@@ -392,16 +408,18 @@ public class Princ {
 				Thread.sleep(5);
 			} catch (Exception e2) {
 				// TODO: handle exception
+				Thread.currentThread().interrupt();
 			}			
 		}
+		System.out.println("El estado del hilo al terminar: "+ Thread.currentThread().isInterrupted());
+	}
+	
+	public static void detener() {
+	    //ejecutar = false;
 		
 	}
 	
-	public void detener() {
-	    ejecutar = false;
-	}
-	
-	public static void imprimirListaNumericaUsuario(List<JLabel> a) {
+	public static void imprimirListaNumericaDeLabels(List<JLabel> a) {
 		for(int i = 0; i < a.size(); i++) {
 			
 			System.out.print("["+a.get(i).getText()+"] ");
@@ -429,8 +447,9 @@ public class Princ {
 		n = Integer.parseInt(txtNum.getText());
     	return n;
 	}
+	static int contadorCasillas;
 	static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
-	static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
+	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
 	private static JTextField txtNum;
 	volatile static boolean ejecutar = true;
 	static JPanel pestHeap = new JPanel();

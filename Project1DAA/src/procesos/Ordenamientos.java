@@ -6,6 +6,7 @@
 package procesos;
 
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
@@ -18,7 +19,10 @@ import vista.Princ;
  */
 public class Ordenamientos {
     
-    /**
+    private static int age;
+	private static Scanner myObj;
+
+	/**
      *
      */
     public static void ordBurbuja(){
@@ -57,7 +61,7 @@ public class Ordenamientos {
     		//intercambia la raiz(maximo valor) de el heap con el
     		//ultimo elemento del heap
     		//
-    		Animaciones.intercambio(b, tmpList, fin, 0);
+    		//Animaciones.intercambio(b, tmpList, fin, 0);
     		//
     		int tmp = a.get(fin);
     		JLabel tmp2 = b.get(fin);
@@ -65,12 +69,14 @@ public class Ordenamientos {
     		a.set(fin, a.get(0));
     		b.set(0, tmp2);
     		a.set(0, tmp);
-    		Princ.imprimirListaNumericaUsuario(b);
+    		
+    		//Princ.imprimirListaNumericaUsuario(b);
     		//coloca el heap de vuelta en el orden de max-heap 
     		siftDown(a, b,tmpList, 0, fin - 1);
     		//decrementa el tamaño del heap entonces que el valor maximo
     		//anterior estará en el el lugar apropiado
     		fin--;
+ 
     	}
     }
     
@@ -97,15 +103,15 @@ public class Ordenamientos {
     			hijo++;
     		}
     		if(a.get(raiz) < a.get(hijo)) {
-    			Animaciones.intercambio(b, tmpList, raiz, hijo);
-    			int tmp = a.get(raiz);
+    			//Animaciones.intercambio(b, tmpList, raiz, hijo);
     			
+    			int tmp = a.get(raiz);
     			JLabel tmp2 = b.get(raiz);
     			a.set(raiz, a.get(hijo));
     			b.set(raiz, b.get(hijo));
     			a.set(hijo, tmp);
     			b.set(hijo, tmp2);
-    			Princ.imprimirListaNumericaUsuario(b);
+    			//Princ.imprimirListaNumericaUsuario(b);
     			raiz = hijo;
     			
     		}else {

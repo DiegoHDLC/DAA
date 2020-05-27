@@ -1,354 +1,377 @@
 package procesos;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JLabel;
 
 import vista.Princ;
 
 
-public class Animaciones {
+public class Animaciones implements Runnable{
+	public volatile static List<JLabel> b;
 	public static List<JLabel> a;
-	public static void HeapSort(List<JLabel> a) {
-		int contador = a.size();
-		heapify(a, contador);
-		int fi = contador -1;
-		while(fi > 0) {
-			JLabel tmp = a.get(fi);
-			a.set(fi, a.get(0));
-			new Thread() {
-				@SuppressWarnings("unused")
-				public void run(int fi) {
-					fi = 10;
-					intercambioNumeros(a, 0, fi);
-				}
-			}.start();
-			a.set(0, tmp);
-			
-			siftDown(a,0,fi - 1);
-			fi--;
-		}
+	public static List<Integer> lInt;
+	List<JLabel> tmp;
+	static int destino;
+	static int posNum;
+	static int direccion;
+	
+	@Override
+	public void run() {
+		animacionLevantarNumero(a, tmp, posNum, destino, direccion);
+		animacionDeLadoNumero(a, tmp, destino, posNum, direccion-1);
+	}
+	public List<JLabel>devuelve() {
+		return a;
 	}
 	
-	public static void bajar(List<JLabel> a, List<JLabel> tmp, int pos) {
+	public static void variosIntercambios(List<JLabel> a, List<Integer> lisInt, List<JLabel> tmp) {
 		new Thread() {
+			public void run() {
+				while(!Thread.currentThread().isInterrupted()) {
+						for(int i = 0; i<10;i++) {
+							animHeap(lisInt,a, tmp);
+							Princ.imprimirListaNumerica(lisInt);
+							
+							//animacionHeapSort(Princ.listaNumerica, a, tmp);
+							try {
+								Thread.sleep(2000);
+							} catch (Exception e) {
+								Thread.currentThread().interrupt();
+							}
+							;
+						}
+						if(verificaOrd(lisInt)) {
+							Thread.currentThread().interrupt();
+						}
+					
+				}
+			}
+			
+		}.start();
+		
+	}
+	public static void animacionIntercambio(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
+		
+				animacionLevantarNumero(a, tmp, pos, destino, direccion);
+				animacionDeLadoNumero(a, tmp, destino, pos, direccion-1);
+			
+		
+	}
+	public static void animacionBajar(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion){
+		new Thread() {
+			public void run() {
+				bajar(a,tmp,pos,destino,direccion);
+			}
+		}.start();
+	}
+	
+	public static void animacionDeLadoNumero(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
+		new Thread() {
+			public void run() {
+				moverDeLadoNumero(a, tmp, pos, destino,direccion);
+			}
+		}.start();
+	}
+	
+	public static List<JLabel> animacionLevantarNumero(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
+		new Thread() {
+			public void run() {
+					levantarNumero(a, tmp, pos,destino,direccion);
+			}
+		}.start();
+		return a;
+			
+	}
+	public static List<JLabel> bajar(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
 				int x = a.get(pos).getX();
 				int y = a.get(pos).getY();
-				int xTmp = tmp.get(pos).getX();
-				int yTmp = tmp.get(pos).getY();
-				public void run() {
-					System.out.println("posicion0:"+a.get(0).getText());
-					Princ.imprimirListaNumericaUsuario(a);
-					Princ.imprimirListaNumericaUsuario(tmp);
-					System.out.println("posicion que entra: "+pos);
-					while(y<320) {
+				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
+				while(!Thread.currentThread().isInterrupted()) {
+					//System.out.println("posicion0:"+a.get(0).getText());
+					//System.out.println("posicion que entra: "+pos);
+					for(int i = 0; i < 20; i++) {
 						y++;
 						a.get(pos).setLocation(x, y);
+						if(y==320) {
+							Thread.currentThread().interrupt();
+						}
 						try {
-							Thread.sleep(10);
+							Thread.sleep(5);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							Thread.currentThread().interrupt();
 						}
 					}	
 				}
-		
-		}.start();
+				JLabel tmp2 = a.get(pos);
+				a.set(pos, a.get(destino));
+				a.set(destino, tmp2);
+				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
+				Princ.imprimirListaNumericaDeLabels(a);
+				return a;
+				
+				
 	}
 	
-	public static void moverDireccion(List<JLabel> a, List<JLabel> tmp, int destino, int posNum, int direccion) {
-		new Thread() {
-			public void run() {
+	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
+		int x = a.get(pos).getX();
+		int y = a.get(pos).getY();
+		int yTmp = tmp.get(pos).getY();
+		System.out.println("El estado del hilo al empezar-^^^ "+ Thread.currentThread().isInterrupted());
+		while(!Thread.currentThread().isInterrupted()) {
+			//System.out.println("posicion0:"+a.get(0).getText());
+			//System.out.println("posicion que entra: "+pos);
+			for(int i = 0; i < 20; i++) {
+				y--;
+				a.get(pos).setLocation(x, y);
+				if(y==yTmp) {
+					Thread.currentThread().interrupt();
+				}
+				try{
+					Thread.sleep(5);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}	
+		}
+		animacionDeLadoNumero(a, tmp, pos, destino, direccion);
+		
+		System.out.println("El estado del hilo al empezar-^^^ "+ Thread.currentThread().isInterrupted());
+	
+}
+	
+	
+	public static void moverDeLadoNumero(List<JLabel> a, List<JLabel> tmp, int posNum, int destino, int direccion) {
+				
 				int xTmp = tmp.get(destino).getX();
-				int yTmp = tmp.get(destino).getY();
 				int x = a.get(posNum).getX();
 				int y = a.get(posNum).getY();
-				if(direccion == 0) {
-					while(x>xTmp) {
-						x--;
-						a.get(posNum).setLocation(x, y);
-						try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}	
-				}else {
-					while(x<xTmp) {
-						x++;
-						a.get(posNum).setLocation(x, y);
-						try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}.start();
-			
-	}
-	
-	
-	public static void intercambio(List<JLabel> a, List<JLabel> tmp, int n1, int n2) {
-		
-		
-			//levantarNumero(a, tmp, n1);
-				
-			
-					if(n1<n2) {
-						moverDireccion(a, tmp, n2, n1, 1);
-						moverDireccion(a, tmp, n1, n2, 0);
-					}else {
-						moverDireccion(a, tmp, n2, n1, 0);
-						moverDireccion(a, tmp, n1, n2, 1);
-					}
-			
-
-			
-			
-	}
-	
-	public static void levantarNumero(List<JLabel> a, List<JLabel> tmp, int pos) {
-		new Thread() {
-			int x = a.get(pos).getX();
-			int y = a.get(pos).getY();
-			int xTmp = tmp.get(pos).getX();
-			int yTmp = tmp.get(pos).getY();
-			public void run() {
-				System.out.println("posicion0:"+a.get(0).getText());
-				Princ.imprimirListaNumericaUsuario(a);
-				Princ.imprimirListaNumericaUsuario(tmp);
-				System.out.println("posicion que entra: "+pos);
-				while(y>yTmp) {
-					y--;
-					a.get(pos).setLocation(x, y);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}	
-			}
-		}.start();
-	}
-	public static void moverNumero(List<JLabel> a, List<JLabel> tmp, int posFin) {
-		new Thread() {
-			
-			int x = a.get(posFin).getX();
-			int y = a.get(posFin).getY();
-			int xTemp = tmp.get(posFin).getX();
-			int yTemp = tmp.get(posFin).getY();
-			public void run() {
-				System.out.println("xNumero:"+x);
-				System.out.println("yNumero:"+y);
-				System.out.println("xTemp:"+xTemp);
-				System.out.println("yTemp:"+yTemp);
-				
-				while(y > yTemp) {
-					a.get(posFin).setLocation(x,y);
-					y--;
-					System.out.println("yNumero:"+y);
-					System.out.println("xNumero:"+x);
-					if(y ==yTemp) {
-						int x = a.get(posFin).getX();
-						System.out.println("entra");
-						while(x < xTemp) {
-							System.out.println("xNumero:"+x);
-							a.get(posFin).setLocation(x,y);
-							x++;
+				System.out.println("El estado del hilo al empezar->>> "+ Thread.currentThread().isInterrupted());
+				while(!Thread.currentThread().isInterrupted()) {
+					if(direccion == 0) {
+						while(x>xTmp) {
+							x--;
+							a.get(posNum).setLocation(x, y);
+							if(x == xTmp) {
+								Thread.currentThread().interrupt();
+							}
 							try {
-								Thread.sleep(10);
-							} catch (Exception e) {
-								// TODO: handle exception
+								Thread.sleep(7);
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
 							}
 						}
-					}
-					try {
-						Thread.sleep(10);
-					} catch (Exception e) {
-						// TODO: handle exception
+					}else {
+						while(x<xTmp) {
+							x++;
+							a.get(posNum).setLocation(x, y);
+							if(x == xTmp) {Thread.currentThread().interrupt();}
+							try {
+								Thread.sleep(7);
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
+							}
+						}
+						animacionBajar(a, tmp, posNum,destino,direccion);
 					}
 				}
-			}
-		}.start();
-	}
-	
-	public static void moverNumeroRecto(List<JLabel> a, List<JLabel> tmp, int posIni, int posFin) {
-		new Thread() {
-			int x1 = a.get(posFin).getX();
-			int y1 = a.get(posFin).getY();
-			int x2 = tmp.get(posIni).getX();
-			int y2 = tmp.get(posIni).getY();
-			public void run() {
-				System.out.println("entra a moverRecto");
-				System.out.println("numero a mover: "+a.get(posIni).getText());
-				System.out.println("xNumero:"+x1);
-				System.out.println("yNumero:"+y1);
-				System.out.println("xTemp:"+x2);
-				System.out.println("yTemp:"+y2);
-				if(x1 > x2) {
-					//x1 = a.get(posFin).getX();
-					//a.get(posFin).setLocation(x1,y1);
-					System.out.println("entra al if");
-					System.out.println("posInicial:"+posFin);
-					System.out.println("xTemp:"+x2);
-					System.out.println("xNumero:"+x1);
-					while(x1 > x2) {
-						x1--;
-						System.out.println("xNumero11111111:"+x1);
-						a.get(posFin).setLocation(x1,y1);
-						System.out.println("xNumero11111111:"+x1);
-	
-					}
-					try {
-						Thread.sleep(30);
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-					
-					
-				}
-			}
-		}.start();
-	}
-	
-	public static void moverPrueba(List<JLabel> a,int n1, int n2) {
-		System.out.println("entran: "+n1+" y "+n2);
-		new Thread() {
-			int x1 = a.get(n1).getX();
-			int y1 = a.get(n1).getY();
-			int x2 = a.get(n2).getX();
-			int y2 = a.get(n2).getY();
-			int tmp1 = x1;
-			int tmp2 = x2; 
-			public void run() {
-				
-				movimientoNumeros(a,x1,y1,x2,y2,n1,n2,tmp2);
-			}
-		}.start();
-		new Thread() {
-			
-			int x1 = a.get(n1).getX();
-			int y1 = a.get(n1).getY();
-			int x2 = a.get(n2).getX();
-			int y2 = a.get(n2).getY();
-			int tmp1 = x1;
-			int tmp2 = x2; 
-			public void run() {
-				movimientoNumeros(a,x2,y2,x1,y1,n1,n2,tmp1);
-			}
-		}.start();
-	}
-	public static void movimientoNumeros(List<JLabel> a, int x1, int y1, int x2, int y2, int n1, int n2, int tmp) {
-		System.out.println("entran: "+n1+" y "+n2+ "a movimiento numeros");
 		
-		
-		if(x1 < x2) {
-			while(x1 < tmp) {
-				x1++;
-				a.get(n1).setLocation(x1, y1);
-				try {
-					Thread.sleep(30);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				System.out.println("Numero:"+"["+a.get(n1).getText()+"]"+" Coordenadas:_______________"+x1+","+y1+" Entra al primero");
-			}
-			
-		}
-		if(x1 > x2) {
-			while(x1 > tmp) {
-				x1--;
-			}
-			a.get(n1).setLocation(x1, y1);
-			try {
-				Thread.sleep(30);
+		System.out.println("El estado del hilo al terminar->>> "+ Thread.currentThread().isInterrupted());
+	}
+	public static Boolean verificaOrd(List<Integer> a) {
+		boolean ordenado = true;
+	
+		for (int i = 0; i < a.size(); i++) {
+			int n1 = a.get(i);
+			int n2 = a.get(i+1);
+	        if (i + 1 < a.size()) {
+	            if (n1 > n2) {
+	                ordenado = false;
+	                break;
+	            }
+	        }
+	    }
+		return ordenado;
+	}
+	
+	
+	public static void animHeap(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp) {
+		int n = listInt.size();
+		  
+	      // Build max heap
+	      for (int i = n / 2 - 1; i >= 0; i--) {
+	        animHeapify(listInt, listLabel, tmp, n, i);
+	      }
+	  
+	      // Heap sort
+	      for (int i = n - 1; i > 0; i--) {
+	    	
+	    	animacionIntercambio(listLabel, tmp, 0, i, 1);
+	        int temp = listInt.get(0);
+	        listInt.set(0, listInt.get(i));
+	        listInt.set(i, temp);
+	        
+	        try {
+				Thread.sleep(1000);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			System.out.println("Numero:"+"["+a.get(n1).getText()+"]"+" Coordenadas:_______________"+x1+","+y1+" Entra al primero");
+	  
+	        // Heapify root element
+	        animHeapify(listInt,listLabel,tmp, i, 0);
+	      }
+	}
+	
+	public static void animHeapify(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp, int n, int i) {
+		 // Find largest among root, left child and right child
+	      int largest = i;
+	      int l = 2 * i + 1;
+	      int r = 2 * i + 2;
+	      
+	      if (l < n && (listInt.get(l) > listInt.get(largest)))
+	        largest = l;
+	  
+	      if (r < n && (listInt.get(r) > listInt.get(largest)))
+	        largest = r;
+	  
+	      // Swap and continue heapifying if root is not largest
+	      if(largest != i) {
+	    	int n1 = verificaMenor(i, largest);
+	    	int n2 = verificaMayor(i, largest);
+	    	animacionIntercambio(listLabel, tmp, n1, n2, 1);
+	        int swap = listInt.get(i);
+	        listInt.set(i, listInt.get(largest));
+	        listInt.set(largest, swap);
+	        try {
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	        animHeapify(listInt,listLabel, tmp, n, largest);
+	      }
+	}
+	
+	public static void animacionHeapSort(List<Integer> a, List<JLabel> b, List<JLabel> tmpList){
+    	System.out.println("entra al heapsort");
+		int contador = b.size();
+		System.out.println("tamaño del arreglo "+b.size());
+    	animacionHeapify(a,b,tmpList,contador);
+    	int fin = contador -1;
 
+    	while(!Thread.currentThread().isInterrupted()) {
+    		System.out.println("entra al primer while");
+	    	while(fin > 0) {
+	    		//entra al heap sort
+				animacionIntercambio(b, tmpList, 0, fin, 1);
+	    		int tmp = a.get(fin);
+	    		//JLabel tmp2 = b.get(fin);
+	    		//b.set(fin, b.get(0));
+	    		a.set(fin, a.get(0));
+	    		//b.set(0, tmp2);
+	    		a.set(0, tmp);
+	    		
+	    		//coloca el heap de vuelta en el orden de max-heap 
+	    		animacionSiftDown(a, b,tmpList, 0, fin - 1);
+	    		//decrementa el tamaño del heap entonces que el valor maximo
+	    		//anterior estará en el el lugar apropiado
+	    		fin--;
+	 
+	    	}
+	    	try {
+				Thread.sleep(10);
+			} catch (Exception e) {
+				Thread.currentThread().interrupt();
+			}
+    	}
+    }
+	
+	public static void animacionHeapify(List<Integer> a,List<JLabel> b ,List<JLabel> tmpList, int contador) {
+    	//el comienzo es asignado por el indice por el ultimo nodo padre
+		System.out.println("entra al heapify");
+    	int comienzo = (contador - 2)/2; //binary heap
+    	System.out.println("comienzo: "+comienzo);
+    	while(comienzo >= 0) {
+    		System.out.println("entra al while comienzo");
+    		//filtrar hacia abajo el nodo en el inicio del índice al lugar adecuado
+    		//de modo que todos los nodos debajo del índice de inicio estén en el montón
+    		//order
+    		animacionSiftDown(a, b,tmpList,comienzo, contador -1);
+    		comienzo--;
+    	}
+    	//después de filtrar la raíz, todos los nodos / elementos están en orden de almacenamiento dinámico
+    }
+	
+	public static void animacionSiftDown(List<Integer> a,List<JLabel> b,List<JLabel> tmpList, int comienzo, int fin) {
+    	//fin representa el límite de qué tan lejos del montón se debe tamizar
+		System.out.println("entra al siftDown");
+    	int raiz = comienzo;
+    	System.out.println("raiz: " +raiz);
+    	int menor;
+    	int mayor;
+    		while(!Thread.currentThread().isInterrupted()) {
+    			System.out.println("entra al primer while del siftdown");
+    			System.out.println("fin: "+fin);
+		    	while((raiz * 2 + 1) <= fin) { 
+		    		//Mientras que la raíz tiene al menos un hijo
+		    		System.out.println("entra al segundo while del siftdown");
+		    		int hijo = raiz * 2 + 1;		//raiz*2+1 Señala al hijo izquierdo
+		    		//si el hijo tiene un hermano y el valor del hijo es menor que el de su hermano ...
+		    		System.out.println("hijo: "+a.get(hijo));
+		    		System.out.println("hijo+1: "+a.get(hijo +1));
+		    		if(hijo + 1 <= fin && (a.get(hijo) < a.get(hijo + 1))) {
+		    			hijo++;
+		    			System.out.println("entra al primer if del siftdown");
+		    			System.out.println("posicion del hijo:"+hijo);
+		   
+		    		}
+		    		System.out.println("raiz: "+a.get(raiz));
+		    		System.out.println("hijo: "+a.get(hijo));
+		    		if(a.get(raiz) < a.get(hijo)) {
+		    			
+		    			menor = verificaMenor(raiz, hijo);
+		    			mayor = verificaMayor(raiz, hijo);
+		    			animacionIntercambio(b, tmpList, menor, mayor, 1);
+		    			int tmp = a.get(raiz);
+		    			//JLabel tmp2 = b.get(raiz);
+		    			a.set(raiz, a.get(hijo));
+		    			//b.set(raiz, b.get(hijo));
+		    			a.set(hijo, tmp);
+		    			//b.set(hijo, tmp2);
+		    			//Princ.imprimirListaNumericaUsuario(b);
+		    			Princ.imprimirListaNumerica(a);
+		    			raiz = hijo;
+		    			System.out.println("raiz :"+raiz);
+		    			Thread.currentThread().interrupt();
+		    		}else {
+		    			Thread.currentThread().interrupt();
+		    		}
+		    	}
+		    	try {
+					Thread.sleep(100);
+				} catch (Exception e) {
+					// TODO: handle exception
+					Thread.currentThread().interrupt();
+				}
+    		}
+    }
+	
+	public static int verificaMayor(int n1, int n2) {
+		if(n1 > n2) {
+			return n1;
+		}else {
+			return n2;
+		}
+	}
+	public static int verificaMenor(int n1, int n2) {
+		if(n1 < n2) {
+			return n1;
+		}else {
+			return n2;
 		}
 		
+		
 	}
-		
-			/*
-			int valorX1 = a.get(n1).getX();
-			int valorY1 = a.get(n1).getY();
-			int valorX2 = a.get(n2).getX();
-			int tmp2 = valorX2;
-			public void run() {
-				
-				if(valorX1 < valorX2) {
-					while(valorX1 < tmp2) {
-						valorX1++;
-						a.get(n1).setLocation(valorX1, valorY1);
-						try {
-							Thread.sleep(30);
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						System.out.println("Numero:"+"["+a.get(n1).getText()+"]"+" Coordenadas:_______________"+valorX1+","+valorY1+" Entra al primero");
-					}
-					
-				}
-				if(valorX1 > valorX2) {
-					while(valorX1 > tmp2) {
-						valorX1--;
-						a.get(n1).setLocation(valorX1, valorY1);
-						try {
-							Thread.sleep(30);
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						System.out.println("Numero:"+"["+a.get(n1).getText()+"]"+" Coordenadas:_______________"+valorX1+","+valorY1+" Entra al segundo");
-					}
-					
-				}
-			}
-		}.start();
-		
-		new Thread() {
-			int valorX1 = a.get(n1).getX();
-			int valorX2 = a.get(n2).getX();
-			int valorY2 = a.get(n2).getY();
-			int tmp1 = valorX1;
-			public void run() {
-				if(valorX2 < valorX1) {
-					while(valorX2 < tmp1) {
-						valorX2++;
-						a.get(n2).setLocation(valorX2, valorY2);
-						try {
-							Thread.sleep(30);
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						System.out.println("Numero:"+"["+a.get(n2).getText()+"]"+" Coordenadas:"+valorX2+","+valorY2+" Entra al tercero");
-					}
-					
-				}
-				if(valorX2 > valorX1) {
-					while(valorX2 > tmp1) {
-						valorX2--;
-						a.get(n2).setLocation(valorX2, valorY2);
-						try {
-							Thread.sleep(30);
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						System.out.println("Numero:"+"["+a.get(n2).getText()+"]"+" Coordenadas:"+valorX2+","+valorY2+" Entra al cuarto");
-					}
-					
-				}
-			}
-		}.start();
-		*/
-	
-	
 	public static void heapify(List<JLabel> a, int contador) {
 		int comienzo = (contador - 2)/2;
 		while(comienzo >=0) {
@@ -378,32 +401,14 @@ public class Animaciones {
 		}
 	}
 	
-	public void detener() {
+	public static void detener() {
 	    ejecutar = false;
 	}
 	
-	public static void intercambioNumeros(List<JLabel> a, int num1, int num2) {
-		
-		int num1X = a.get(num1).getX();
-		int num1Y = a.get(num1).getY();
-		int num2X = a.get(num2).getX();
-		if(num1X < num2X) {
-			while(ejecutar) {
-				while(num1X < num2X) {
-					num1X++;
-					//num2X--;
-					//a.get(num2).setLocation(num2X, num2Y);
-					a.get(num1).setLocation(num1X,num1Y);
-					try {
-						Thread.sleep(5);
-					}catch (Exception e) {
-						// TODO: handle exception
-					}
-				}
-			}
-		}
-		
-	}
 	
 	volatile static boolean ejecutar = true;
+	private static JLabel aux;
+	private static JLabel aux1;
+	private static JLabel aux3;
+	private static JLabel aux2;
 }
