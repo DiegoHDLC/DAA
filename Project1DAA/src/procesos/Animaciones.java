@@ -9,6 +9,8 @@ import vista.Princ;
 
 
 public class Animaciones implements Runnable{
+	public static boolean suspender = false;
+	public static boolean pausar = false;
 	public volatile static List<JLabel> b;
 	public static List<JLabel> a;
 	public static List<Integer> lInt;
@@ -16,6 +18,7 @@ public class Animaciones implements Runnable{
 	static int destino;
 	static int posNum;
 	static int direccion;
+	public static int contadorNumeros;
 	
 	@Override
 	public void run() {
@@ -26,25 +29,40 @@ public class Animaciones implements Runnable{
 		return a;
 	}
 	
-	public static void variosIntercambios(List<JLabel> a, List<Integer> lisInt, List<JLabel> tmp) {
+	public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel numero, List<JLabel> listTmp) {	
+		System.out.println("El estado del hilo al empezar: "+ Thread.currentThread().isInterrupted());
+	
+		while(!Thread.currentThread().isInterrupted()) {
+			if(x<=40*posObjetivo) {
+				x++;
+				numero.setLocation(x, y);
+					if(x==40*posObjetivo) {
+						while(y<listTmp.get(1).getY()+20) {
+							y++;
+							numero.setLocation(x, y);
+							if(y == listTmp.get(1).getY()+20) {Thread.currentThread().interrupt();}
+							Proceso.dormir(3);
+						}
+					}
+			}
+			Proceso.dormir(3);
+		}
+		System.out.println("El estado del hilo al terminar: "+ Thread.currentThread().isInterrupted());
+}
+	public static void animacionHeapSort(List<JLabel> a, List<Integer> lisInt, List<JLabel> tmp) {
 		new Thread() {
 			public void run() {
 				while(!Thread.currentThread().isInterrupted()) {
 						for(int i = 0; i<9;i++) {
-							
 							animHeap(lisInt,a, tmp);
-							
 							Princ.imprimirListaNumerica(lisInt);
-						
+							
 							try {
 								Thread.sleep(4000);
 							} catch (Exception e) {
 								Thread.currentThread().interrupt();
 							}
-							
 						}
-						
-					
 				}
 			}
 			
@@ -52,11 +70,8 @@ public class Animaciones implements Runnable{
 		
 	}
 	public static void animacionIntercambio(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion) {
-		
 				animacionLevantarNumero(a, tmp, pos, destino, direccion);
 				animacionDeLadoNumero(a, tmp, destino, pos, direccion-1);
-			
-		
 	}
 	public static void animacionBajar(List<JLabel> a, List<JLabel> tmp, int pos, int destino, int direccion){
 		new Thread() {
@@ -88,11 +103,11 @@ public class Animaciones implements Runnable{
 				int y = a.get(pos).getY();
 				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
 				while(!Thread.currentThread().isInterrupted()) {
-					//System.out.println("posicion0:"+a.get(0).getText());
-					//System.out.println("posicion que entra: "+pos);
 					for(int i = 0; i < 20; i++) {
 						y++;
 						a.get(pos).setLocation(x, y);
+						
+						
 						if(y==tmp.get(1).getY()+20) {
 							Thread.currentThread().interrupt();
 						}
@@ -155,7 +170,8 @@ public class Animaciones implements Runnable{
 							Princ.dormir(5);
 						}
 						animacionBajar(a, tmp, posNum,destino,direccion);
-					}
+						}
+					
 				}
 		
 		System.out.println("El estado del hilo al terminar->>> "+ Thread.currentThread().isInterrupted());
@@ -170,6 +186,7 @@ public class Animaciones implements Runnable{
 			if (i +1  <= a.size()) {
 	            if (n1 > n2) {
 	                ordenado = false;
+	                
 	                break;
 	            }
 	        }
@@ -195,10 +212,12 @@ public class Animaciones implements Runnable{
 	        listInt.set(0, listInt.get(i));
 	        listInt.set(i, temp);
 	        if(verificaOrd(listInt)) {
+	        	Princ.txtMensaje.setText("Lista ordenada correctamete");
 	        	Thread.currentThread().interrupt();
 	        	break;
 	        }
-	        Princ.dormir(2000);
+	        
+	        Princ.dormir(3000);
 	  
 	        // Heapify root element
 	        animHeapify(listInt,listLabel,tmp, i, 0);
@@ -228,7 +247,8 @@ public class Animaciones implements Runnable{
 	        if(verificaOrd(listInt)) {
 	        	Thread.currentThread().interrupt();
 	        }
-	        Princ.dormir(2000);
+	        
+	        Princ.dormir(3000);
 	        animHeapify(listInt,listLabel, tmp, n, largest);
 	      }
 	}
