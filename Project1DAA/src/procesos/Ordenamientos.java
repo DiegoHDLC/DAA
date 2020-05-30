@@ -21,104 +21,147 @@ public class Ordenamientos {
     
     private static int age;
 	private static Scanner myObj;
+    
+    public static void heapSort(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp) {
+		int n = listInt.size();
+		  
+	      // Build max heap
+	      for (int i = n / 2 - 1; i >= 0; i--) {
+	        heapify(listInt, listLabel, tmp, n, i);
+	      }
+	  
+	      // Heap sort
+	      for (int i = n - 1; i > 0; i--) {
+	        int temp = listInt.get(0);
+	        listInt.set(0, listInt.get(i));
+	        listInt.set(i, temp);
+	  
+	        // Heapify root element
+	        heapify(listInt,listLabel,tmp, i, 0);
+	      }
+	}
+    
+    public static void heapify(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp, int n, int i) {
+		 // Find largest among root, left child and right child
+	      int largest = i;
+	      int l = 2 * i + 1;
+	      int r = 2 * i + 2;
+	      
+	      if (l < n && (listInt.get(l) > listInt.get(largest)))
+	        largest = l;
+	  
+	      if (r < n && (listInt.get(r) > listInt.get(largest)))
+	        largest = r;
+	  
+	      // Swap and continue heapifying if root is not largest
+	      if(largest != i) {
 
-	/**
-     *
-     */
-    public static void ordBurbuja(){
-        //creacion del arreglo
-        //Scanner entrada = new Scanner(System.in);
-        int arreglo[], nElementos = 0, aux;
-        
-        
-        
-        
-        
-        
-        //metodo burbuja
-        /*for(int i = 0;i <(nElementos-1);i++){
-            for(int j=0;j<(nElementos-1);j++){
-                if(arreglo[j] > arreglo[j+1]){//si numeroActual > numeroSiguiente
-                    aux = arreglo[j];
-                    arreglo[j] = arreglo[j+1];
-                    arreglo[j+1] = aux;
-                }
-            }
+	        int swap = listInt.get(i);
+	        listInt.set(i, listInt.get(largest));
+	        listInt.set(largest, swap);
+	        heapify(listInt,listLabel, tmp, n, largest);
+	      }
+	}
+    
+    void merge(int arr[], int p, int q, int r) {
+
+        // Create L <- A[p..q] and M <- A[q+1..r]
+        int n1 = q - p + 1;
+        int n2 = r - q;
+
+        int L[] = new int[n1];
+        int M[] = new int[n2];
+
+        for (int i = 0; i < n1; i++)
+          L[i] = arr[p + i];
+        for (int j = 0; j < n2; j++)
+          M[j] = arr[q + 1 + j];
+
+        // Maintain current index of sub-arrays and main array
+        int i, j, k;
+        i = 0;
+        j = 0;
+        k = p;
+
+        // Until we reach either end of either L or M, pick larger among
+        // elements L and M and place them in the correct position at A[p..r]
+        while (i < n1 && j < n2) {
+          if (L[i] <= M[j]) {
+            arr[k] = L[i];
+            i++;
+          } else {
+            arr[k] = M[j];
+            j++;
+          }
+          k++;
         }
-            System.out.println("Arrreglo ondenado en forma creciente");
-           //mostrando el arreglo ordenado en forma creciente
-           for(int i = 0; i < nElementos; i++){
-               System.out.println(arreglo[i]+" - ");
-           }*/
+
+        // When we run out of elements in either L or M,
+        // pick up the remaining elements and put in A[p..r]
+        while (i < n1) {
+          arr[k] = L[i];
+          i++;
+          k++;
+        }
+
+        while (j < n2) {
+          arr[k] = M[j];
+          j++;
+          k++;
+        }
+      }
+    
+    //Divide the array into two subarrays, sort them and merge them
+    void mergeSort(int arr[], int l, int r) {
+      if (l < r) {
+
+        // m is the point where the array is divided into two subarrays
+        int m = (l + r) / 2;
+
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // Merge the sorted subarrays
+        merge(arr, l, m, r);
+      }
     }
     
-    public static void HeapSort(List<Integer> a, List<JLabel> b, List<JLabel> tmpList){
-    	int contador = b.size();
-    	
-    	heapify(a,b,tmpList,contador);
-    	int fin = contador -1;
-    	while(fin > 0) {
-    		//intercambia la raiz(maximo valor) de el heap con el
-    		//ultimo elemento del heap
-    		//
-    		//Animaciones.intercambio(b, tmpList, fin, 0);
-    		//
-    		int tmp = a.get(fin);
-    		JLabel tmp2 = b.get(fin);
-    		b.set(fin, b.get(0));
-    		a.set(fin, a.get(0));
-    		b.set(0, tmp2);
-    		a.set(0, tmp);
-    		
-    		//Princ.imprimirListaNumericaUsuario(b);
-    		//coloca el heap de vuelta en el orden de max-heap 
-    		siftDown(a, b,tmpList, 0, fin - 1);
-    		//decrementa el tamaño del heap entonces que el valor maximo
-    		//anterior estará en el el lugar apropiado
-    		fin--;
- 
-    	}
-    }
-    
-    public static void heapify(List<Integer> a,List<JLabel> b ,List<JLabel> tmpList, int contador) {
-    	//el comienzo es asignado por el indice por el ultimo nodo padre
-    	int comienzo = (contador - 2)/2; //binary heap
-    	while(comienzo >= 0) {
-    		//filtrar hacia abajo el nodo en el inicio del índice al lugar adecuado
-    		//de modo que todos los nodos debajo del índice de inicio estén en el montón
-    		//order
-    		siftDown(a, b,tmpList,comienzo, contador -1);
-    		comienzo--;
-    	}
-    	//después de filtrar la raíz, todos los nodos / elementos están en orden de almacenamiento dinámico
-    }
-    
-    public static void siftDown(List<Integer> a,List<JLabel> b,List<JLabel> tmpList, int comienzo, int fin) {
-    	//fin representa el límite de qué tan lejos del montón se debe tamizar
-    	int raiz = comienzo;
-    	while((raiz * 2 + 1) <= fin) {       //Mientras que la raíz tiene al menos un hijo
-    		int hijo = raiz * 2 + 1;		//raiz*2+1 Señala al hijo izquierdo
-    		//si el hijo tiene un hermano y el valor del hijo es menor que el de su hermano ...
-    		if(hijo + 1 <= fin && a.get(hijo) < a.get(hijo + 1)) {
-    			hijo++;
-    		}
-    		if(a.get(raiz) < a.get(hijo)) {
-    			//Animaciones.intercambio(b, tmpList, raiz, hijo);
-    			
-    			int tmp = a.get(raiz);
-    			JLabel tmp2 = b.get(raiz);
-    			a.set(raiz, a.get(hijo));
-    			b.set(raiz, b.get(hijo));
-    			a.set(hijo, tmp);
-    			b.set(hijo, tmp2);
-    			//Princ.imprimirListaNumericaUsuario(b);
-    			raiz = hijo;
-    			
-    		}else {
-    			return;
-    		}
-    	}
-    }
-    
+    static int partition(List<Integer> listInt, int low, int high) {
+        
+        // Select the pivot element
+        int pivot = listInt.get(high);
+        int i = (low - 1);
+
+        // Put the elements smaller than pivot on the left and 
+        // greater than pivot on the right of pivot
+        for (int j = low; j < high; j++) {
+          if (listInt.get(j) <= pivot) {
+            i++;
+            int temp = listInt.get(i);
+            listInt.set(i, listInt.get(j));
+            listInt.set(j, temp);
+          }
+        }
+        int temp = listInt.get(i+1);
+        listInt.set(i+1, listInt.get(high));
+        listInt.set(high, temp);
+        return (i + 1);
+      }
+
+      public static void quickSort(List<Integer> listInt, int low, int high) {
+        if (low < high) {
+
+          // Select pivot position and put all the elements smaller 
+          // than pivot on left and greater than pivot on right
+          int pi = partition(listInt, low, high);
+          
+          // Sort the elements on the left of pivot
+          quickSort(listInt, low, pi - 1);
+
+          // Sort the elements on the right of pivot
+          quickSort(listInt, pi + 1, high);
+        }
+      }
+
     
 }

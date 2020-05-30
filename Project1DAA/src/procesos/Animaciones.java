@@ -49,6 +49,18 @@ public class Animaciones implements Runnable{
 		}
 		System.out.println("El estado del hilo al terminar: "+ Thread.currentThread().isInterrupted());
 }
+	
+	public static void animacionQuickSort(List<JLabel> a, List<Integer> listInt, List<JLabel> tmp) {
+		while(!Thread.currentThread().isInterrupted()) {
+			for(int i = 0; i<9;i++) {
+				animQuickSort(listInt, a, tmp, 0, listInt.size()-1);
+			
+				Princ.imprimirListaNumerica(listInt);
+				Proceso.dormir(4000);
+			}
+		}
+	}
+	
 	public static void animacionHeapSort(List<JLabel> a, List<Integer> lisInt, List<JLabel> tmp) {
 		new Thread() {
 			public void run() {
@@ -56,12 +68,7 @@ public class Animaciones implements Runnable{
 						for(int i = 0; i<9;i++) {
 							animHeap(lisInt,a, tmp);
 							Princ.imprimirListaNumerica(lisInt);
-							
-							try {
-								Thread.sleep(4000);
-							} catch (Exception e) {
-								Thread.currentThread().interrupt();
-							}
+							Proceso.dormir(4000);
 						}
 				}
 			}
@@ -111,7 +118,7 @@ public class Animaciones implements Runnable{
 						if(y==tmp.get(1).getY()+20) {
 							Thread.currentThread().interrupt();
 						}
-						Princ.dormir(3);
+						Proceso.dormir(3);
 					}	
 				}
 				JLabel tmp2 = a.get(pos);
@@ -136,7 +143,7 @@ public class Animaciones implements Runnable{
 				if(y==yTmp) {
 					Thread.currentThread().interrupt();
 				}
-				Princ.dormir(3);
+				Proceso.dormir(3);
 			}	
 		}
 		animacionDeLadoNumero(a, tmp, pos, destino, direccion);
@@ -160,14 +167,14 @@ public class Animaciones implements Runnable{
 							if(x == xTmp) {
 								Thread.currentThread().interrupt();
 							}
-							Princ.dormir(5);
+							Proceso.dormir(5);
 						}
 					}else {
 						while(x<xTmp) {
 							x++;
 							a.get(posNum).setLocation(x, y);
 							if(x == xTmp) {Thread.currentThread().interrupt();}
-							Princ.dormir(5);
+							Proceso.dormir(5);
 						}
 						animacionBajar(a, tmp, posNum,destino,direccion);
 						}
@@ -217,7 +224,7 @@ public class Animaciones implements Runnable{
 	        	break;
 	        }
 	        
-	        Princ.dormir(3000);
+	        Proceso.dormir(3000);
 	  
 	        // Heapify root element
 	        animHeapify(listInt,listLabel,tmp, i, 0);
@@ -244,14 +251,59 @@ public class Animaciones implements Runnable{
 	        int swap = listInt.get(i);
 	        listInt.set(i, listInt.get(largest));
 	        listInt.set(largest, swap);
-	        if(verificaOrd(listInt)) {
-	        	Thread.currentThread().interrupt();
-	        }
-	        
-	        Princ.dormir(3000);
+	        if(verificaOrd(listInt)) {Thread.currentThread().interrupt();}
+	        Proceso.dormir(3000);
 	        animHeapify(listInt,listLabel, tmp, n, largest);
 	      }
 	}
+	
+static int partition(List<Integer> listInt,List<JLabel> listLabel, List<JLabel> listTmp, int low, int high) {
+        
+        // Select the pivot element
+        int pivot = listInt.get(high);
+        int i = (low - 1);
+
+        // Put the elements smaller than pivot on the left and 
+        // greater than pivot on the right of pivot
+        for (int j = low; j < high; j++) {
+          if (listInt.get(j) <= pivot) {
+            i++;
+            int n1 = verificaMenor(i, j);
+	    	int n2 = verificaMayor(i, j);
+            animacionIntercambio(listLabel, listTmp, n1, n2, 1);
+            int temp = listInt.get(i);
+            listInt.set(i, listInt.get(j));
+            listInt.set(j, temp);
+            if(verificaOrd(listInt)) {Thread.currentThread().interrupt();}
+            Proceso.dormir(3000);
+          }
+        }
+        int n1 = verificaMenor(i, high);
+    	int n2 = verificaMayor(i, high);
+        animacionIntercambio(listLabel, listTmp, n1, n2, 1);
+        int temp = listInt.get(i+1);
+        listInt.set(i+1, listInt.get(high));
+        listInt.set(high, temp);
+        if(verificaOrd(listInt)) {Thread.currentThread().interrupt();}
+        return (i + 1);
+      }
+
+      public static void animQuickSort(List<Integer> listInt,List<JLabel> listLabel, List<JLabel> listTmp, int low, int high) {
+        if (low < high) {
+
+          // Select pivot position and put all the elements smaller 
+          // than pivot on left and greater than pivot on right
+          int pi = partition(listInt,listLabel,listTmp, low, high);
+          
+          // Sort the elements on the left of pivot
+          animQuickSort(listInt,listLabel, listTmp, low, pi - 1);
+
+          // Sort the elements on the right of pivot
+          animQuickSort(listInt,listLabel, listTmp, pi + 1, high);
+        }
+      }
+	
+	
 	
 	public static int verificaMayor(int n1, int n2) {
 		if(n1 > n2) {

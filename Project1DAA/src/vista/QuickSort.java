@@ -15,11 +15,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import procesos.Animaciones;
+import procesos.Ordenamientos;
 import utils.Boton;
 import utils.CajaTexto;
 import utils.Label;
 
-public class MergeSort extends JLayeredPane{ 
+public class QuickSort extends JLayeredPane{ 
 	/**
 	 * 
 	 */
@@ -36,7 +37,7 @@ public class MergeSort extends JLayeredPane{
 	static Boton botonEliminar = new Boton("Eliminar", 165, 17);
 	private static final long serialVersionUID = 1L;
 
-	public MergeSort() {
+	public QuickSort() {
 		setBackground(new Color(235,137,4));
 		setOpaque(true);
 		initComponents();
@@ -50,14 +51,15 @@ public class MergeSort extends JLayeredPane{
 		});
 		add(botonAgregar);
 		
-		Boton ordenarMerge = new Boton("Ordenar", 264,18);
-		ordenarMerge.addActionListener(new ActionListener() {
+		Boton ordenarQuick = new Boton("Ordenar", 264,18);
+		ordenarQuick.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				Animaciones.animacionQuickSort( listaNumericaJLabel,listaNumerica, listTmp);
+				//Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+				Princ.imprimirListaNumerica(listaNumerica);
 			}
 		});
-		add(ordenarMerge);
+		add(ordenarQuick);
 		
 		botonEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

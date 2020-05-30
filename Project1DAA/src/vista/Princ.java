@@ -21,6 +21,7 @@ import javax.swing.border.SoftBevelBorder;
 
 import procesos.Animaciones;
 import procesos.Ordenamientos;
+import procesos.Proceso;
 
 import javax.swing.SwingConstants;
 import javax.swing.JSlider;
@@ -30,12 +31,13 @@ import javax.swing.event.ChangeEvent;
 public class Princ {
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
 	public static int n;
-	public static int contadorNumeros;
+	public static int contadorNumeros = -1;
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
 	public static void main(String[] args) {
 		initComponents();
+		Proceso.crearListaCero();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -50,12 +52,6 @@ public class Princ {
 		PanelControl.setBounds(0, 0, 984, 87);
 		ventana.getContentPane().add(PanelControl);
 		PanelControl.setLayout(null);
-		
-		//crear Panel MergeSort
-		MergeSort mer = new MergeSort();
-		mer.setBounds(0, 132, 984, 429);
-		ventana.getContentPane().add(mer);
-		mer.setLayout(null);
 		
 		//crear Panel HeapSort
 		
@@ -90,7 +86,7 @@ public class Princ {
 						txtMensaje.setText("Lista llena, no puede agregar más números.");
 							
 					}
-					n = iniciarNumeros();
+					iniciarNumeros(0);
 					System.out.println("lista label:");
 					for(int i = 0; i < listaNumericaUsuario.size();i++) {
 						System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
@@ -99,16 +95,7 @@ public class Princ {
 					System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
 					System.out.println("numero final:"+listaNumericaUsuario.get(contadorNumeros).getText());
 					System.out.println("posicion:"+contadorNumeros);
-					listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
-					heap.add(listaNumericaUsuario.get(contadorNumeros),new Integer(1));
-					new Thread() {
-						public void run() {
-							int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
-							int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
-							int pos = verificarPos();
-							colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros),tmpsArreglo);
-						}
-					}.start();
+					agregarYMover(0);
 				}
 			}
 		});
@@ -121,7 +108,7 @@ public class Princ {
 				eliminarNumeros();
 			}
 		});
-		btnEliminar.setBounds(165, 17, 89, 23);
+		btnEliminar.setBounds(363, 18, 89, 23);
 		heap.add(btnEliminar);
 		
 		JButton btnIntercambio = new JButton("Intercambio");
@@ -130,7 +117,7 @@ public class Princ {
 				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
 			}
 		});
-		btnIntercambio.setBounds(485, 104, 89, 23);
+		btnIntercambio.setBounds(462, 84, 89, 23);
 		heap.add(btnIntercambio);
 		
 		JButton btnPausar = new JButton("Pausar");
@@ -139,7 +126,7 @@ public class Princ {
 				pausarHilo();
 			}
 		});
-		btnPausar.setBounds(264, 18, 89, 23);
+		btnPausar.setBounds(462, 52, 89, 23);
 		heap.add(btnPausar);
 		
 		JButton btnReanudar = new JButton("Reanudar");
@@ -148,8 +135,24 @@ public class Princ {
 				pausarHilo();
 			}
 		});
-		btnReanudar.setBounds(363, 18, 89, 23);
+		btnReanudar.setBounds(462, 18, 89, 23);
 		heap.add(btnReanudar);
+		
+		JButton btnAgregarArchivo = new JButton("Agregar desde Archivo");
+		btnAgregarArchivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				iniciarNumeros(1);
+				agregarYMover(1);
+			}
+		});
+		btnAgregarArchivo.setBounds(165, 18, 188, 23);
+		heap.add(btnAgregarArchivo);
+		
+		//crear Panel MergeSort
+		QuickSort mer = new QuickSort();
+		mer.setBounds(0, 132, 984, 429);
+		ventana.getContentPane().add(mer);
+		mer.setLayout(null);
 		
 		//crear pestaña MergeSort
 		JPanel pestMerge = new JPanel();
@@ -189,12 +192,12 @@ public class Princ {
 		PanelControl.add(pestMerge);
 		pestMerge.setLayout(null);
 		
-		JLabel lblMergeSort = new JLabel("MergeSort");
-		lblMergeSort.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMergeSort.setBounds(0, 0, 103, 32);
-		lblMergeSort.setForeground(new Color(33, 44, 61));
-		lblMergeSort.setFont(new Font("Sitka Small", Font.BOLD, 15));
-		pestMerge.add(lblMergeSort);
+		JLabel lblQuickSort = new JLabel("QuickSort");
+		lblQuickSort.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQuickSort.setBounds(0, 0, 103, 32);
+		lblQuickSort.setForeground(new Color(33, 44, 61));
+		lblQuickSort.setFont(new Font("Sitka Small", Font.BOLD, 15));
+		pestMerge.add(lblQuickSort);
 		
 		
 		
@@ -261,7 +264,7 @@ public class Princ {
 			heap.add(tmpsArreglo.get(i));
 		}
 		
-		contadorNumeros = -1;
+		//contadorNumeros = -1;
 		int posX = 20;
 		for(int i=0;i< 11;i++) {
 			JLabel cuadrado = new JLabel();
@@ -303,12 +306,44 @@ public class Princ {
 		Animaciones.suspender = false;
 		Thread.currentThread().notify();
 	}
-	public static int iniciarNumeros() {
-		int n = moverNumero();
-		txtNum.setText(null);
-		agregarNumero(n);
+	
+	public static void agregarYMover(int lugarLectura) {
+		if(lugarLectura == 0) {
+			listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
+			heap.add(listaNumericaUsuario.get(contadorNumeros),new Integer(1));
+			new Thread() {
+				public void run() {
+					int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
+					int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
+					int pos = verificarPos();
+					colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros),tmpsArreglo);
+				}
+			}.start();
+		}
+	}
+	
+	public static void iniciarNumeros(int lugarLectura) {
+		int n;
+		if(lugarLectura == 0) {
+			n = leerNumeroCajaTexto();
+			txtNum.setText(null);
+			agregarNumero(n);
+			
+		}else {
+			for(int i = 0; i< 11; i++) {
+				n = leerNumeroArchivo();
+				agregarNumero(n);
+			}
+		}
 		System.out.println(""+listaNumerica);
+	}
+	
+	public static int leerNumeroArchivo() {
+		int n;
+		n = Proceso.lista.get(numeroArchivo);
+		numeroArchivo++;
 		return n;
+		
 	}
 	public static Boolean verificarContenidoArreglo() {
 		if(listaNumerica.size()>0) {
@@ -382,11 +417,12 @@ public class Princ {
 		System.out.print("\n");
 	}
 	
-	public static int moverNumero() {
+	public static int leerNumeroCajaTexto() {
 		int n;
 		n = Integer.parseInt(txtNum.getText());
-    	return n;
+		return n;
 	}
+	
 	
 	public static void eliminarNumeros() {
 		txtNum.requestFocus();
@@ -416,4 +452,5 @@ public class Princ {
 	public static JTextField txtMensaje = new JTextField();
 	static JButton btnAgregar = new JButton("Agregar");
 	static JButton btnEliminar = new JButton("Eliminar");
+	public static int numeroArchivo = 0;
 }
