@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import vista.QuickSort;
+import vista.HeapSort;
 import vista.Princ;
 
 public class Boton extends JButton{

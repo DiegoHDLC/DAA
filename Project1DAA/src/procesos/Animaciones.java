@@ -5,7 +5,7 @@ import java.util.ListIterator;
 
 import javax.swing.JLabel;
 
-import vista.HeapSort;
+import vista.QuickSort;
 import vista.Princ;
 
 
@@ -56,7 +56,7 @@ public class Animaciones implements Runnable{
 			for(int i = 0; i<9;i++) {
 				animQuickSort(listInt, a, tmp, 0, listInt.size()-1);
 			
-				HeapSort.imprimirListaNumerica(listInt);
+				QuickSort.imprimirListaNumerica(listInt);
 				Proceso.dormir(4000);
 			}
 		}
@@ -68,7 +68,7 @@ public class Animaciones implements Runnable{
 				while(!Thread.currentThread().isInterrupted()) {
 						for(int i = 0; i<9;i++) {
 							animHeap(lisInt,a, tmp);
-							HeapSort.imprimirListaNumerica(lisInt);
+							QuickSort.imprimirListaNumerica(lisInt);
 							Proceso.dormir(4000);
 						}
 				}
@@ -126,7 +126,7 @@ public class Animaciones implements Runnable{
 				a.set(pos, a.get(destino));
 				a.set(destino, tmp2);
 				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
-				HeapSort.imprimirListaNumericaDeLabels(a);
+				QuickSort.imprimirListaNumericaDeLabels(a);
 				return a;
 				
 				

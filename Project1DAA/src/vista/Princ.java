@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Label;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
@@ -56,7 +58,8 @@ public class Princ {
 	public static List<JLabel> listCuadrados;*/
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
 	public static HeapSort heap = new HeapSort();
-	public static HeapSort qk = new HeapSort();
+	public static QuickSort qk = new QuickSort();
+	public static BubbleSort bubble = new BubbleSort();
 	public static JFrame ventana = new JFrame();
 	public static void main(String[] args) {
 		initComponents();
@@ -67,16 +70,19 @@ public class Princ {
 	public static void initComponents() {
 		
 		
-		
+		heap.setVisible(true);
+		heap.setLayout(null);
 		ventana.getContentPane().setLayout(null);
 		ventana.setBackground(new Color(235,137,4));
+		ventana.getContentPane().add(heap);
+		heap.setVisible(true);
+		heap.setLayout(null);
 		ventana.getContentPane().add(qk);
-		
-		//crear Panel MergeSort
-		//QuickSort qk = new QuickSort();
-		//qk.setBounds(0, 132, 984, 429);
-		//ventana.getContentPane().add(qk);
+		qk.setVisible(false);
 		qk.setLayout(null);
+		ventana.getContentPane().add(bubble);
+		bubble.setVisible(false);
+		bubble.setLayout(null);
 		
 		//crear Panel HeapSort
 		
@@ -196,6 +202,43 @@ public class Princ {
 		PanelControl.setLayout(null);
 		
 		//crear pestaña MergeSort
+		
+		JPanel pestBubble = new JPanel();
+		pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		pestBubble.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(qk.isVisible()==false) {
+					pestBubble.setBackground(new Color(197, 152, 20));
+				}
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(heap.isVisible() == false) {
+					pestHeap.setBackground(new Color(232, 182, 23));
+					pestBubble.setBackground(new Color(230, 187, 79));
+				}else {
+					pestBubble.setBackground(new Color(232, 182, 23));
+				}
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(heap.isVisible() == true) {
+					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					pestBubble.setBackground(new Color(230, 187, 79));
+					pestHeap.setBackground(new Color(232, 182, 23));
+					qk.setVisible(true);
+					heap.setVisible(false);
+					System.out.println("el panel heap es visible? "+heap.isVisible());
+				}
+			}
+		});
+		pestBubble.setBackground(new Color(232, 182, 23));
+		pestBubble.setBounds(226, 0, 103, 32);
+		PanelControl.add(pestBubble);
+		pestBubble.setLayout(null);
+		
 		JPanel pestQuick = new JPanel();
 		pestQuick.setBounds(103, 0, 103, 32);
 		pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -232,6 +275,13 @@ public class Princ {
 		pestQuick.setBounds(113, 0, 103, 32);
 		PanelControl.add(pestQuick);
 		pestQuick.setLayout(null);
+		
+		JLabel lblBubbleSort = new JLabel("BubbleSort");
+		lblBubbleSort.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBubbleSort.setForeground(new Color(33, 44, 61));
+		lblBubbleSort.setFont(new Font("Sitka Small", Font.BOLD, 15));
+		lblBubbleSort.setBounds(0, 0, 103, 32);
+		pestBubble.add(lblBubbleSort);
 		
 		JLabel lblQuickSort = new JLabel("QuickSort");
 		lblQuickSort.setHorizontalAlignment(SwingConstants.CENTER);

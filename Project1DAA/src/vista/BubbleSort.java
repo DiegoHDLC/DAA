@@ -28,7 +28,7 @@ import java.io.File;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class HeapSort extends JLayeredPane{
+public class BubbleSort extends JLayeredPane{
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
 	static JLayeredPane panel = new JLayeredPane();
 	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
@@ -51,7 +51,7 @@ public class HeapSort extends JLayeredPane{
 	
 	
 	
-	 public HeapSort() {
+	 public BubbleSort() {
 		   setBackground(new Color(235,137,4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
@@ -191,8 +191,8 @@ public class HeapSort extends JLayeredPane{
 		public static void eliminarNumeros() {
 			txtNum.requestFocus();
 			Princ.txtMensaje.setText("");
-			Princ.heap.remove(listaNumericaUsuario.get(contadorNumeros));
-			Princ.heap.repaint();
+			Princ.bubble.remove(listaNumericaUsuario.get(contadorNumeros));
+			Princ.bubble.repaint();
 			listaNumerica.remove(contadorNumeros);
 			listaNumericaUsuario.remove(contadorNumeros);
 			System.out.println(""+listaNumerica);
@@ -209,7 +209,7 @@ public class HeapSort extends JLayeredPane{
 	 
 	 public static void eliminarListaCompleta(){
 			for(int i = listaNumericaUsuario.size()-1; i >= 0; i--) {
-				Princ.heap.remove(listaNumericaUsuario.get(i));
+				Princ.bubble.remove(listaNumericaUsuario.get(i));
 				listaNumerica.remove(i);
 				listaNumericaUsuario.remove(i);
 				Proceso.lista.remove(i);
@@ -221,14 +221,14 @@ public class HeapSort extends JLayeredPane{
 			txtNum.setEditable(true);
 			btnAgregar.setEnabled(true);
 			System.out.println(""+listaNumerica);
-			Princ.heap.repaint();
+			Princ.bubble.repaint();
 		}
 	 
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
 				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
-				Princ.heap.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
+				Princ.bubble.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {
 						int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
@@ -242,7 +242,7 @@ public class HeapSort extends JLayeredPane{
 				System.out.println("posicion del arreglo: "+posNumero);
 				//imprimirListaNumericaDeLabels(listaNumericaUsuario);
 				listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
-				Princ.heap.add(listaNumericaUsuario.get(posNumero),new Integer(1));
+				Princ.bubble.add(listaNumericaUsuario.get(posNumero),new Integer(1));
 				new Thread() {
 					public void run() {
 						while(!Thread.currentThread().isInterrupted()) {
