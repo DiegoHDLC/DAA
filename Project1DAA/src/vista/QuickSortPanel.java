@@ -2,7 +2,6 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,16 +16,13 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import procesos.Animaciones;
-import procesos.Ordenamientos;
 import procesos.Proceso;
 import utils.Boton;
 import utils.CajaTexto;
 import utils.Label;
 
-public class QuickSort extends JLayeredPane{ 
-	/**
-	 * 
-	 */
+public class QuickSortPanel extends JLayeredPane {
+
 	public static int n;
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
@@ -38,31 +34,30 @@ public class QuickSort extends JLayeredPane{
 	public static int contadorNumeros;
 	public static int TAMANOARREGLO = 11;
 	public static int numeroArchivo = 0;
-	//QuickSort qk = new QuickSort();
+	public static QuickSortPanel qk = new QuickSortPanel();
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	
-	static Boton botonAgregar = new Boton("Agregar",67, 3);
-	static Boton botonEliminar = new Boton("Eliminar", 66, 37);
+	static Boton botonAgregar = new Boton("Agregar",66,17);
+	static Boton botonEliminar = new Boton("Eliminar", 165, 17);
 	private static final long serialVersionUID = 1L;
 
-	public QuickSort() {
+	public QuickSortPanel() {
 		setBackground(new Color(235,137,4));
 		setOpaque(true);
 		initComponents();
 	}
 	public void initComponents() {
 		
-		botonAgregar.addActionListener(new ActionListener() {
+		/*botonAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				creaNumeros();
 			}
 		});
-		add(botonAgregar,0);
+		add(botonAgregar);*/
 		
 		JButton btnAgregarArchivo = new JButton("Agregar desde Archivo");
 		btnAgregarArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				QuickSort qk = new QuickSort();
 				if(listaNumerica.size()>0) {
 					Princ.txtMensaje.setText("Primero elimine todos los números");
 				}else {
@@ -79,7 +74,7 @@ public class QuickSort extends JLayeredPane{
 						public void run() {
 							int i=0;
 							while(!Thread.currentThread().isInterrupted() && i<11){
-							agregarYMover(1,i,qk);
+							agregarYMover(1,i);
 							i++;
 							Proceso.dormir(100);
 							}
@@ -99,6 +94,15 @@ public class QuickSort extends JLayeredPane{
 		txtRuta.setBounds(165, 11, 213, 35);
 		add(txtRuta);
 		
+		Boton ordenarQuick = new Boton("Ordenar", 264,18);
+		ordenarQuick.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Animaciones.animacionQuickSort( listaNumericaJLabel,listaNumerica, listTmp);
+				//Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+				Princ.imprimirListaNumerica(listaNumerica);
+			}
+		});
+		add(ordenarQuick,0);
 		
 		botonEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -133,31 +137,30 @@ public class QuickSort extends JLayeredPane{
 		contadorNumeros = -1;
 	 }
 	
-	public static void agregarYMover(int lugarLectura, int posNumero, QuickSort qk) {
-		
+	public static void agregarYMover(int lugarLectura, int posNumero) {
 		if(lugarLectura == 0) {
-			listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
-			qk.add(listaNumericaUsuario.get(contadorNumeros),new Integer(1));
+			Princ.listaNumericaUsuario.get(Princ.contadorNumeros).setBounds(20, 50, 46, 14);
+			qk.add(Princ.listaNumericaUsuario.get(Princ.contadorNumeros),new Integer(1));
 			new Thread() {
 				public void run() {
-					int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
-					int x1 = listaNumericaUsuario.get(contadorNumeros).getLocation().x;
+					int y1 = Princ.listaNumericaUsuario.get(Princ.contadorNumeros).getLocation().y;
+					int x1 = Princ.listaNumericaUsuario.get(Princ.contadorNumeros).getLocation().x;
 					int pos = verificarPos();
-					colocarNumeroEnArreglo(x1,y1,pos,listaNumericaUsuario.get(contadorNumeros),tmpsArreglo);
+					colocarNumeroEnArreglo(x1,y1,pos,Princ.listaNumericaUsuario.get(Princ.contadorNumeros),tmpsArreglo);
 				}
 			}.start();
 		}else {
 			System.out.println("posicion del arreglo: "+posNumero);
 			//imprimirListaNumericaDeLabels(listaNumericaUsuario);
-			listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
+			Princ.listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
 			qk.add(Princ.listaNumericaUsuario.get(posNumero),new Integer(1));
 			new Thread() {
 				public void run() {
 					while(!Thread.currentThread().isInterrupted()) {
-					int y1 = listaNumericaUsuario.get(posNumero).getLocation().y;
-					int x1 = listaNumericaUsuario.get(posNumero).getLocation().x;
+					int y1 = Princ.listaNumericaUsuario.get(posNumero).getLocation().y;
+					int x1 = Princ.listaNumericaUsuario.get(posNumero).getLocation().x;
 					//int pos = verificarPos();
-					colocarNumeroEnArreglo(x1,y1,posNumero+1,listaNumericaUsuario.get(posNumero),tmpsArreglo);
+					colocarNumeroEnArreglo(x1,y1,posNumero+1,Princ.listaNumericaUsuario.get(posNumero),tmpsArreglo);
 					}
 				}
 			}.start();
@@ -308,3 +311,4 @@ public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel 
     	return n;
 	}
 }
+

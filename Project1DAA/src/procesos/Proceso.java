@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import vista.Princ;
 
@@ -20,7 +21,7 @@ public class Proceso {
 	
 	public static void crearListaCero() {
 		for(int i = 0; i < 11; i++) {
-			lista.add(0);
+			lista.add(i);
 		}
 		Princ.imprimirListaNumerica(lista);
 	}
@@ -34,38 +35,22 @@ public class Proceso {
 		}
 	}
 	
-	 public BufferedReader getBuffered(String link){
-
-		    FileReader lector  = null;
-		    BufferedReader br = null;
-		    try {
-		         File Arch=new File(link);
-		        if(!Arch.exists()){
-		           System.out.println("No existe el archivo");
-		        }else{
-		           lector = new FileReader(link);
-		           br = new BufferedReader(lector);
-		        }
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    return br;
-	}
-	
-	
-	/* public void readTxt(){
-		 String ruta = "C:\\Users\\usuario\\Desktop\\archivo1.txt";
-		    File f = new File(ruta);
-		    FileWriter fw = new FileWriter(f);
-		    BufferedWriter escritura = new BufferedWriter(fw);
-		    for(int i=0;i<lista.size();i++){
-		    	 escritura.write(Integer.toString(lista.get(i)));
-		        escritura.newLine();
-
-		    }
-		    escritura.close();
+	public static void leerArchivo(String direccion) {
+		File ruta = new File(direccion);
+		try {
+			FileReader fi = new FileReader(ruta);
+			BufferedReader bu = new BufferedReader(fi);
+			
+			String linea = null;
+			while((linea = bu.readLine()) !=null) {
+				StringTokenizer st = new StringTokenizer(linea,",");
+				lista.add(Integer.parseInt(st.nextToken()));
+			}
+			bu.close();
+		}catch (Exception ex) {
+			
 		}
-	 */
-	 
+		Princ.imprimirListaNumerica(lista);
+	}
 
 }
