@@ -15,6 +15,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import procesos.Animaciones;
 import procesos.Proceso;
@@ -57,6 +59,21 @@ public class BubbleSort extends JLayeredPane{
 		   setLayout(null);
 		   setOpaque(true);
 		   initComponents();
+		   try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedLookAndFeelException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		   
 	 }
 	 
@@ -227,7 +244,7 @@ public class BubbleSort extends JLayeredPane{
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
-				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 50, 46, 14);
+				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 70, 46, 14);
 				Princ.bubble.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {

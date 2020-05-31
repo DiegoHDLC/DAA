@@ -33,6 +33,8 @@ import utils.Boton;
 import utils.CajaTexto;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -56,6 +58,7 @@ public class Princ {
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;*/
+	static JPanel pestQuick = new JPanel();
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
 	public static HeapSort heap = new HeapSort();
 	public static QuickSort qk = new QuickSort();
@@ -63,6 +66,22 @@ public class Princ {
 	public static JFrame ventana = new JFrame();
 	public static void main(String[] args) {
 		initComponents();
+		
+		   try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedLookAndFeelException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		//Proceso.crearListaCero();
 	}
 	
@@ -208,13 +227,14 @@ public class Princ {
 		pestBubble.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				if(qk.isVisible()==false) {
+				if(bubble.isVisible()==false) {
 					pestBubble.setBackground(new Color(197, 152, 20));
 				}
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(heap.isVisible() == false) {
+				if(heap.isVisible() == false || qk.isVisible() == false) {
+					pestQuick.setBackground(new Color(232, 182, 23));
 					pestHeap.setBackground(new Color(232, 182, 23));
 					pestBubble.setBackground(new Color(230, 187, 79));
 				}else {
@@ -223,14 +243,18 @@ public class Princ {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(heap.isVisible() == true) {
+				if(heap.isVisible() == true || qk.isVisible() == true) {
 					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 					pestBubble.setBackground(new Color(230, 187, 79));
+					pestQuick.setBackground(new Color(232, 182, 23));
 					pestHeap.setBackground(new Color(232, 182, 23));
-					qk.setVisible(true);
+					bubble.setVisible(true);
 					heap.setVisible(false);
-					System.out.println("el panel heap es visible? "+heap.isVisible());
+					qk.setVisible(false);
+					
+					System.out.println("el panel bubble es visible? "+bubble.isVisible());
 				}
 			}
 		});
@@ -239,7 +263,7 @@ public class Princ {
 		PanelControl.add(pestBubble);
 		pestBubble.setLayout(null);
 		
-		JPanel pestQuick = new JPanel();
+		
 		pestQuick.setBounds(103, 0, 103, 32);
 		pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		pestQuick.addMouseListener(new MouseAdapter() {
@@ -251,7 +275,8 @@ public class Princ {
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(heap.isVisible() == false) {
+				if(heap.isVisible() == false || bubble.isVisible() ==  false) {
+					pestBubble.setBackground(new Color(232, 182, 23));
 					pestHeap.setBackground(new Color(232, 182, 23));
 					pestQuick.setBackground(new Color(230, 187, 79));
 				}else {
@@ -260,14 +285,17 @@ public class Princ {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(heap.isVisible() == true) {
+				if(heap.isVisible() == true || bubble.isVisible() == true) {
 					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 					pestQuick.setBackground(new Color(230, 187, 79));
+					pestBubble.setBackground(new Color(232, 182, 23));
 					pestHeap.setBackground(new Color(232, 182, 23));
 					qk.setVisible(true);
+					bubble.setVisible(false);
 					heap.setVisible(false);
-					System.out.println("el panel heap es visible? "+heap.isVisible());
+					System.out.println("el panel quick es visible? "+qk.isVisible());
 				}
 			}
 		});
@@ -297,29 +325,32 @@ public class Princ {
 		pestHeap.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		pestHeap.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				if(qk.isVisible() == false) {
-					pestHeap.setBackground(new Color(230, 187, 79));
-				}else {
+			public void mouseEntered(MouseEvent e) {
+				if(heap.isVisible()==false) {
 					pestHeap.setBackground(new Color(197, 152, 20));
 				}
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(qk.isVisible() == true) {
-					pestHeap.setBackground(new Color(232, 182, 23));
-				}else {
+				if(qk.isVisible() == false || bubble.isVisible() ==  false) {
+					pestBubble.setBackground(new Color(232, 182, 23));
+					pestQuick.setBackground(new Color(232, 182, 23));
 					pestHeap.setBackground(new Color(230, 187, 79));
+				}else {
+					pestHeap.setBackground(new Color(232, 182, 23));
 				}
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(qk.isVisible() == true) {
+				if(qk.isVisible() == true || bubble.isVisible() == true) {
 					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 					pestHeap.setBackground(new Color(230, 187, 79));
+					pestBubble.setBackground(new Color(232, 182, 23));
 					pestQuick.setBackground(new Color(232, 182, 23));
 					heap.setVisible(true);
+					bubble.setVisible(false);
 					qk.setVisible(false);
 					System.out.println("el panel heap es visible? "+heap.isVisible());
 				}
