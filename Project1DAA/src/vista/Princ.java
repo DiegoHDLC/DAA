@@ -36,8 +36,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 public class Princ {
-	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
-	public static CajaTexto txtRuta = new CajaTexto(264, 11, 156, 35);
+	/*public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
+	//public static CajaTexto txtRuta = new CajaTexto(264, 11, 156, 35);
 	public static int numeroArchivo = 0;
 	static int contadorCasillas;
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
@@ -45,16 +45,19 @@ public class Princ {
 	//public static JTextField txtNum = new JTextField();
 	volatile static boolean ejecutar = true;
 	public static int contadorNumeros = -1;
-	public static HeapSort heap = new HeapSort();
-	public static HeapSort qk = new HeapSort();
-	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
+	
+	
 	public static JButton btnAgregar = new JButton("Agregar");
 	public static JButton btnEliminar = new JButton("Eliminar");
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
 	public static int n;
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
-	public static List<JLabel> listCuadrados;
+	public static List<JLabel> listCuadrados;*/
+	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
+	public static HeapSort heap = new HeapSort();
+	public static HeapSort qk = new HeapSort();
+	public static JFrame ventana = new JFrame();
 	public static void main(String[] args) {
 		initComponents();
 		//Proceso.crearListaCero();
@@ -64,24 +67,30 @@ public class Princ {
 	public static void initComponents() {
 		
 		
-		JFrame ventana = new JFrame();
+		
 		ventana.getContentPane().setLayout(null);
 		ventana.setBackground(new Color(235,137,4));
+		ventana.getContentPane().add(qk);
+		
+		//crear Panel MergeSort
+		//QuickSort qk = new QuickSort();
+		//qk.setBounds(0, 132, 984, 429);
+		//ventana.getContentPane().add(qk);
+		qk.setLayout(null);
 		
 		//crear Panel HeapSort
 		
-		ventana.getContentPane().add(heap);
-		ventana.getContentPane().add(qk);
+		//ventana.getContentPane().add(heap);
 		
-		txtNum.setText("");
+		/*txtNum.setText("");
 		txtNum.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNum.setBackground(new Color(208, 121, 3));
 		txtNum.setFont(new Font("Calibri", 3, 19));
 		txtNum.setBounds(10, 11, 46, 35);
 		heap.add(txtNum);
-		txtNum.setColumns(10);
+		txtNum.setColumns(10);*/
 		
-		btnAgregar.setBounds(67, 3, 88, 23);
+		/*btnAgregar.setBounds(67, 3, 88, 23);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtNum.getText().isEmpty()) {
@@ -108,28 +117,28 @@ public class Princ {
 				}
 			}
 		});
-		heap.add(btnAgregar);
+		heap.add(btnAgregar);*/
 		
 		//BOTON ELIMINAR
-		btnEliminar.setEnabled(false);
+		/*btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eliminarNumeros();
 			}
 		});
 		btnEliminar.setBounds(66, 37, 89, 23);
-		heap.add(btnEliminar);
+		heap.add(btnEliminar);*/
 		
-		JButton btnIntercambio = new JButton("Intercambio");
+		/*JButton btnIntercambio = new JButton("Intercambio");
 		btnIntercambio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
 			}
 		});
 		btnIntercambio.setBounds(446, 52, 89, 23);
-		heap.add(btnIntercambio);
+		heap.add(btnIntercambio);*/
 		
-		JButton btnEliminarTodo = new JButton("Eliminar Todo");
+		/*JButton btnEliminarTodo = new JButton("Eliminar Todo");
 		btnEliminarTodo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser jf = new JFileChooser();
@@ -141,9 +150,9 @@ public class Princ {
 			}
 		});
 		btnEliminarTodo.setBounds(541, 18, 124, 23);
-		heap.add(btnEliminarTodo);
+		heap.add(btnEliminarTodo);*/
 		
-		JButton btnAgregarArchivo = new JButton("Agregar desde Archivo");
+		/*JButton btnAgregarArchivo = new JButton("Agregar desde Archivo");
 		btnAgregarArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(listaNumerica.size()>0) {
@@ -178,13 +187,7 @@ public class Princ {
 		btnAgregarArchivo.setBounds(388, 18, 143, 23);
 		heap.add(btnAgregarArchivo);
 		txtRuta.setBounds(165, 11, 213, 35);
-		heap.add(txtRuta);
-		
-		//crear Panel MergeSort
-		QuickSort qk = new QuickSort();
-		qk.setBounds(0, 132, 984, 429);
-		ventana.getContentPane().add(qk);
-		qk.setLayout(null);
+		heap.add(txtRuta);*/
 		
 		JPanel PanelControl = new JPanel();
 		PanelControl.setBackground(new Color(218, 165, 32));
@@ -283,7 +286,7 @@ public class Princ {
 		lblHeap.setFont(new Font("Sitka Small", Font.BOLD, 15));
 		pestHeap.add(lblHeap);
 		
-		
+		/*
 		for(int i = 0;i < TAMANOARREGLO; i++){
 			JLabel label = new JLabel();
 			label.setText(""+i);
@@ -309,7 +312,7 @@ public class Princ {
 			cuadrado.setBounds(40*i+ posX, 130, 50, 50);
 			heap.add(cuadrado);
 		}
-		
+		*/
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 86, 984, 46);
 		ventana.getContentPane().add(pnlMensajes);
@@ -328,7 +331,7 @@ public class Princ {
 		ventana.setVisible(true);
 	}
 	
-	 public static void eliminarListaCompleta(){
+	 /*public static void eliminarListaCompleta(){
 			for(int i = Princ.listaNumericaUsuario.size()-1; i >= 0; i--) {
 				heap.remove(Princ.listaNumericaUsuario.get(i));
 				listaNumerica.remove(i);
@@ -521,7 +524,7 @@ public class Princ {
 			btnEliminar.setEnabled(false);
 		}	
 	}
-	
+	*/
 
 	static JPanel pestHeap = new JPanel();
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import vista.HeapSort;
 import vista.Princ;
 
 public class Proceso {
@@ -23,7 +24,7 @@ public class Proceso {
 		for(int i = 0; i < 11; i++) {
 			lista.add(i);
 		}
-		Princ.imprimirListaNumerica(lista);
+		HeapSort.imprimirListaNumerica(lista);
 	}
 	
 	
@@ -50,7 +51,7 @@ public class Proceso {
 		}catch (Exception ex) {
 			
 		}
-		Princ.imprimirListaNumerica(lista);
+		HeapSort.imprimirListaNumerica(lista);
 	}
 
 }

@@ -104,7 +104,7 @@ public class QuickSort extends JLayeredPane{
 			public void actionPerformed(ActionEvent e) {
 				remove(listaNumericaJLabel.get(contadorNumeros));
 				repaint();
-				eliminar();
+				//eliminar();
 				
 			}
 		});
@@ -150,7 +150,7 @@ public class QuickSort extends JLayeredPane{
 			System.out.println("posicion del arreglo: "+posNumero);
 			//imprimirListaNumericaDeLabels(listaNumericaUsuario);
 			listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
-			qk.add(Princ.listaNumericaUsuario.get(posNumero),new Integer(1));
+			//qk.add(Princ.listaNumericaUsuario.get(posNumero),new Integer(1));
 			new Thread() {
 				public void run() {
 					while(!Thread.currentThread().isInterrupted()) {
@@ -246,7 +246,7 @@ public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel 
 		}
 	}
 	
-	public static void eliminar() {
+	/*public static void eliminar() {
 		txtNum.requestFocus();
 		Princ.txtMensaje.setText("");
 		
@@ -261,7 +261,7 @@ public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel 
 			Princ.txtMensaje.setText("No hay número que eliminar");
 			botonEliminar.setEnabled(false);
 		}	
-	}
+	}*/
 	
 	public static void txtNumVacio() {
 		Princ.txtMensaje.setText("Digite un número");
