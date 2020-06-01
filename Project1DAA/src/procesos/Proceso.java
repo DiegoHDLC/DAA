@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import vista.QuickSort;
+import vista.HeapSort;
 import vista.Princ;
 
 public class Proceso {
@@ -25,6 +26,14 @@ public class Proceso {
 			lista.add(i);
 		}
 		QuickSort.imprimirListaNumerica(lista);
+	}
+	
+	public static void crearListaRandom(int tamanoLista) {
+		for(int i = 0; i < tamanoLista;i++) {
+			int numero = (int) Math.floor(Math.random()*9+1);
+			lista.add(numero);
+		}
+		HeapSort.imprimirListaNumerica(lista);
 	}
 	
 	

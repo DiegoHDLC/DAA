@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Label;
 import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.xml.bind.ParseConversionEvent;
 
 import procesos.Animaciones;
+import procesos.Ordenamientos;
 import procesos.Proceso;
 import utils.CajaTexto;
 
@@ -50,6 +53,9 @@ public class HeapSort extends JLayeredPane{
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
+	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
+	private JTextField txtTamano;
+	private final JButton btnCrearListRandom = new JButton("Crear lista random");
 	
 	
 	
@@ -82,10 +88,6 @@ public class HeapSort extends JLayeredPane{
 		 	
 		   
 		   txtNum.setColumns(10);
-		   
-		   
-		   
-		   
 		   btnEliminar.setEnabled(false);
 		   btnEliminar.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent e) {
@@ -98,7 +100,7 @@ public class HeapSort extends JLayeredPane{
 		   btnAgregar.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent e) {
 		   		if(txtNum.getText().isEmpty()) {
-					//Princ.txtMensaje.setText("Digite un número");
+					Princ.txtMensaje.setText("Digite un número");
 					txtNum.requestFocus();
 				}else {
 					btnEliminar.setEnabled(true);
@@ -136,6 +138,7 @@ public class HeapSort extends JLayeredPane{
 		   		if(listaNumerica.size()>0) {
 					Princ.txtMensaje.setText("Primero elimine todos los números");
 				}else {
+					Princ.txtMensaje.setText("");
 					eliminarListaCompleta();
 					JFileChooser jf = new JFileChooser();
 					jf.showOpenDialog(panel);
@@ -163,9 +166,14 @@ public class HeapSort extends JLayeredPane{
 
 		   	
 		   });
+		   
+		   
 		   btnAgregarArchivo.setBounds(388, 18, 143, 23);
 		   add(btnAgregarArchivo);
 		   
+		   utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
+		   lblTiempoEjec.setBounds(780, 22, 156, 14);
+		   add(lblTiempoEjec);
 		   JButton btnOrdenar = new JButton("Ordenar");
 		   btnOrdenar.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent e) {
@@ -174,6 +182,58 @@ public class HeapSort extends JLayeredPane{
 		   });
 		   btnOrdenar.setBounds(446, 52, 89, 23);
 		   add(btnOrdenar);
+		   tmpEjec.setText("Tiempo de ejecucci\u00F3n: ");
+		   tmpEjec.setBounds(586, 22, 184, 20);
+		   
+		   
+
+		   
+		   add(tmpEjec);
+		   
+		 
+		   
+		   JButton btnTiempo = new JButton("Calcular tiempo");
+		   btnTiempo.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		long inicio = System.currentTimeMillis();
+		   		Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario, tmpsArreglo);
+		   		long fin = System.currentTimeMillis();
+		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
+		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");
+		   		imprimirListaNumerica(listaNumerica);
+		   		
+		   	}
+		   });
+		   btnTiempo.setBounds(446, 86, 143, 23);
+		   add(btnTiempo);
+		   
+		   txtTamano = new JTextField();
+		   txtTamano.setBounds(486, 136, 86, 20);
+		   add(txtTamano);
+		   txtTamano.setColumns(10);
+		   
+		   JButton btnOrdenarRandom = new JButton("OrdenarRandom");
+		   btnOrdenarRandom.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		long inicio = System.currentTimeMillis();
+		   		
+		   		Ordenamientos.heapSort(Proceso.lista, listaNumericaUsuario,tmpsArreglo);
+		   		long fin = System.currentTimeMillis();
+		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
+		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");
+		   	}
+		   });
+		   btnOrdenarRandom.setBounds(603, 135, 156, 23);
+		   add(btnOrdenarRandom);
+		   btnCrearListRandom.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		int tamanoLista = Integer.parseInt(txtTamano.getText());
+		   		Proceso.crearListaRandom(tamanoLista);
+		   	}
+		   });
+		   btnCrearListRandom.setBounds(599, 101, 160, 23);
+		   
+		   add(btnCrearListRandom);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -217,6 +277,7 @@ public class HeapSort extends JLayeredPane{
 			contadorNumeros--;
 			btnAgregar.setEnabled(true);
 			txtNum.setEditable(true);
+			txtRuta.setText("");
 			if(listaNumerica.size()==0) {
 				btnAgregar.setEnabled(true);
 				Princ.txtMensaje.setText("No hay número que eliminar");
@@ -298,6 +359,10 @@ public class HeapSort extends JLayeredPane{
 	public static synchronized void reanudarHilo() {
 		Animaciones.suspender = false;
 		Thread.currentThread().notify();
+	}
+	
+	public static void tiempoEjecucion() {
+		
 	}
 	
 	
@@ -385,8 +450,4 @@ public class HeapSort extends JLayeredPane{
 		n = Integer.parseInt(txtNum.getText());
 		return n;
 	}
-	
-	
-
-	 
 }

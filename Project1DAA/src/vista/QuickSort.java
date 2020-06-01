@@ -50,6 +50,7 @@ public class QuickSort extends JLayeredPane{
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
+	private final JLabel lblTiempoEjeccucion = new JLabel("Tiempo de ejecuci\u00F3n");
 	
 	
 	
@@ -136,6 +137,7 @@ public class QuickSort extends JLayeredPane{
 		   		if(listaNumerica.size()>0) {
 					Princ.txtMensaje.setText("Primero elimine todos los números");
 				}else {
+					Princ.txtMensaje.setText("");
 					eliminarListaCompleta();
 					JFileChooser jf = new JFileChooser();
 					jf.showOpenDialog(panel);
@@ -174,6 +176,9 @@ public class QuickSort extends JLayeredPane{
 		   });
 		   btnOrdenar.setBounds(446, 52, 89, 23);
 		   add(btnOrdenar);
+		   lblTiempoEjeccucion.setBounds(590, 41, 97, 14);
+		   
+		   add(lblTiempoEjeccucion);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -217,6 +222,7 @@ public class QuickSort extends JLayeredPane{
 			contadorNumeros--;
 			btnAgregar.setEnabled(true);
 			txtNum.setEditable(true);
+			txtRuta.setText("");
 			if(listaNumerica.size()==0) {
 				btnAgregar.setEnabled(true);
 				Princ.txtMensaje.setText("No hay número que eliminar");
