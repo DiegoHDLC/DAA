@@ -54,6 +54,7 @@ public class Princ{
 	public static BubbleSort bubble = new BubbleSort();
 	public static BusquedaBinaria busBin = new BusquedaBinaria();
 	public static BusquedaSecuencial busSec = new BusquedaSecuencial();
+	public static BusquedaRandom busRan = new BusquedaRandom();
 	public static JFrame ventana = new JFrame();
 	
 public static void main(String[] args) {
@@ -76,13 +77,9 @@ public static void main(String[] args) {
 		//Proceso.crearListaCero();
 	}
 	public Princ() {
-		
-		
-		
+				
 	}
-	
-	
-	
+
 	@SuppressWarnings("deprecation")
 	public static void initComponents() {
 		
@@ -108,33 +105,14 @@ public static void main(String[] args) {
 		labelMinimizar.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_minimize_window_30px_4.png")));
 		labelMinimizar.setBounds(825, 0, 30, 30);
 		panel.add(labelMinimizar);
-		busBin.setBounds(0, 120, 897, 429);
-		busSec.setBounds(0, 120, 897, 429);
-		heap.setBounds(0, 120, 897, 429);
-		bubble.setBounds(0, 120, 897, 429);
-		qk.setBounds(0, 120, 897, 429);
 		
-		heap.setVisible(true);
-		heap.setLayout(null);
-		ventana.getContentPane().add(heap);
-		heap.setVisible(true);
-		heap.setLayout(null);
-	
-		ventana.getContentPane().add(qk);
-		qk.setVisible(false);
-		qk.setLayout(null);
-		
-		ventana.getContentPane().add(bubble);
-		bubble.setVisible(false);
-		bubble.setLayout(null);
-		
-		ventana.getContentPane().add(busBin);
-		busBin.setVisible(false);
-		busBin.setLayout(null);
-		
-		ventana.getContentPane().add(busSec);
-		busSec.setVisible(false);
-		busSec.setLayout(null);
+		//INICIALIZANDO PANELES
+		inicializarPanel(busBin, ventana,0);
+		inicializarPanel(busSec, ventana,0);
+		inicializarPanel(heap, ventana,1);
+		inicializarPanel(bubble, ventana, 0);
+		inicializarPanel(qk,ventana,0);
+		inicializarPanel(busRan,ventana,0);
 		
 		JPanel pnlMensajes = new JPanel();
 		pnlMensajes.setBounds(0, 68, 897, 53);
@@ -155,45 +133,10 @@ public static void main(String[] args) {
 		PanelControl.setBounds(0, 0, 897, 70);
 		ventana.getContentPane().add(PanelControl);
 		
-		//crear pestaña MergeSort
-		
-		JPanel pestBubble = new JPanel();
+		//PESTAÑA BUBBLESORT
 		pestBubble.setBounds(226, 33, 103, 32);
 		pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		pestBubble.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if(bubble.isVisible()==false) {
-					pestBubble.setBackground(new Color(197, 152, 20));
-				}
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if(heap.isVisible() == false && qk.isVisible() == false) {
-					pestQuick.setBackground(new Color(232, 182, 23));
-					pestHeap.setBackground(new Color(232, 182, 23));
-					pestBubble.setBackground(new Color(230, 187, 79));
-				}else {
-					pestBubble.setBackground(new Color(232, 182, 23));
-				}
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(heap.isVisible() == true || qk.isVisible() == true) {
-					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					pestBubble.setBackground(new Color(230, 187, 79));
-					pestQuick.setBackground(new Color(232, 182, 23));
-					pestHeap.setBackground(new Color(232, 182, 23));
-					bubble.setVisible(true);
-					heap.setVisible(false);
-					qk.setVisible(false);
-					
-					System.out.println("el panel bubble es visible? "+bubble.isVisible());
-				}
-			}
-		});
+		MousePestañas(pestBubble, bubble, pestHeap, heap, pestBusBinaria, busBin, pestBusSecuencial, busSec, pestQuick, qk, pestBusRandom, busRan);
 		PanelControl.setLayout(null);
 		pestBubble.setBackground(new Color(232, 182, 23));
 		PanelControl.add(pestBubble);
@@ -205,41 +148,12 @@ public static void main(String[] args) {
 		lblBubbleSort.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBubbleSort.setForeground(new Color(33, 44, 61));
 		lblBubbleSort.setFont(new Font("Sitka Small", Font.BOLD, 15));
+		
+		
+		//PESTAÑA QUICKSORT
 		pestQuick.setBounds(113, 33, 103, 32);
 		pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		pestQuick.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if(qk.isVisible()==false) {
-					pestQuick.setBackground(new Color(197, 152, 20));
-				}
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if(heap.isVisible() == false && bubble.isVisible() ==  false) {
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestHeap.setBackground(new Color(232, 182, 23));
-					pestQuick.setBackground(new Color(230, 187, 79));
-				}else {
-					pestQuick.setBackground(new Color(232, 182, 23));
-				}
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(heap.isVisible() == true || bubble.isVisible() == true) {
-					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					pestQuick.setBackground(new Color(230, 187, 79));
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestHeap.setBackground(new Color(232, 182, 23));
-					qk.setVisible(true);
-					bubble.setVisible(false);
-					heap.setVisible(false);
-					System.out.println("el panel quick es visible? "+qk.isVisible());
-				}
-			}
-		});
+		MousePestañas(pestQuick, qk, pestHeap, heap, pestBusBinaria, busBin, pestBusSecuencial, busSec, pestBubble, bubble, pestBusRandom, busRan);
 		pestQuick.setBackground(new Color(232, 182, 23));
 		PanelControl.add(pestQuick);
 		pestQuick.setLayout(null);
@@ -250,41 +164,12 @@ public static void main(String[] args) {
 		lblQuickSort.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuickSort.setForeground(new Color(33, 44, 61));
 		lblQuickSort.setFont(new Font("Sitka Small", Font.BOLD, 15));
+		
+		
+		//PESTAÑA HEAPSORT
 		pestHeap.setBounds(0, 33, 103, 32);
 		pestHeap.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		pestHeap.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if(heap.isVisible()==false) {
-					pestHeap.setBackground(new Color(197, 152, 20));
-				}
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if(qk.isVisible() == false && bubble.isVisible() ==  false) {
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestQuick.setBackground(new Color(232, 182, 23));
-					pestHeap.setBackground(new Color(230, 187, 79));
-				}else {
-					pestHeap.setBackground(new Color(232, 182, 23));
-				}
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(qk.isVisible() == true || bubble.isVisible() == true) {
-					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestHeap.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					pestHeap.setBackground(new Color(230, 187, 79));
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestQuick.setBackground(new Color(232, 182, 23));
-					heap.setVisible(true);
-					bubble.setVisible(false);
-					qk.setVisible(false);
-					System.out.println("el panel heap es visible? "+heap.isVisible());
-				}
-			}
-		});
+		MousePestañas(pestHeap, heap, pestQuick, qk, pestBusBinaria, busBin, pestBusSecuencial, busSec, pestBubble, bubble, pestBusRandom, busRan);
 		pestHeap.setBackground(new Color(230, 187, 79));
 		PanelControl.add(pestHeap);
 		pestHeap.setLayout(null);
@@ -296,41 +181,10 @@ public static void main(String[] args) {
 		lblHeap.setForeground(new Color(33, 44, 61));
 		lblHeap.setFont(new Font("Sitka Small", Font.BOLD, 15));
 		
-		JPanel pestBusBinaria = new JPanel();
+		
+		//PESTAÑA BUSQUEDA BINARIA
 		pestBusBinaria.setBounds(339, 33, 160, 32);
-		pestBusBinaria.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if(busBin.isVisible()==false) {
-					pestBusBinaria.setBackground(new Color(197, 152, 20));
-				}
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if(qk.isVisible() == false || bubble.isVisible() ==  false || heap.isVisible() == false) {
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestQuick.setBackground(new Color(232, 182, 23));
-					pestBusBinaria.setBackground(new Color(232, 182, 23));
-				}else {
-					pestBusBinaria.setBackground(new Color(232, 182, 23));
-				}
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(qk.isVisible() == true || bubble.isVisible() == true) {
-					pestQuick.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestBubble.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					pestBusBinaria.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					pestBusBinaria.setBackground(new Color(230, 187, 79));
-					pestBubble.setBackground(new Color(232, 182, 23));
-					pestQuick.setBackground(new Color(232, 182, 23));
-					busBin.setVisible(true);
-					bubble.setVisible(false);
-					qk.setVisible(false);
-					System.out.println("el panel busqueda binaria es visible? "+busBin.isVisible());
-				}
-			}
-		});
+		MousePestañas(pestBusBinaria, busBin, pestHeap, heap, pestQuick, qk, pestBusSecuencial, busSec, pestBubble, bubble, pestBusRandom, busRan);
 		pestBusBinaria.setLayout(null);
 		pestBusBinaria.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		pestBusBinaria.setBackground(new Color(232, 182, 23));
@@ -343,8 +197,10 @@ public static void main(String[] args) {
 		lblBusBinaria.setForeground(new Color(33, 44, 61));
 		lblBusBinaria.setFont(new Font("Sitka Small", Font.BOLD, 15));
 		
-		JPanel pestBusSecuencial = new JPanel();
+		
+		//PESTAÑA BUSQUEDA SECUENCIAL
 		pestBusSecuencial.setBounds(509, 33, 189, 32);
+		MousePestañas(pestBusSecuencial, busSec, pestHeap, heap, pestBusBinaria, busBin, pestQuick, qk, pestBubble, bubble, pestBusRandom, busRan);
 		pestBusSecuencial.setLayout(null);
 		pestBusSecuencial.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		pestBusSecuencial.setBackground(new Color(232, 182, 23));
@@ -357,8 +213,10 @@ public static void main(String[] args) {
 		lblBusSecuencial.setForeground(new Color(33, 44, 61));
 		lblBusSecuencial.setFont(new Font("Sitka Small", Font.BOLD, 15));
 		
-		JPanel pestBusRandom = new JPanel();
+		
+		//PESTAÑA BUSQUEDA RANDOM
 		pestBusRandom.setBounds(708, 33, 189, 32);
+		MousePestañas(pestBusRandom, busRan, pestHeap, heap, pestBusBinaria, busBin, pestQuick, qk, pestBubble, bubble, pestBusSecuencial, busSec);
 		pestBusRandom.setLayout(null);
 		pestBusRandom.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		pestBusRandom.setBackground(new Color(232, 182, 23));
@@ -374,6 +232,17 @@ public static void main(String[] args) {
 		ventana.setSize(897, 549);
 		ventana.setVisible(true);
 		ventana.setLocation(250, 60);
+	}
+	
+	public static void inicializarPanel(JLayeredPane panel, JFrame ventana, int opcion) {
+		if(opcion == 1) {
+			panel.setVisible(true);
+		}else {
+			panel.setVisible(false);
+		}
+		panel.setLayout(null);
+		panel.setBounds(0, 120, 897, 429);
+		ventana.getContentPane().add(panel);
 	}
 	
 	public static void MouseActionBarra(JLabel label,Icon Entered, Icon Exited, Icon Clicked, int boton) {
@@ -396,6 +265,59 @@ public static void main(String[] args) {
 			}
 		});
 	}
+	
+	public static void MousePestañas(JPanel pestPrincipal, JLayeredPane panelPrincipal, JPanel segPestaña, 
+			JLayeredPane segPanel, JPanel terPestaña, JLayeredPane terPanel, JPanel cuarPestaña, JLayeredPane cuarPanel,
+			JPanel quinPestaña, JLayeredPane quinPanel, JPanel sextPestaña, JLayeredPane sextPanel) {
+		pestPrincipal.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(panelPrincipal.isVisible()==false) {
+					pestPrincipal.setBackground(new Color(197, 152, 20));
+				}
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(segPanel.isVisible() == false && terPanel.isVisible() ==  false && cuarPanel.isVisible() == false
+						&& quinPanel.isVisible() == false && sextPanel.isVisible() == false) {
+					pestPrincipal.setBackground(new Color(230, 187, 79));
+					segPestaña.setBackground(new Color(232, 182, 23));
+					terPestaña.setBackground(new Color(232, 182, 23));
+					cuarPestaña.setBackground(new Color(232, 182, 23));
+					quinPestaña.setBackground(new Color(232, 182, 23));
+					sextPestaña.setBackground(new Color(232, 182, 23));
+				}else {
+					pestPrincipal.setBackground(new Color(232, 182, 23));
+				}
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(segPanel.isVisible() == true || terPanel.isVisible() == true || cuarPanel.isVisible() == true
+						|| quinPanel.isVisible() == true || sextPanel.isVisible() == true) {
+					pestPrincipal.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					segPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					terPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					cuarPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					quinPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					sextPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+					pestPrincipal.setBackground(new Color(230, 187, 79));
+					segPestaña.setBackground(new Color(232, 182, 23));
+					terPestaña.setBackground(new Color(232, 182, 23));
+					cuarPestaña.setBackground(new Color(232, 182, 23));
+					quinPestaña.setBackground(new Color(232, 182, 23));
+					sextPestaña.setBackground(new Color(232, 182, 23));
+					panelPrincipal.setVisible(true);
+					segPanel.setVisible(false);
+					terPanel.setVisible(false);
+					cuarPanel.setVisible(false);
+					quinPanel.setVisible(false);
+					sextPanel.setVisible(false);
+					System.out.println("el panel"+ panelPrincipal+" es visible? "+panelPrincipal.isVisible());
+				
+				}
+			}
+		});
+	}
 
 	
 	public static synchronized void suspenderHilo() {
@@ -413,7 +335,10 @@ public static void main(String[] args) {
 	static ImageIcon minimizarBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_minimize_window_30px_1.png"));
 	static ImageIcon minimizarAmarillo = new ImageIcon(Princ.class.getResource("/Image/icons8_minimize_window_30px_4.png"));
 	static ImageIcon minimizarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_minimize_window_30px_5.png"));
-	
+	static JPanel pestBusSecuencial = new JPanel();
 	static JPanel pestHeap = new JPanel();
+	static JPanel pestBusBinaria = new JPanel();
+	static JPanel pestBusRandom = new JPanel();
+	static JPanel pestBubble = new JPanel();
 }
 	
