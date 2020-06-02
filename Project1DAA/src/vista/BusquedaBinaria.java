@@ -33,7 +33,7 @@ import java.io.File;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class HeapSort extends JLayeredPane{
+public class BusquedaBinaria extends JLayeredPane{
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
 	static JLayeredPane panel = new JLayeredPane();
 	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
@@ -59,7 +59,7 @@ public class HeapSort extends JLayeredPane{
 	
 	
 	
-	 public HeapSort() {
+	 public BusquedaBinaria() {
 		   setBackground(new Color(235,137,4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
