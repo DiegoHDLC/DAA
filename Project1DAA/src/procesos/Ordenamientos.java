@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 import vista.Princ;
@@ -162,6 +163,23 @@ public class Ordenamientos {
           quickSort(listInt, pi + 1, high);
         }
       }
+      
+      public static void bubbleSort(List<Integer> lista) {
+    	    int size = lista.size();
+    	    
+    	    // run loops two times: one for walking throught the array
+    	    // and the other for comparison
+    	    for (int i = 0; i < size - 1; i++)
+    	      for (int j = 0; j < size - i - 1; j++)
 
+    	        // To sort in descending order, change > to < in this line.
+    	        if (lista.get(j) > lista.get(j+1)) {
+
+    	          // swap if greater is at the rear position
+    	          int temp = lista.get(j);
+    	          lista.set(j, lista.get(j+1));
+    	          lista.set(j+1, temp);
+    	        }
+    	  }
     
 }

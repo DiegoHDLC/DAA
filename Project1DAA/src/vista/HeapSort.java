@@ -130,6 +130,7 @@ public class HeapSort extends JLayeredPane{
 		   
 		   
 		   add(txtNum);
+		   txtRuta.setBounds(165, 11, 213, 35);
 		   add(txtRuta);
 		   
 		   JButton btnAgregarArchivo = new JButton("Agregar Archivo");

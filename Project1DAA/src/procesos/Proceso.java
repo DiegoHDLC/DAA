@@ -10,15 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.JLayeredPane;
+
 import vista.QuickSort;
 import vista.HeapSort;
 import vista.Princ;
 
 public class Proceso {
 	public static ArrayList<Integer> lista = new ArrayList<Integer>();
+	static Princ principal = new Princ();
 	
 	public Proceso() {
 		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public static void crearListaCero() {
@@ -63,5 +67,9 @@ public class Proceso {
 		}
 		QuickSort.imprimirListaNumerica(lista);
 	}
+	
+	
+		
+	
 
 }

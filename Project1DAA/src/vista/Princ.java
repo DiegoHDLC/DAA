@@ -57,6 +57,26 @@ public class Princ{
 	public static BusquedaRandom busRan = new BusquedaRandom();
 	public static JFrame ventana = new JFrame();
 	
+	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
+	static JLayeredPane panel = new JLayeredPane();
+	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
+	//public static CajaTexto txtRuta = new CajaTexto(264, 11, 156, 35);
+	public static int numeroArchivo = 0;
+	static int contadorCasillas;
+	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
+	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
+	//public static JTextField txtNum = new JTextField();
+	volatile static boolean ejecutar = true;
+	public static int contadorNumeros = -1;
+	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
+	public static int n;
+	public static int TAMANOARREGLO = 11;
+	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
+	public static List<JLabel> listCuadrados;
+	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
+	private JTextField txtTamano;
+	private final JButton btnCrearListRandom = new JButton("Crear lista random");
+	
 public static void main(String[] args) {
 	initComponents();
 		   try {
@@ -77,7 +97,7 @@ public static void main(String[] args) {
 		//Proceso.crearListaCero();
 	}
 	public Princ() {
-				
+			
 	}
 
 	@SuppressWarnings("deprecation")
@@ -295,30 +315,25 @@ public static void main(String[] args) {
 				if(segPanel.isVisible() == true || terPanel.isVisible() == true || cuarPanel.isVisible() == true
 						|| quinPanel.isVisible() == true || sextPanel.isVisible() == true) {
 					pestPrincipal.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					segPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					terPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					cuarPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					quinPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-					sextPestaña.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 					pestPrincipal.setBackground(new Color(230, 187, 79));
-					segPestaña.setBackground(new Color(232, 182, 23));
-					terPestaña.setBackground(new Color(232, 182, 23));
-					cuarPestaña.setBackground(new Color(232, 182, 23));
-					quinPestaña.setBackground(new Color(232, 182, 23));
-					sextPestaña.setBackground(new Color(232, 182, 23));
+					setearPanelYPest(segPestaña, segPanel);
+					setearPanelYPest(terPestaña, terPanel);
+					setearPanelYPest(cuarPestaña, cuarPanel);
+					setearPanelYPest(quinPestaña, quinPanel);
+					setearPanelYPest(sextPestaña, sextPanel);
 					panelPrincipal.setVisible(true);
-					segPanel.setVisible(false);
-					terPanel.setVisible(false);
-					cuarPanel.setVisible(false);
-					quinPanel.setVisible(false);
-					sextPanel.setVisible(false);
 					System.out.println("el panel"+ panelPrincipal+" es visible? "+panelPrincipal.isVisible());
 				
 				}
 			}
 		});
 	}
-
+	
+	public static void setearPanelYPest(JPanel pest, JLayeredPane panel) {
+		pest.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		pest.setBackground(new Color(232, 182, 23));
+		panel.setVisible(false);
+	}
 	
 	public static synchronized void suspenderHilo() {
 		Animaciones.suspender = true;

@@ -269,8 +269,8 @@ public class BusquedaRandom extends JLayeredPane{
 		public static void eliminarNumeros() {
 			txtNum.requestFocus();
 			Princ.txtMensaje.setText("");
-			Princ.heap.remove(listaNumericaUsuario.get(contadorNumeros));
-			Princ.heap.repaint();
+			Princ.busRan.remove(listaNumericaUsuario.get(contadorNumeros));
+			Princ.busRan.repaint();
 			listaNumerica.remove(contadorNumeros);
 			listaNumericaUsuario.remove(contadorNumeros);
 			System.out.println(""+listaNumerica);
@@ -288,7 +288,7 @@ public class BusquedaRandom extends JLayeredPane{
 	 
 	 public static void eliminarListaCompleta(){
 			for(int i = listaNumericaUsuario.size()-1; i >= 0; i--) {
-				Princ.heap.remove(listaNumericaUsuario.get(i));
+				Princ.busRan.remove(listaNumericaUsuario.get(i));
 				listaNumerica.remove(i);
 				listaNumericaUsuario.remove(i);
 				Proceso.lista.remove(i);
@@ -300,14 +300,14 @@ public class BusquedaRandom extends JLayeredPane{
 			txtNum.setEditable(true);
 			btnAgregar.setEnabled(true);
 			System.out.println(""+listaNumerica);
-			Princ.heap.repaint();
+			Princ.busRan.repaint();
 		}
 	 
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
 				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 70, 46, 14);
-				Princ.heap.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
+				Princ.busRan.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {
 						int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
@@ -321,7 +321,7 @@ public class BusquedaRandom extends JLayeredPane{
 				System.out.println("posicion del arreglo: "+posNumero);
 				//imprimirListaNumericaDeLabels(listaNumericaUsuario);
 				listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
-				Princ.heap.add(listaNumericaUsuario.get(posNumero),new Integer(1));
+				Princ.busRan.add(listaNumericaUsuario.get(posNumero),new Integer(1));
 				new Thread() {
 					public void run() {
 						while(!Thread.currentThread().isInterrupted()) {

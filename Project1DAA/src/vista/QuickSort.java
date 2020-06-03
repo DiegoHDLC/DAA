@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import procesos.Animaciones;
+import procesos.Ordenamientos;
 import procesos.Proceso;
 import utils.CajaTexto;
 
@@ -171,6 +172,8 @@ public class QuickSort extends JLayeredPane{
 		   JButton btnOrdenar = new JButton("Ordenar");
 		   btnOrdenar.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent e) {
+		   		Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+		   		imprimirListaNumerica(listaNumerica);
 		   		//Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
 		   	}
 		   });
