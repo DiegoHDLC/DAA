@@ -7,9 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import vista.QuickSort;
@@ -32,14 +34,14 @@ public class Proceso {
 		QuickSort.imprimirListaNumerica(lista);
 	}
 	
-	public static void crearListaRandom(int tamanoLista) {
-		
+	public static ArrayList<Integer> crearListaRandom(int tamanoLista) {
+		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i < tamanoLista;i++) {
 			int numero = (int) Math.floor(Math.random()*9+1);
-			lista.add(numero);
+			list.add(numero);
 		}
 		Princ.txtMensaje.setText("Lista de tamaño "+"["+tamanoLista+"]"+" creada con éxito");
-		HeapSort.imprimirListaNumerica(lista);
+		return (ArrayList<Integer>) list;
 	}
 	
 	
@@ -69,8 +71,35 @@ public class Proceso {
 		QuickSort.imprimirListaNumerica(lista);
 	}
 	
+	public static void imprimirListaNumericaDeLabels(List<JLabel> a) {
+		for(int i = 0; i < a.size(); i++) {
+			System.out.print("["+a.get(i).getText()+"] ");
+		}
+		System.out.print("\n");
+	}
 	
+	public static int verificarPos(List<Integer> listaNumerica) {
+		int posicion = 0;
+		for(int i = 0;i < listaNumerica.size();i++) {
+			if(listaNumerica.get(i)==null);
+				posicion = i;
+		}
+		return posicion+1;
+	}
+	
+	public static boolean isNumeric(String str) {
+        return (str.matches("[+-]?\\d*(\\.\\d+)?") && str.equals("")==false);
+    }
+	
+	public static Boolean verificaOrd(ArrayList<Integer> a) {
+		List<Integer> tmp = new ArrayList<Integer>(a);
+		Collections.sort(tmp);
+		boolean sorted = tmp.equals(a);
 		
-	
+		return sorted;
+		
+	}
 
+	
+	
 }

@@ -427,7 +427,7 @@ public class QuickSort extends JLayeredPane{
 		if(listaNumerica.size() == 0) {
 			Princ.txtMensaje.setText("Primero agregue numeros a la lista");
 		}else {
-			if(Animaciones.verificaOrd(listaNumerica)) {
+			if(Proceso.verificaOrd(listaNumerica)) {
 				Princ.txtMensaje.setText("Lista ordenada");
 			}else {
 				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
@@ -466,30 +466,35 @@ public class QuickSort extends JLayeredPane{
 	}
 	public static void crearListaRandomLabelAction() {
 		int tamanoLista = Integer.parseInt(txtTamano.getText());
-   		Proceso.crearListaRandom(tamanoLista);
+		listaNumerica = Proceso.crearListaRandom(tamanoLista);
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
 	}
 	
 	public static void agregarLabelAction() {
 		
-		if(txtNum.getText().isEmpty()) {
-			Princ.txtMensaje.setText("Digite un número");
-			txtNum.requestFocus();
+		if(Integer.parseInt(txtNum.getText()) > 99) {
+			Princ.txtMensaje.setText("Porfavor, digite un número entre 0 y 99");
+			txtNum.setText("");
 		}else {
-			lblEliminar.setEnabled(true);
-			txtNum.requestFocus();
-			Princ.txtMensaje.setText("");
-			contadorNumeros++;
-			iniciarNumeros(0);
-			System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
-			agregarYMover(0,0);
-		}
-		if(listaNumerica.size()==11) {
-			txtNum.setEditable(false);
-			lblAgregar.setEnabled(false);
-			Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");
-				
+			
+			if(txtNum.getText().isEmpty()) {
+				Princ.txtMensaje.setText("Digite un número");
+				txtNum.requestFocus();
+			}else {
+				lblEliminar.setEnabled(true);
+				txtNum.requestFocus();
+				Princ.txtMensaje.setText("");
+				contadorNumeros++;
+				iniciarNumeros(0);
+				System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
+				agregarYMover(0,0);
+			}
+			if(listaNumerica.size()==11) {
+				txtNum.setEditable(false);
+				lblAgregar.setEnabled(false);
+				Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");	
+			}
 		}
 		
 	}
