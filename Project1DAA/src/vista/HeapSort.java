@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -29,11 +30,16 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
+	
 public class HeapSort extends JLayeredPane{
+	public static JLabel lblEliminar = new JLabel();
+	public static JLabel lblAgregar = new JLabel();
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
 	static JLayeredPane panel = new JLayeredPane();
 	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
@@ -237,6 +243,19 @@ public class HeapSort extends JLayeredPane{
 		   
 		   add(btnCrearListRandom);
 		   
+		 
+		   BotonLabel(lblAgregar, agregarBlanco, agregarVerde, agregarGris, 1);
+		   lblAgregar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_4.png")));
+		   lblAgregar.setBounds(112, 71, 30, 30);
+		   add(lblAgregar);
+		   
+		   BotonLabel(lblEliminar, eliminarBlanco, eliminarRojo, eliminarGris, 2);
+		   lblEliminar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_1.png")));
+		   lblEliminar.setBounds(109, 127, 30, 30);
+		   lblEliminar.setEnabled(false);
+		   
+		   add(lblEliminar);
+		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
 				label.setText(""+i);
@@ -277,13 +296,13 @@ public class HeapSort extends JLayeredPane{
 			System.out.println(""+listaNumerica);
 			System.out.println("cantidad de numeros:"+listaNumerica.size());
 			contadorNumeros--;
-			btnAgregar.setEnabled(true);
+			lblAgregar.setEnabled(true);
 			txtNum.setEditable(true);
 			txtRuta.setText("");
 			if(listaNumerica.size()==0) {
-				btnAgregar.setEnabled(true);
+				lblAgregar.setEnabled(true);
 				Princ.txtMensaje.setText("No hay número que eliminar");
-				btnEliminar.setEnabled(false);
+				lblEliminar.setEnabled(false);
 			}
 		}
 	 
@@ -452,4 +471,69 @@ public class HeapSort extends JLayeredPane{
 		n = Integer.parseInt(txtNum.getText());
 		return n;
 	}
+	
+	public void BotonLabel(JLabel label,Icon Entered, Icon Exited, Icon Pressed, int opc) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				label.setIcon(Entered);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				label.setIcon(Exited);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				label.setIcon(Pressed);
+				
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				label.setIcon(Entered);
+				switch(opc) {
+				case 1: agregarLabelAction();break;
+				case 2: eliminarLabelAction();break;
+				}
+				
+			}
+		});
+	}
+	
+	public static void agregarLabelAction() {
+		if(txtNum.getText().isEmpty()) {
+			Princ.txtMensaje.setText("Digite un número");
+			txtNum.requestFocus();
+		}else {
+			lblEliminar.setEnabled(true);
+			txtNum.requestFocus();
+			Princ.txtMensaje.setText("");
+			contadorNumeros++;
+			if(listaNumerica.size()==10) {
+				txtNum.setEditable(false);
+				lblAgregar.setEnabled(false);
+				Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");
+					
+			}
+			iniciarNumeros(0);
+			System.out.println("lista label:");
+			for(int i = 0; i < listaNumericaUsuario.size();i++) {
+				System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
+			}
+			
+			System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
+			agregarYMover(0,0);
+		}
+	}
+	
+	public static void eliminarLabelAction() {
+		eliminarNumeros();
+	}
+	
+	ImageIcon eliminarBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_3.png"));
+	ImageIcon eliminarGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px.png"));
+	ImageIcon eliminarRojo = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_1.png"));
+	ImageIcon agregarBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px.png"));
+	ImageIcon agregarVerde = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_4.png"));
+	ImageIcon agregarGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_5.png"));
+	
 }
