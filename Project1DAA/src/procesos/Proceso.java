@@ -37,7 +37,7 @@ public class Proceso {
 			int numero = (int) Math.floor(Math.random()*9+1);
 			lista.add(numero);
 		}
-		Princ.txtMensaje.setText("Lista creada con éxito");
+		Princ.txtMensaje.setText("Lista de tamaño "+"["+tamanoLista+"]"+" creada con éxito");
 		//HeapSort.imprimirListaNumerica(lista);
 	}
 	

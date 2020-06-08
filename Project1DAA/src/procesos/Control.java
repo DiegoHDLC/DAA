@@ -22,8 +22,8 @@ public class Control implements ActionListener{
 		this.prueba = prueba;
 		this.modelo = modelo;
 		
-		HeapSort.btnAgregar.addActionListener( (ActionListener) this);
-		HeapSort.btnEliminar.addActionListener(this);
+		//HeapSort.btnAgregar.addActionListener( (ActionListener) this);
+		//HeapSort.btnEliminar.addActionListener(this);
 	}
 	
 	public void iniciar() {

@@ -38,6 +38,10 @@ import java.awt.event.ActionEvent;
 @SuppressWarnings("serial")
 	
 public class HeapSort extends JLayeredPane{
+	
+	public static JLabel lblCrearListaRandom = new JLabel();
+	public static JLabel lblOrdenar = new JLabel();
+	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
@@ -52,21 +56,19 @@ public class HeapSort extends JLayeredPane{
 	volatile static boolean ejecutar = true;
 	public static int contadorNumeros = -1;
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
-	public static JButton btnAgregar = new JButton("Agregar");
-	public static JButton btnEliminar = new JButton("Eliminar");
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
 	public static int n;
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
-	private JTextField txtTamano;
+	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
 	private final JButton btnCrearListRandom = new JButton("Crear lista random");
 	
 	
 	
 	 public HeapSort() {
-		   setBackground(new Color(235,137,4));//color medio naranjo
+		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
 		   setOpaque(true);
@@ -91,113 +93,23 @@ public class HeapSort extends JLayeredPane{
 	 
 	 public void initComponents() {
 		 JLayeredPane panel = new JLayeredPane();
+		   txtNum.setBounds(10, 26, 46, 35);
 		 	
 		   
 		   txtNum.setColumns(10);
-		   btnEliminar.setEnabled(false);
-		   btnEliminar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		eliminarNumeros();
-		   	}
-		   });
-		   btnEliminar.setBounds(66, 37, 89, 23);
-		   add(btnEliminar);
-		   
-		   btnAgregar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		if(txtNum.getText().isEmpty()) {
-					Princ.txtMensaje.setText("Digite un número");
-					txtNum.requestFocus();
-				}else {
-					btnEliminar.setEnabled(true);
-					txtNum.requestFocus();
-					Princ.txtMensaje.setText("");
-					contadorNumeros++;
-					if(listaNumerica.size()==10) {
-						txtNum.setEditable(false);
-						btnAgregar.setEnabled(false);
-						Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");
-							
-					}
-					iniciarNumeros(0);
-					System.out.println("lista label:");
-					for(int i = 0; i < listaNumericaUsuario.size();i++) {
-						System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
-					}
-					
-					System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
-					agregarYMover(0,0);
-				}
-			
-		   	}
-		   });
-		   btnAgregar.setBounds(67, 3, 88, 23);
-		   add(btnAgregar);
 		   
 		   
 		   add(txtNum);
-		   txtRuta.setBounds(165, 11, 213, 35);
+		   txtRuta.setBounds(138, 26, 240, 35);
 		   add(txtRuta);
 		   
-		   JButton btnAgregarArchivo = new JButton("Agregar Archivo");
-		   btnAgregarArchivo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		if(listaNumerica.size()>0) {
-					Princ.txtMensaje.setText("Primero elimine todos los números");
-				}else {
-					Princ.txtMensaje.setText("");
-					eliminarListaCompleta();
-					JFileChooser jf = new JFileChooser();
-					jf.showOpenDialog(panel);
-					File archivo = jf.getSelectedFile();
-					if(archivo != null) {
-						txtRuta.setText(archivo.getAbsolutePath());
-						Proceso.leerArchivo(archivo.getAbsolutePath());
-					}
-					iniciarNumeros(1);
-					new Thread() {
-						public void run() {
-							int i=0;
-							while(!Thread.currentThread().isInterrupted() && i<11){
-							agregarYMover(1,i);
-							i++;
-							Proceso.dormir(100);
-							}
-						}
-					}.start();	
-					btnEliminar.setEnabled(true);
-					txtNum.setEditable(false);
-					btnAgregar.setEnabled(false);
-				}	
-			}
-
-		   	
-		   });
-		   
-		   
-		   btnAgregarArchivo.setBounds(388, 18, 143, 23);
-		   add(btnAgregarArchivo);
-		   
 		   utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
-		   lblTiempoEjec.setBounds(780, 22, 156, 14);
+		   lblTiempoEjec.setBounds(761, 8, 78, 20);
 		   add(lblTiempoEjec);
-		   JButton btnOrdenar = new JButton("Ordenar");
-		   btnOrdenar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
-		   	}
-		   });
-		   btnOrdenar.setBounds(446, 52, 89, 23);
-		   add(btnOrdenar);
+		   
 		   tmpEjec.setText("Tiempo de ejecucci\u00F3n: ");
-		   tmpEjec.setBounds(586, 22, 184, 20);
-		   
-		   
-
-		   
+		   tmpEjec.setBounds(575, 8, 184, 20);
 		   add(tmpEjec);
-		   
-		 
 		   
 		   JButton btnTiempo = new JButton("Calcular tiempo");
 		   btnTiempo.addActionListener(new ActionListener() {
@@ -206,16 +118,16 @@ public class HeapSort extends JLayeredPane{
 		   		Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario, tmpsArreglo);
 		   		long fin = System.currentTimeMillis();
 		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
-		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");
+		   		lblTiempoEjec.setText(""+tiempo+"[ms]");
 		   		imprimirListaNumerica(listaNumerica);
 		   		
 		   	}
 		   });
-		   btnTiempo.setBounds(446, 86, 143, 23);
+		   btnTiempo.setBounds(638, 254, 143, 23);
 		   add(btnTiempo);
 		   
-		   txtTamano = new JTextField();
-		   txtTamano.setBounds(486, 136, 86, 20);
+		   
+		   txtTamano.setBounds(753, 61, 100, 24);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -227,11 +139,11 @@ public class HeapSort extends JLayeredPane{
 		   		Ordenamientos.heapSort(Proceso.lista, listaNumericaUsuario,tmpsArreglo);
 		   		long fin = System.currentTimeMillis();
 		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
-		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");
+		   		lblTiempoEjec.setText(""+tiempo+"[ms]");
 		   		Princ.txtMensaje.setText("Ordenamiento completado");
 		   	}
 		   });
-		   btnOrdenarRandom.setBounds(603, 135, 156, 23);
+		   btnOrdenarRandom.setBounds(697, 185, 156, 23);
 		   add(btnOrdenarRandom);
 		   btnCrearListRandom.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent arg0) {
@@ -239,22 +151,53 @@ public class HeapSort extends JLayeredPane{
 		   		Proceso.crearListaRandom(tamanoLista);
 		   	}
 		   });
-		   btnCrearListRandom.setBounds(599, 101, 160, 23);
 		   
+		   utils.Label CrearListaRandom = new utils.Label("Crear lista random: ",697, 151, 160, 23);
 		   add(btnCrearListRandom);
 		   
 		 
 		   BotonLabel(lblAgregar, agregarBlanco, agregarVerde, agregarGris, 1);
 		   lblAgregar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_4.png")));
-		   lblAgregar.setBounds(112, 71, 30, 30);
+		   lblAgregar.setBounds(66, 31, 30, 30);
 		   add(lblAgregar);
 		   
 		   BotonLabel(lblEliminar, eliminarBlanco, eliminarRojo, eliminarGris, 2);
 		   lblEliminar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_1.png")));
-		   lblEliminar.setBounds(109, 127, 30, 30);
+		   lblEliminar.setBounds(98, 31, 30, 30);
 		   lblEliminar.setEnabled(false);
 		   
 		   add(lblEliminar);
+		   
+		   BotonLabel(lblArchivo, archivoNaranja, archivoBlanco, archivoGris, 3);
+		   lblArchivo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_2.png")));
+		   lblArchivo.setBounds(384, 31, 30, 30);
+		   
+		   add(lblArchivo);
+		   
+		   utils.Label ordenar = new utils.Label("Ordenar", 463, 11, 78, 14);
+		   ordenar.setSize(78, 20);
+		   ordenar.setLocation(428, 8);
+		   add(ordenar);
+		   
+		   BotonLabel(lblOrdenar, ordenarNaranja, ordenarBlanco, ordenarGris, 4);
+		   lblOrdenar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_direction_30px_3.png")));
+		   lblOrdenar.setBounds(452, 31, 30, 30);
+		   add(lblOrdenar);
+		   
+		   
+		   CrearListaRandom.setBounds(575, 103, 170, 30);
+		   add(CrearListaRandom);
+		   
+		   BotonLabel(lblCrearListaRandom, crearRandomNaranjo, crearRandomBlanco, crearRandomGris, 5);
+		   lblCrearListaRandom.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png")));
+		   lblCrearListaRandom.setBounds(751, 103, 30, 30);
+		   
+		   add(lblCrearListaRandom);
+		   
+		   utils.Label lblCantidadLista = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
+		   lblCantidadLista.setText("Tama\u00F1o de la lista: ");
+		   lblCantidadLista.setBounds(571, 61, 170, 30);
+		   add(lblCantidadLista);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -287,22 +230,24 @@ public class HeapSort extends JLayeredPane{
 	 }
 	 
 		public static void eliminarNumeros() {
-			txtNum.requestFocus();
-			Princ.txtMensaje.setText("");
-			Princ.heap.remove(listaNumericaUsuario.get(contadorNumeros));
-			Princ.heap.repaint();
-			listaNumerica.remove(contadorNumeros);
-			listaNumericaUsuario.remove(contadorNumeros);
-			System.out.println(""+listaNumerica);
-			System.out.println("cantidad de numeros:"+listaNumerica.size());
+			
+			if(listaNumerica.size()==0 || contadorNumeros == -1) {
+				lblAgregar.setEnabled(true);
+				Princ.txtMensaje.setText("No hay número que eliminar");
+				lblEliminar.setEnabled(false);
+			}else {
+				txtNum.requestFocus();
+				Princ.txtMensaje.setText("");
+				Princ.heap.remove(listaNumericaUsuario.get(contadorNumeros));
+				Princ.heap.repaint();
+				listaNumerica.remove(contadorNumeros);
+				listaNumericaUsuario.remove(contadorNumeros);
+				System.out.println(""+listaNumerica);
+				System.out.println("cantidad de numeros:"+listaNumerica.size());
 			contadorNumeros--;
 			lblAgregar.setEnabled(true);
 			txtNum.setEditable(true);
 			txtRuta.setText("");
-			if(listaNumerica.size()==0) {
-				lblAgregar.setEnabled(true);
-				Princ.txtMensaje.setText("No hay número que eliminar");
-				lblEliminar.setEnabled(false);
 			}
 		}
 	 
@@ -318,7 +263,7 @@ public class HeapSort extends JLayeredPane{
 			System.out.println("cantidad de Numeros del arreglo: "+ numerosArreglo.size());
 			System.out.println("contadorNumeros: "+ contadorNumeros);
 			txtNum.setEditable(true);
-			btnAgregar.setEnabled(true);
+			//btnAgregar.setEnabled(true);
 			System.out.println(""+listaNumerica);
 			Princ.heap.repaint();
 		}
@@ -326,7 +271,7 @@ public class HeapSort extends JLayeredPane{
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
-				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 70, 46, 14);
+				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 80, 46, 14);
 				Princ.heap.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {
@@ -340,7 +285,7 @@ public class HeapSort extends JLayeredPane{
 				
 				System.out.println("posicion del arreglo: "+posNumero);
 				//imprimirListaNumericaDeLabels(listaNumericaUsuario);
-				listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
+				listaNumericaUsuario.get(posNumero).setBounds(20, 80, 46, 14);
 				Princ.heap.add(listaNumericaUsuario.get(posNumero),new Integer(1));
 				new Thread() {
 					public void run() {
@@ -398,7 +343,7 @@ public class HeapSort extends JLayeredPane{
 		if(listaNumerica.size()>0) {
 			return true;
 		}else {
-			btnEliminar.setEnabled(false);
+			lblEliminar.setEnabled(false);
 			return false;
 		}
 	}
@@ -456,7 +401,7 @@ public class HeapSort extends JLayeredPane{
 		numero.setText(""+n);
 		numero.setFont(new Font("Calibri", 3, 19));
 		listaNumericaUsuario.add(numero);
-		btnEliminar.setEnabled(true);
+		lblEliminar.setEnabled(true);
 	}
 	
 	public static void imprimirListaNumerica(List<Integer> lista) {
@@ -493,10 +438,52 @@ public class HeapSort extends JLayeredPane{
 				switch(opc) {
 				case 1: agregarLabelAction();break;
 				case 2: eliminarLabelAction();break;
+				case 3: agregarArchivoLabelAction();break;
+				case 4: ordenarLabelAction();break;
+				case 5: crearListaRandomLabelAction();break;
 				}
 				
 			}
 		});
+	}
+	
+	public static void ordenarLabelAction() {
+		Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+	}
+	
+	public static void agregarArchivoLabelAction() {
+		if(listaNumerica.size()>0) {
+			Princ.txtMensaje.setText("Primero elimine todos los números");
+		}else {
+			Princ.txtMensaje.setText("");
+			eliminarListaCompleta();
+			JFileChooser jf = new JFileChooser();
+			jf.showOpenDialog(panel);
+			File archivo = jf.getSelectedFile();
+			if(archivo != null) {
+				txtRuta.setText(archivo.getAbsolutePath());
+				Proceso.leerArchivo(archivo.getAbsolutePath());
+				iniciarNumeros(1);
+				new Thread() {
+					public void run() {
+						int i=0;
+						while(!Thread.currentThread().isInterrupted() && i<11){
+						agregarYMover(1,i);
+						i++;
+						Proceso.dormir(100);
+						}
+					}
+				}.start();	
+				lblEliminar.setEnabled(true);
+				txtNum.setEditable(false);
+				lblAgregar.setEnabled(false);
+			}
+		}	
+	}
+	public static void crearListaRandomLabelAction() {
+		int tamanoLista = Integer.parseInt(txtTamano.getText());
+   		Proceso.crearListaRandom(tamanoLista);
+   		txtTamano.setText("");
 	}
 	
 	public static void agregarLabelAction() {
@@ -529,11 +516,19 @@ public class HeapSort extends JLayeredPane{
 		eliminarNumeros();
 	}
 	
+	ImageIcon crearRandomBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png"));
+	ImageIcon crearRandomNaranjo = new ImageIcon(HeapSort.class.getResource("/Image/icons8_sort_by_creation_date_30px_2.png"));
+	ImageIcon crearRandomGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_sort_by_creation_date_30px_1.png"));
+	ImageIcon ordenarGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_direction_30px_1.png"));
+	ImageIcon ordenarBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_direction_30px_3.png"));
+	ImageIcon ordenarNaranja = new ImageIcon(HeapSort.class.getResource("/Image/icons8_direction_30px_2.png"));
+	ImageIcon archivoNaranja = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_1.png"));
+	ImageIcon archivoGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_3.png"));
+	ImageIcon archivoBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_2.png"));
 	ImageIcon eliminarBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_3.png"));
 	ImageIcon eliminarGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px.png"));
 	ImageIcon eliminarRojo = new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_1.png"));
 	ImageIcon agregarBlanco = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px.png"));
 	ImageIcon agregarVerde = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_4.png"));
 	ImageIcon agregarGris = new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_5.png"));
-	
 }
