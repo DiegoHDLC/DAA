@@ -33,12 +33,13 @@ public class Proceso {
 	}
 	
 	public static void crearListaRandom(int tamanoLista) {
+		
 		for(int i = 0; i < tamanoLista;i++) {
 			int numero = (int) Math.floor(Math.random()*9+1);
 			lista.add(numero);
 		}
 		Princ.txtMensaje.setText("Lista de tamaño "+"["+tamanoLista+"]"+" creada con éxito");
-		//HeapSort.imprimirListaNumerica(lista);
+		HeapSort.imprimirListaNumerica(lista);
 	}
 	
 	

@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Label;
 import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -17,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.xml.bind.ParseConversionEvent;
 
 import procesos.Animaciones;
 import procesos.Ordenamientos;
@@ -27,11 +30,19 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
+	
 public class QuickSort extends JLayeredPane{
+	public static utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
+	public static JLabel lblCrearListaRandom = new JLabel();
+	public static JLabel lblArchivo = new JLabel();
+	public static JLabel lblEliminar = new JLabel();
+	public static JLabel lblAgregar = new JLabel();
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
 	static JLayeredPane panel = new JLayeredPane();
 	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
@@ -44,19 +55,18 @@ public class QuickSort extends JLayeredPane{
 	volatile static boolean ejecutar = true;
 	public static int contadorNumeros = -1;
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
-	public static JButton btnAgregar = new JButton("Agregar");
-	public static JButton btnEliminar = new JButton("Eliminar");
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
 	public static int n;
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
-	private final JLabel lblTiempoEjeccucion = new JLabel("Tiempo de ejecuci\u00F3n");
+	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
+	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
 	
 	
 	
 	 public QuickSort() {
-		   setBackground(new Color(235,137,4));//color medio naranjo
+		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
 		   setOpaque(true);
@@ -81,107 +91,78 @@ public class QuickSort extends JLayeredPane{
 	 
 	 public void initComponents() {
 		 JLayeredPane panel = new JLayeredPane();
+		   txtNum.setBounds(10, 26, 46, 35);
 		 	
 		   
 		   txtNum.setColumns(10);
 		   
 		   
-		   
-		   
-		   btnEliminar.setEnabled(false);
-		   btnEliminar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		eliminarNumeros();
-		   	}
-		   });
-		   btnEliminar.setBounds(66, 37, 89, 23);
-		   add(btnEliminar);
-		   
-		   btnAgregar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		if(txtNum.getText().isEmpty()) {
-					//Princ.txtMensaje.setText("Digite un número");
-					txtNum.requestFocus();
-				}else {
-					btnEliminar.setEnabled(true);
-					txtNum.requestFocus();
-					Princ.txtMensaje.setText("");
-					contadorNumeros++;
-					if(listaNumerica.size()==10) {
-						txtNum.setEditable(false);
-						btnAgregar.setEnabled(false);
-						Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");
-							
-					}
-					iniciarNumeros(0);
-					System.out.println("lista label:");
-					for(int i = 0; i < listaNumericaUsuario.size();i++) {
-						System.out.print("[ "+listaNumericaUsuario.get(i).getText()+"], ");
-					}
-					
-					System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
-					agregarYMover(0,0);
-				}
-			
-		   	}
-		   });
-		   btnAgregar.setBounds(67, 3, 88, 23);
-		   add(btnAgregar);
-		   
-		   
 		   add(txtNum);
+		   txtRuta.setBounds(138, 26, 240, 35);
 		   add(txtRuta);
 		   
-		   JButton btnAgregarArchivo = new JButton("Agregar Archivo");
-		   btnAgregarArchivo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		if(listaNumerica.size()>0) {
-					Princ.txtMensaje.setText("Primero elimine todos los números");
-				}else {
-					Princ.txtMensaje.setText("");
-					eliminarListaCompleta();
-					JFileChooser jf = new JFileChooser();
-					jf.showOpenDialog(panel);
-					File archivo = jf.getSelectedFile();
-					if(archivo != null) {
-						txtRuta.setText(archivo.getAbsolutePath());
-						Proceso.leerArchivo(archivo.getAbsolutePath());
-					}
-					iniciarNumeros(1);
-					new Thread() {
-						public void run() {
-							int i=0;
-							while(!Thread.currentThread().isInterrupted() && i<11){
-							agregarYMover(1,i);
-							i++;
-							Proceso.dormir(100);
-							}
-						}
-					}.start();	
-					btnEliminar.setEnabled(true);
-					txtNum.setEditable(false);
-					btnAgregar.setEnabled(false);
-				}	
-			}
-
-		   	
-		   });
-		   btnAgregarArchivo.setBounds(388, 18, 143, 23);
-		   add(btnAgregarArchivo);
 		   
-		   JButton btnOrdenar = new JButton("Ordenar");
-		   btnOrdenar.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
-		   		imprimirListaNumerica(listaNumerica);
-		   		//Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
-		   	}
-		   });
-		   btnOrdenar.setBounds(446, 52, 89, 23);
-		   add(btnOrdenar);
-		   lblTiempoEjeccucion.setBounds(590, 41, 97, 14);
+		   lblTiempoEjec.setBounds(772, 166, 110, 20);
+		   add(lblTiempoEjec);
+		   tmpEjec.setHorizontalAlignment(SwingConstants.LEFT);
 		   
-		   add(lblTiempoEjeccucion);
+		   tmpEjec.setText("Tiempo de ejecucci\u00F3n: ");
+		   tmpEjec.setBounds(578, 166, 184, 20);
+		   add(tmpEjec);
+		   
+		   
+		   txtTamano.setBounds(758, 45, 100, 24);
+		   add(txtTamano);
+		   txtTamano.setColumns(10);
+		   
+		   utils.Label CrearListaRandom = new utils.Label("Crear lista random: ",697, 151, 160, 23);
+		   CrearListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
+		 
+		   BotonLabel(lblAgregar, agregarBlanco, agregarVerde, agregarGris, 1);
+		   lblAgregar.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_new_30px_4.png")));
+		   lblAgregar.setBounds(66, 31, 30, 30);
+		   add(lblAgregar);
+		   
+		   BotonLabel(lblEliminar, eliminarBlanco, eliminarRojo, eliminarGris, 2);
+		   lblEliminar.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_reduce_30px_1.png")));
+		   lblEliminar.setBounds(98, 31, 30, 30);
+		   lblEliminar.setEnabled(false);
+		   
+		   add(lblEliminar);
+		   
+		   BotonLabel(lblArchivo, archivoNaranja, archivoBlanco, archivoGris, 3);
+		   lblArchivo.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_file_30px_2.png")));
+		   lblArchivo.setBounds(384, 31, 30, 30);
+		   
+		   add(lblArchivo);
+		   
+		   
+		   CrearListaRandom.setBounds(578, 84, 170, 30);
+		   add(CrearListaRandom);
+		   
+		   BotonLabel(lblCrearListaRandom, crearRandomNaranjo, crearRandomBlanco, crearRandomGris, 5);
+		   lblCrearListaRandom.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png")));
+		   lblCrearListaRandom.setBounds(784, 84, 30, 30);
+		   
+		   add(lblCrearListaRandom);
+		   
+		   utils.Label lblCantidadLista = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
+		   lblCantidadLista.setHorizontalAlignment(SwingConstants.LEFT);
+		   lblCantidadLista.setText("Tama\u00F1o de la lista: ");
+		   lblCantidadLista.setBounds(578, 43, 170, 30);
+		   add(lblCantidadLista);
+		   
+		   utils.Label OrdenarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
+		   OrdenarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
+		   OrdenarListaRandom.setText("Ordenar lista random: ");
+		   OrdenarListaRandom.setBounds(578, 125, 199, 30);
+		   add(OrdenarListaRandom);
+		   
+		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
+		   lblOrdenarRandom.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
+		   lblOrdenarRandom.setBounds(784, 125, 30, 30);
+		   
+		   add(lblOrdenarRandom);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -214,22 +195,24 @@ public class QuickSort extends JLayeredPane{
 	 }
 	 
 		public static void eliminarNumeros() {
-			txtNum.requestFocus();
-			Princ.txtMensaje.setText("");
-			Princ.qk.remove(listaNumericaUsuario.get(contadorNumeros));
-			Princ.qk.repaint();
-			listaNumerica.remove(contadorNumeros);
-			listaNumericaUsuario.remove(contadorNumeros);
-			System.out.println(""+listaNumerica);
-			System.out.println("cantidad de numeros:"+listaNumerica.size());
+			
+			if(listaNumerica.size()==0 || contadorNumeros == -1) {
+				lblAgregar.setEnabled(true);
+				Princ.txtMensaje.setText("No hay número que eliminar");
+				lblEliminar.setEnabled(false);
+			}else {
+				txtNum.requestFocus();
+				Princ.txtMensaje.setText("");
+				Princ.qk.remove(listaNumericaUsuario.get(contadorNumeros));
+				Princ.qk.repaint();
+				listaNumerica.remove(contadorNumeros);
+				listaNumericaUsuario.remove(contadorNumeros);
+				System.out.println(""+listaNumerica);
+				System.out.println("cantidad de numeros:"+listaNumerica.size());
 			contadorNumeros--;
-			btnAgregar.setEnabled(true);
+			lblAgregar.setEnabled(true);
 			txtNum.setEditable(true);
 			txtRuta.setText("");
-			if(listaNumerica.size()==0) {
-				btnAgregar.setEnabled(true);
-				Princ.txtMensaje.setText("No hay número que eliminar");
-				btnEliminar.setEnabled(false);
 			}
 		}
 	 
@@ -245,7 +228,7 @@ public class QuickSort extends JLayeredPane{
 			System.out.println("cantidad de Numeros del arreglo: "+ numerosArreglo.size());
 			System.out.println("contadorNumeros: "+ contadorNumeros);
 			txtNum.setEditable(true);
-			btnAgregar.setEnabled(true);
+			//btnAgregar.setEnabled(true);
 			System.out.println(""+listaNumerica);
 			Princ.qk.repaint();
 		}
@@ -253,7 +236,7 @@ public class QuickSort extends JLayeredPane{
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
-				listaNumericaUsuario.get(contadorNumeros).setBounds(20, 70, 46, 14);
+				listaNumericaUsuario.get(contadorNumeros).setBounds(0, 80, 46, 14);
 				Princ.qk.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {
@@ -267,7 +250,7 @@ public class QuickSort extends JLayeredPane{
 				
 				System.out.println("posicion del arreglo: "+posNumero);
 				//imprimirListaNumericaDeLabels(listaNumericaUsuario);
-				listaNumericaUsuario.get(posNumero).setBounds(20, 50, 46, 14);
+				listaNumericaUsuario.get(posNumero).setBounds(0, 80, 46, 14);
 				Princ.qk.add(listaNumericaUsuario.get(posNumero),new Integer(1));
 				new Thread() {
 					public void run() {
@@ -309,6 +292,10 @@ public class QuickSort extends JLayeredPane{
 		Thread.currentThread().notify();
 	}
 	
+	public static void tiempoEjecucion() {
+		
+	}
+	
 	
 	public static int leerNumeroArchivo() {
 		int n;
@@ -321,7 +308,7 @@ public class QuickSort extends JLayeredPane{
 		if(listaNumerica.size()>0) {
 			return true;
 		}else {
-			btnEliminar.setEnabled(false);
+			lblEliminar.setEnabled(false);
 			return false;
 		}
 	}
@@ -379,7 +366,7 @@ public class QuickSort extends JLayeredPane{
 		numero.setText(""+n);
 		numero.setFont(new Font("Calibri", 3, 19));
 		listaNumericaUsuario.add(numero);
-		btnEliminar.setEnabled(true);
+		lblEliminar.setEnabled(true);
 	}
 	
 	public static void imprimirListaNumerica(List<Integer> lista) {
@@ -395,7 +382,139 @@ public class QuickSort extends JLayeredPane{
 		return n;
 	}
 	
+	public void BotonLabel(JLabel label,Icon Entered, Icon Exited, Icon Pressed, int opc) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				label.setIcon(Entered);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				label.setIcon(Exited);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				label.setIcon(Pressed);
+				
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				label.setIcon(Entered);
+				switch(opc) {
+				case 1: agregarLabelAction();break;
+				case 2: eliminarLabelAction();break;
+				case 3: agregarArchivoLabelAction();break;
+				case 4: ordenarLabelAction();break;
+				case 5: crearListaRandomLabelAction();break;
+				case 6: ordenarListaRandomLabelAction();break;
+				}
+				
+			}
+		});
+	}
 	
-
-	 
+	public static void ordenarListaRandomLabelAction() {
+		Princ.txtMensaje.setText("");
+   		long inicio = System.currentTimeMillis();
+   		Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+   		long fin = System.currentTimeMillis();
+   		double tiempo = (double) ((fin - inicio)/*/1000*/);
+   		lblTiempoEjec.setText(""+tiempo+"[ms]");
+   		Princ.txtMensaje.setText("Ordenamiento completado");
+	}
+	
+	public static void ordenarLabelAction() {
+		if(listaNumerica.size() == 0) {
+			Princ.txtMensaje.setText("Primero agregue numeros a la lista");
+		}else {
+			if(Animaciones.verificaOrd(listaNumerica)) {
+				Princ.txtMensaje.setText("Lista ordenada");
+			}else {
+				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+			}
+		}
+	}
+	
+	public static void agregarArchivoLabelAction() {
+		if(listaNumerica.size()>0) {
+			Princ.txtMensaje.setText("Primero elimine todos los números");
+		}else {
+			Princ.txtMensaje.setText("");
+			eliminarListaCompleta();
+			JFileChooser jf = new JFileChooser();
+			jf.showOpenDialog(panel);
+			File archivo = jf.getSelectedFile();
+			if(archivo != null) {
+				txtRuta.setText(archivo.getAbsolutePath());
+				Proceso.leerArchivo(archivo.getAbsolutePath());
+				iniciarNumeros(1);
+				new Thread() {
+					public void run() {
+						int i=0;
+						while(!Thread.currentThread().isInterrupted() && i<11){
+						agregarYMover(1,i);
+						i++;
+						Proceso.dormir(100);
+						}
+					}
+				}.start();	
+				lblEliminar.setEnabled(true);
+				txtNum.setEditable(false);
+				lblAgregar.setEnabled(false);
+			}
+		}	
+	}
+	public static void crearListaRandomLabelAction() {
+		int tamanoLista = Integer.parseInt(txtTamano.getText());
+   		Proceso.crearListaRandom(tamanoLista);
+   		txtTamano.setText("");
+   		lblTiempoEjec.setText("");
+	}
+	
+	public static void agregarLabelAction() {
+		
+		if(txtNum.getText().isEmpty()) {
+			Princ.txtMensaje.setText("Digite un número");
+			txtNum.requestFocus();
+		}else {
+			lblEliminar.setEnabled(true);
+			txtNum.requestFocus();
+			Princ.txtMensaje.setText("");
+			contadorNumeros++;
+			iniciarNumeros(0);
+			System.out.println("\ncantidad de numeros label"+listaNumericaUsuario.size());
+			agregarYMover(0,0);
+		}
+		if(listaNumerica.size()==11) {
+			txtNum.setEditable(false);
+			lblAgregar.setEnabled(false);
+			Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");
+				
+		}
+		
+	}
+	
+	public static void eliminarLabelAction() {
+		eliminarNumeros();
+	}
+	
+	ImageIcon ordenarRandomNaranja = new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px.png"));
+	ImageIcon ordenarRandomGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px_1.png"));
+	ImageIcon ordenarRandomBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px_2.png"));
+	ImageIcon crearRandomBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png"));
+	ImageIcon crearRandomNaranjo = new ImageIcon(QuickSort.class.getResource("/Image/icons8_sort_by_creation_date_30px_2.png"));
+	ImageIcon crearRandomGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_sort_by_creation_date_30px_1.png"));
+	ImageIcon ordenarGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_direction_30px_1.png"));
+	ImageIcon ordenarBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_direction_30px_3.png"));
+	ImageIcon ordenarNaranja = new ImageIcon(QuickSort.class.getResource("/Image/icons8_direction_30px_2.png"));
+	ImageIcon archivoNaranja = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_file_30px_1.png"));
+	ImageIcon archivoGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_file_30px_3.png"));
+	ImageIcon archivoBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_file_30px_2.png"));
+	ImageIcon eliminarBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_reduce_30px_3.png"));
+	ImageIcon eliminarGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_reduce_30px.png"));
+	ImageIcon eliminarRojo = new ImageIcon(QuickSort.class.getResource("/Image/icons8_reduce_30px_1.png"));
+	ImageIcon agregarBlanco = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_new_30px.png"));
+	ImageIcon agregarVerde = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_new_30px_4.png"));
+	ImageIcon agregarGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_add_new_30px_5.png"));
+	private final JLabel lblOrdenarRandom = new JLabel("");
 }
