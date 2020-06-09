@@ -365,7 +365,7 @@ public class HeapSort extends JLayeredPane{
 	public static void ordenarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
    		long inicio = System.currentTimeMillis();
-   		Ordenamientos.heapSort(listRandom, listaNumericaUsuario,tmpsArreglo);
+   		Ordenamientos.heapSort(listRandom);
    		long fin = System.currentTimeMillis();
    		double tiempo = (double) ((fin - inicio)/*/1000*/);
    		//imprimirListaNumerica(listRandom);

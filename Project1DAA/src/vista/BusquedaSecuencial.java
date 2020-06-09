@@ -196,7 +196,7 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   btnTiempo.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent arg0) {
 		   		long inicio = System.currentTimeMillis();
-		   		Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario, tmpsArreglo);
+		   		Ordenamientos.heapSort(listaNumerica);
 		   		long fin = System.currentTimeMillis();
 		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
 		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");
@@ -217,7 +217,7 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   	public void actionPerformed(ActionEvent arg0) {
 		   		Princ.txtMensaje.setText("");
 		   		long inicio = System.currentTimeMillis();
-		   		Ordenamientos.heapSort(Proceso.lista, listaNumericaUsuario,tmpsArreglo);
+		   		Ordenamientos.heapSort(Proceso.lista);
 		   		long fin = System.currentTimeMillis();
 		   		double tiempo = (double) ((fin - inicio)/*/1000*/);
 		   		lblTiempoEjec.setText(""+tiempo+"[milisegundos]");

@@ -405,19 +405,19 @@ public class BubbleSort extends JLayeredPane{
 				case 2: eliminarLabelAction();break;
 				case 3: agregarArchivoLabelAction();break;
 				case 4: ordenarLabelAction();break;
-				case 5: crearListaRandomLabelAction();break;
-				case 6: ordenarListaRandomLabelAction();break;
+				case 5: listRandom = crearListaRandomLabelAction();break;
+				case 6: ordenarListaRandomLabelAction(listRandom);break;
 				}
 				
 			}
 		});
 	}
 	
-	public static void ordenarListaRandomLabelAction() {
+	public static void ordenarListaRandomLabelAction(ArrayList<Integer> listRand) {
 		Princ.txtMensaje.setText("");
    		long inicio = System.currentTimeMillis();
-   		Ordenamientos.bubbleSort(listaNumerica);
-   		imprimirListaNumerica(listaNumerica);
+   		Ordenamientos.bubbleSort(listRand);
+   		//imprimirListaNumerica(listRand);
    		long fin = System.currentTimeMillis();
    		double tiempo = (double) ((fin - inicio)/*/1000*/);
    		lblTiempoEjec.setText(""+tiempo+"[ms]");
@@ -465,13 +465,14 @@ public class BubbleSort extends JLayeredPane{
 			}
 		}	
 	}
-	public static void crearListaRandomLabelAction() {
+	public static ArrayList<Integer> crearListaRandomLabelAction() {
 		int tamanoLista = Integer.parseInt(txtTamano.getText());
 		listRandom = new ArrayList<Integer>();
    		listRandom = Proceso.crearListaRandom(tamanoLista);
-   		imprimirListaNumerica(listRandom);
+   		//imprimirListaNumerica(listRandom);
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
+		return listRandom;
 	}
 	
 	public static void agregarLabelAction() {

@@ -24,12 +24,12 @@ public class Ordenamientos {
     private static int age;
 	private static Scanner myObj;
     
-    public static void heapSort(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp) {
+    public static void heapSort(List<Integer> listInt) {
 		int n = listInt.size();
 		  
 	      // Build max heap
 	      for (int i = n / 2 - 1; i >= 0; i--) {
-	        heapify(listInt, listLabel, tmp, n, i);
+	        heapify(listInt, n, i);
 	      }
 	  
 	      // Heap sort
@@ -39,11 +39,11 @@ public class Ordenamientos {
 	        listInt.set(i, temp);
 	  
 	        // Heapify root element
-	        heapify(listInt,listLabel,tmp, i, 0);
+	        heapify(listInt, i, 0);
 	      }
 	}
     
-    public static void heapify(List<Integer> listInt, List<JLabel> listLabel, List<JLabel> tmp, int n, int i) {
+    public static void heapify(List<Integer> listInt, int n, int i) {
 		 // Find largest among root, left child and right child
 	      int largest = i;
 	      int l = 2 * i + 1;
@@ -61,7 +61,7 @@ public class Ordenamientos {
 	        int swap = listInt.get(i);
 	        listInt.set(i, listInt.get(largest));
 	        listInt.set(largest, swap);
-	        heapify(listInt,listLabel, tmp, n, largest);
+	        heapify(listInt, n, largest);
 	      }
 	}
     

@@ -1,6 +1,5 @@
-/vista/
-/utils/
-/Image/
+/OrdenTest.class
 /procesos/
-/mcv/
-/modelo/
+/vista/
+/BusquedaTest.class
+/StressTestCrearArreglo.class

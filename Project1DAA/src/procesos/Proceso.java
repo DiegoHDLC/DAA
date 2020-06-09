@@ -27,6 +27,15 @@ public class Proceso {
 		
 	}
 	
+	public static ArrayList<Integer> crearLista(int tamano) {
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0; i < tamano;i++) {
+			int numero = i;
+			list.add(numero);
+		}
+		return (ArrayList<Integer>) list;
+	}
+	
 	public static void crearListaCero() {
 		for(int i = 0; i < 11; i++) {
 			lista.add(i);
