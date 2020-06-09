@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Label;
 import java.awt.Stroke;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -23,8 +24,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.bind.ParseConversionEvent;
 
 
-import utils.BotonesLabels;
+
 import procesos.Animaciones;
+import procesos.Busqueda;
 import procesos.Ordenamientos;
 import procesos.Proceso;
 import utils.CajaTexto;
@@ -41,6 +43,7 @@ import java.awt.event.ActionEvent;
 @SuppressWarnings("serial")
 	
 public class BusquedaBinaria extends JLayeredPane{
+	public static ArrayList<Integer> listRandom;
 	public static utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
 	public static JLabel lblCrearListaRandom = new JLabel();
 	public static JLabel lblBuscar = new JLabel();
@@ -66,7 +69,8 @@ public class BusquedaBinaria extends JLayeredPane{
 	public static List<JLabel> listCuadrados;
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
-	public static CajaTexto cajaBuscar = new CajaTexto(444, 34, 46, 20);
+	public static CajaTexto txtBuscar = new CajaTexto(444, 34, 46, 20);
+	public static CajaTexto txtBuscarRandom = new CajaTexto(444, 34, 46, 20);
 	
 	
 	
@@ -116,7 +120,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		   add(tmpEjec);
 		   
 		   
-		   txtTamano.setBounds(758, 45, 100, 24);
+		   txtTamano.setBounds(782, 38, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -144,7 +148,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		   utils.Label buscar = new utils.Label("Ordenar", 463, 11, 78, 14);
 		   buscar.setText("Buscar");
 		   buscar.setSize(78, 20);
-		   buscar.setLocation(477, 11);
+		   buscar.setLocation(452, 0);
 		   add(buscar);
 		   
 		  BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
@@ -168,22 +172,27 @@ public class BusquedaBinaria extends JLayeredPane{
 		   lblCantidadLista.setBounds(578, 43, 170, 30);
 		   add(lblCantidadLista);
 		   
-		   utils.Label OrdenarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
-		   OrdenarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
-		   OrdenarListaRandom.setText("Ordenar lista random: ");
-		   OrdenarListaRandom.setBounds(578, 125, 199, 30);
-		   add(OrdenarListaRandom);
+		   utils.Label BuscarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
+		   BuscarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
+		   BuscarListaRandom.setText("Buscar en lista random: ");
+		   BuscarListaRandom.setBounds(578, 125, 199, 30);
+		   add(BuscarListaRandom);
 		   
-		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
-		   lblOrdenarRandom.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
-		   lblOrdenarRandom.setBounds(784, 125, 30, 30);
+		   BotonLabel(lblBuscarRandom, buscarNaranja, buscarBlanco, buscarGris, 6);
+		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscarRandom.setBounds(840, 120, 30, 35);
 		   
-		   add(lblOrdenarRandom);
+		   add(lblBuscarRandom);
 		   
 		   
-		   cajaBuscar.setBounds(444, 26, 46, 35);
-		   add(cajaBuscar);
-		   cajaBuscar.setColumns(10);
+		   txtBuscar.setBounds(444, 26, 46, 35);
+		   add(txtBuscar);
+		   txtBuscar.setColumns(10);
+		   
+		   
+		   txtBuscarRandom.setColumns(10);
+		   txtBuscarRandom.setBounds(784, 120, 46, 35);
+		   add(txtBuscarRandom);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -395,28 +404,38 @@ public class BusquedaBinaria extends JLayeredPane{
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				
 				label.setIcon(Entered);
 				switch(opc) {
 				case 1: agregarLabelAction();break;
 				case 2: eliminarLabelAction();break;
 				case 3: agregarArchivoLabelAction();break;
 				case 4: buscarLabelAction();break;
-				case 5: crearListaRandomLabelAction();break;
-				case 6: ordenarListaRandomLabelAction();break;
+				case 5: listRandom = crearListaRandomLabelAction();break;
+				case 6: buscarListaRandomLabelAction(listRandom);break;
 				}
 				
 			}
 		});
 	}
 	
-	public static void ordenarListaRandomLabelAction() {
+	public static void buscarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
+   		
+   		String tamanoRandom = txtBuscarRandom.getText();
    		long inicio = System.currentTimeMillis();
-   		Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario,tmpsArreglo);
+   		int numero = Integer.parseInt(txtBuscarRandom.getText());
+   		int resultado = Busqueda.binarySearch(listRandom, numero, 0, listRandom.size()-1);
+   		//Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario,tmpsArreglo);
    		long fin = System.currentTimeMillis();
    		double tiempo = (double) ((fin - inicio)/*/1000*/);
+   		if(resultado == -1) {
+			Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
+		}else {
+			Princ.txtMensaje.setText("Numero "+numero+" encontrado");
+		}
    		lblTiempoEjec.setText(""+tiempo+"[ms]");
-   		Princ.txtMensaje.setText("Ordenamiento completado");
+   		
 	}
 	
 	public static void buscarLabelAction() {
@@ -424,11 +443,16 @@ public class BusquedaBinaria extends JLayeredPane{
 			Princ.txtMensaje.setText("Primero agregue numeros a la lista");
 		}else {
 			if(Proceso.verificaOrd(listaNumerica)) {
-				Princ.txtMensaje.setText("Lista ordenada");
-				
+				//txtBuscar.setText("");
+				int numero = Integer.parseInt(txtBuscar.getText());
+				int resultado = Busqueda.binarySearch(listaNumerica, numero, 0, listaNumerica.size()-1);
+				if(resultado == -1) {
+					Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
+				}else {
+					Princ.txtMensaje.setText("Numero "+numero+" encontrado");
+				}
 			}else {
 				Princ.txtMensaje.setText("La lista debe estar ordenada para usar este metodo de búsqueda");
-			
 			}
 		}
 	}
@@ -463,12 +487,15 @@ public class BusquedaBinaria extends JLayeredPane{
 			lblAgregar.setEnabled(false);
 		}	
 	}
-	public static void crearListaRandomLabelAction() {
+	public static ArrayList<Integer> crearListaRandomLabelAction() {
 		int tamanoLista = Integer.parseInt(txtTamano.getText());
-		listaNumerica = Proceso.crearListaRandom(tamanoLista);
-		imprimirListaNumerica(listaNumerica);
+		ArrayList<Integer> listRandom = new ArrayList<Integer>();
+		listRandom = Proceso.crearListaRandom(tamanoLista);
+		Collections.sort(listRandom);
+		imprimirListaNumerica(listRandom);
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
+		return listRandom;
 	}
 	
 	public static void agregarLabelAction() {
@@ -522,6 +549,6 @@ public class BusquedaBinaria extends JLayeredPane{
 	ImageIcon agregarBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px.png"));
 	ImageIcon agregarVerde = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_4.png"));
 	ImageIcon agregarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_5.png"));
-	private final JLabel lblOrdenarRandom = new JLabel("");
+	private final JLabel lblBuscarRandom = new JLabel("");
 	private JTextField textField;
 }

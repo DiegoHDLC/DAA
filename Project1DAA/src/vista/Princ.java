@@ -314,6 +314,7 @@ public static void main(String[] args) {
 			public void mouseClicked(MouseEvent e) {
 				if(segPanel.isVisible() == true || terPanel.isVisible() == true || cuarPanel.isVisible() == true
 						|| quinPanel.isVisible() == true || sextPanel.isVisible() == true) {
+					txtMensaje.setText("");
 					pestPrincipal.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 					pestPrincipal.setBackground(new Color(230, 187, 79));
 					setearPanelYPest(segPestaña, segPanel);

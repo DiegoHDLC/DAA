@@ -37,7 +37,7 @@ public class Proceso {
 	public static ArrayList<Integer> crearListaRandom(int tamanoLista) {
 		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i < tamanoLista;i++) {
-			int numero = (int) Math.floor(Math.random()*9+1);
+			int numero = (int) Math.floor(Math.random()*99+1);
 			list.add(numero);
 		}
 		Princ.txtMensaje.setText("Lista de tamaño "+"["+tamanoLista+"]"+" creada con éxito");

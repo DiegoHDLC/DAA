@@ -111,7 +111,7 @@ public class QuickSort extends JLayeredPane{
 		   add(tmpEjec);
 		   
 		   
-		   txtTamano.setBounds(758, 45, 100, 24);
+		   txtTamano.setBounds(782, 38, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -405,20 +405,21 @@ public class QuickSort extends JLayeredPane{
 				case 2: eliminarLabelAction();break;
 				case 3: agregarArchivoLabelAction();break;
 				case 4: ordenarLabelAction();break;
-				case 5: crearListaRandomLabelAction();break;
-				case 6: ordenarListaRandomLabelAction();break;
+				case 5: listRandom = crearListaRandomLabelAction();break;
+				case 6: ordenarListaRandomLabelAction(listRandom);break;
 				}
 				
 			}
 		});
 	}
 	
-	public static void ordenarListaRandomLabelAction() {
+	public static void ordenarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
    		long inicio = System.currentTimeMillis();
-   		Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+   		Ordenamientos.quickSort(listRandom, 0, listRandom.size()-1);
    		long fin = System.currentTimeMillis();
    		double tiempo = (double) ((fin - inicio)/*/1000*/);
+   		//imprimirListaNumerica(listRandom);
    		lblTiempoEjec.setText(""+tiempo+"[ms]");
    		Princ.txtMensaje.setText("Ordenamiento completado");
 	}
@@ -464,11 +465,15 @@ public class QuickSort extends JLayeredPane{
 			}
 		}	
 	}
-	public static void crearListaRandomLabelAction() {
+	public static ArrayList<Integer> crearListaRandomLabelAction() {
 		int tamanoLista = Integer.parseInt(txtTamano.getText());
-		listaNumerica = Proceso.crearListaRandom(tamanoLista);
+		
+		ArrayList<Integer> listRandom = new ArrayList<Integer>();
+		listRandom = Proceso.crearListaRandom(tamanoLista);
+		//imprimirListaNumerica(listRandom);
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
+		return listRandom;
 	}
 	
 	public static void agregarLabelAction() {
@@ -502,6 +507,8 @@ public class QuickSort extends JLayeredPane{
 	public static void eliminarLabelAction() {
 		eliminarNumeros();
 	}
+	
+	public static ArrayList<Integer> listRandom;
 	
 	ImageIcon ordenarRandomNaranja = new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px.png"));
 	ImageIcon ordenarRandomGris = new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px_1.png"));

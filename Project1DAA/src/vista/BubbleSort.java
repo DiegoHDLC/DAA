@@ -111,7 +111,7 @@ public class BubbleSort extends JLayeredPane{
 		   add(tmpEjec);
 		   
 		   
-		   txtTamano.setBounds(758, 45, 100, 24);
+		   txtTamano.setBounds(782, 38, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -467,8 +467,9 @@ public class BubbleSort extends JLayeredPane{
 	}
 	public static void crearListaRandomLabelAction() {
 		int tamanoLista = Integer.parseInt(txtTamano.getText());
-   		listaNumerica = Proceso.crearListaRandom(tamanoLista);
-   		//imprimirListaNumerica(listaNumerica);
+		listRandom = new ArrayList<Integer>();
+   		listRandom = Proceso.crearListaRandom(tamanoLista);
+   		imprimirListaNumerica(listRandom);
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
 	}
@@ -524,4 +525,5 @@ public class BubbleSort extends JLayeredPane{
 	ImageIcon agregarVerde = new ImageIcon(BubbleSort.class.getResource("/Image/icons8_add_new_30px_4.png"));
 	ImageIcon agregarGris = new ImageIcon(BubbleSort.class.getResource("/Image/icons8_add_new_30px_5.png"));
 	private final JLabel lblOrdenarRandom = new JLabel("");
+	private static ArrayList<Integer> listRandom;
 }
