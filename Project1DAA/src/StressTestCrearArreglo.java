@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class StressTestCrearArreglo {
-
+	
 	
 	public void crearArregloRandom(int tamano) {
 		List<Integer> list = new ArrayList<Integer>();
@@ -18,11 +18,16 @@ class StressTestCrearArreglo {
 	
 	@Test
 	public void probandoArreglo() {
-		crearArregloRandom(100000);//100.000 datos
-		crearArregloRandom(500000);//500.000 datos
-		crearArregloRandom(1000000);//1.000.000
+		//crearArregloRandom(100000);//100.000 datos
+		//crearArregloRandom(500000);//500.000 datos
+		//crearArregloRandom(1000000);//1.000.000 datos
+		//crearArregloRandom(10000000);//10.000.000 datos
+		//crearArregloRandom(25000000);//25.000.000
+		crearArregloRandom(30000000);//30.000.000
 		
 		
+		//crearArregloRandom(50000000);//50.000.000 datos
+		//crearArregloRandom(100000000);//100.000.000 datos
 	}
 
 }
