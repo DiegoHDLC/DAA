@@ -149,6 +149,7 @@ public class Ordenamientos {
         listInt.set(high, temp);
         return (i + 1);
       }
+    
 
       public static void quickSort(List<Integer> listInt, int low, int high) {
         if (low < high) {
@@ -182,8 +183,4 @@ public class Ordenamientos {
     	          lista.set(j+1, temp);
     	        }
       	}
-      
-      
-     
-    
 }

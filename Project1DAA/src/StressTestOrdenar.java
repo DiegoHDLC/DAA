@@ -11,7 +11,7 @@ class StressTestOrdenar {
 
 	
 	public List<Integer> crearArreglo() {
-		int tamano = 100000000; //100.000.000
+		int tamano = 1000000; //100.000.000
 			List<Integer> list = new ArrayList<Integer>();
 			for(int i = 0; i < tamano;i++) {
 				int numero = (int) Math.floor(Math.random()*99+1);
@@ -20,12 +20,28 @@ class StressTestOrdenar {
 			return list;
 	}
 	
-	@Test
-	public void HeapSort() {
+	//@Test
+	public void HeapSort() { //66,828 segundos con 100.000.000 de datos
 		List<Integer> list = new ArrayList<Integer>();
 		list = crearArreglo();
 		Ordenamientos.heapSort(list);
 	}
+	
+	//@Test
+	public void QuickSort() { //42,897 segundos con 1.000.000 de datos
+		List<Integer> list = new ArrayList<Integer>();
+		list = crearArreglo();
+		Ordenamientos.quickSort(list, 0, list.size()-1);
+	}
+	
+	@Test
+	public void BubbleSort() {
+		List<Integer> list = new ArrayList<Integer>();
+		list = crearArreglo();
+		Ordenamientos.bubbleSort(list);
+	}
+	
+	
 }
 
 
