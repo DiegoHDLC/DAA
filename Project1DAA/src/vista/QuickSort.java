@@ -21,6 +21,13 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.bind.ParseConversionEvent;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import procesos.Animaciones;
 import procesos.Ordenamientos;
 import procesos.Proceso;
@@ -62,6 +69,11 @@ public class QuickSort extends JLayeredPane{
 	public static List<JLabel> listCuadrados;
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
+	public static JPanel panelGrafico = new JPanel();
+	public static List<Double> tiempo = new ArrayList<Double>();
+	public static List<Integer> tamano = new ArrayList<Integer>();
+	public static int punto = 0;
+	public static int ejemploFlag = 0;
 	
 	
 	
@@ -102,16 +114,16 @@ public class QuickSort extends JLayeredPane{
 		   add(txtRuta);
 		   
 		   
-		   lblTiempoEjec.setBounds(772, 166, 110, 20);
+		   lblTiempoEjec.setBounds(727, 166, 110, 20);
 		   add(lblTiempoEjec);
 		   tmpEjec.setHorizontalAlignment(SwingConstants.LEFT);
 		   
 		   tmpEjec.setText("Tiempo de ejecucci\u00F3n: ");
-		   tmpEjec.setBounds(578, 166, 184, 20);
+		   tmpEjec.setBounds(533, 166, 184, 20);
 		   add(tmpEjec);
 		   
 		   
-		   txtTamano.setBounds(782, 38, 100, 35);
+		   txtTamano.setBounds(713, 31, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -137,32 +149,45 @@ public class QuickSort extends JLayeredPane{
 		   add(lblArchivo);
 		   
 		   
-		   CrearListaRandom.setBounds(578, 84, 170, 30);
+		   CrearListaRandom.setBounds(533, 84, 170, 30);
 		   add(CrearListaRandom);
 		   
 		   BotonLabel(lblCrearListaRandom, crearRandomNaranjo, crearRandomBlanco, crearRandomGris, 5);
 		   lblCrearListaRandom.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png")));
-		   lblCrearListaRandom.setBounds(784, 84, 30, 30);
+		   lblCrearListaRandom.setBounds(742, 84, 30, 30);
 		   
 		   add(lblCrearListaRandom);
 		   
 		   utils.Label lblCantidadLista = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
 		   lblCantidadLista.setHorizontalAlignment(SwingConstants.LEFT);
 		   lblCantidadLista.setText("Tama\u00F1o de la lista: ");
-		   lblCantidadLista.setBounds(578, 43, 170, 30);
+		   lblCantidadLista.setBounds(533, 41, 170, 30);
 		   add(lblCantidadLista);
 		   
 		   utils.Label OrdenarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
 		   OrdenarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
 		   OrdenarListaRandom.setText("Ordenar lista random: ");
-		   OrdenarListaRandom.setBounds(578, 125, 199, 30);
+		   OrdenarListaRandom.setBounds(533, 125, 199, 30);
 		   add(OrdenarListaRandom);
 		   
 		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
 		   lblOrdenarRandom.setIcon(new ImageIcon(QuickSort.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
-		   lblOrdenarRandom.setBounds(784, 125, 30, 30);
+		   lblOrdenarRandom.setBounds(742, 125, 30, 30);
 		   
 		   add(lblOrdenarRandom);
+		   
+		   panelGrafico.setBackground(new Color(208, 121, 3));
+		   panelGrafico.setBounds(109, 197, 699, 221);
+		   add(panelGrafico);
+		   
+		   JButton btnEjemplo = new JButton("Ejemplo");
+		   btnEjemplo.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		ejemploAction();
+		   	}
+		   });
+		   btnEjemplo.setBounds(10, 197, 89, 23);
+		   add(btnEjemplo);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -192,6 +217,27 @@ public class QuickSort extends JLayeredPane{
 			
 			setVisible(true);
 		   
+	 }
+	 
+	 public void ejemploAction() {
+		 int tam = 100;
+		 ejemploFlag = 1;
+		 tamano.removeAll(tamano);
+		 tiempo.removeAll(tiempo);
+		 
+		 for(int i = 0; i < 30; i++) {
+			 ArrayList<Integer> lRan = new ArrayList<Integer>();
+			 lRan = Proceso.crearListaRandom(tam);
+			 tamano.add(tam);
+			 long inicio = System.currentTimeMillis();
+		   	 Ordenamientos.quickSort(lRan, 0, lRan.size()-1);
+		   	 long fin = System.currentTimeMillis();
+		   	 double time = (double) ((fin - inicio)/*/1000*/);
+		   	 tiempo.add(time);
+		   	 tam = tam + 5000;
+		 }
+		 crearGrafico();
+		 Princ.txtMensaje.setText("Ejemplo de 30 listas ordenadas por heapsort");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -418,10 +464,13 @@ public class QuickSort extends JLayeredPane{
    		long inicio = System.currentTimeMillis();
    		Ordenamientos.quickSort(listRandom, 0, listRandom.size()-1);
    		long fin = System.currentTimeMillis();
-   		double tiempo = (double) ((fin - inicio)/*/1000*/);
-   		//imprimirListaNumerica(listRandom);
-   		lblTiempoEjec.setText(""+tiempo+"[ms]");
+   		double time = (double) ((fin - inicio)/*/1000*/);
+   		tiempo.add(time);
+   		
+   		
+   		lblTiempoEjec.setText(""+time+"[ms]");
    		Princ.txtMensaje.setText("Ordenamiento completado");
+   		crearGrafico();
 	}
 	
 	public static void ordenarLabelAction() {
@@ -474,6 +523,27 @@ public class QuickSort extends JLayeredPane{
    		txtTamano.setText("");
    		lblTiempoEjec.setText("");
 		return listRandom;
+	}
+	
+	public static void crearGrafico() {
+		XYSeries oSeries = new XYSeries("");
+	   	
+   		for(int i = 0; i < tiempo.size()-1;i++) {
+   			oSeries.add(tamano.get(i),tiempo.get(i));
+   		}
+   	
+   		XYSeriesCollection oDataset = new XYSeriesCollection();
+   		
+   		oDataset.addSeries(oSeries);
+   		
+   		
+   		JFreeChart oChart = ChartFactory.createXYLineChart("HeapSort", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
+   		oChart.setBackgroundPaint(new Color(208, 121, 3));
+   		ChartPanel oPanel = new ChartPanel(oChart);
+   		
+   		panelGrafico.setLayout(new java.awt.BorderLayout());
+   		panelGrafico.add(oPanel);
+   		panelGrafico.validate();
 	}
 	
 	public static void agregarLabelAction() {

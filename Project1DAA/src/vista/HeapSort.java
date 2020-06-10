@@ -12,6 +12,14 @@ import javax.swing.JLayeredPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import procesos.Animaciones;
 import procesos.Ordenamientos;
 import procesos.Proceso;
@@ -22,11 +30,22 @@ import javax.swing.JFileChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.lang.reflect.Array;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 	
 public class HeapSort extends JLayeredPane{
-	
+		public static List<Double> tiempo = new ArrayList<Double>();
+		public static List<Integer> tamano = new ArrayList<Integer>();
+		public static int punto = 0;
+		public static int ejemploFlag = 0;
+		public static JPanel panelGrafico = new JPanel();
 	 public HeapSort() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
@@ -63,16 +82,16 @@ public class HeapSort extends JLayeredPane{
 		   add(txtRuta);
 		   
 		   
-		   lblTiempoEjec.setBounds(772, 166, 110, 20);
+		   lblTiempoEjec.setBounds(727, 166, 110, 20);
 		   add(lblTiempoEjec);
 		   tmpEjec.setHorizontalAlignment(SwingConstants.LEFT);
 		   
 		   tmpEjec.setText("Tiempo de ejecucci\u00F3n: ");
-		   tmpEjec.setBounds(578, 166, 184, 20);
+		   tmpEjec.setBounds(533, 166, 184, 20);
 		   add(tmpEjec);
 		   
 		   
-		   txtTamano.setBounds(782, 38, 100, 35);
+		   txtTamano.setBounds(713, 31, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
 		   
@@ -108,32 +127,71 @@ public class HeapSort extends JLayeredPane{
 		   add(lblOrdenar);
 		   
 		   
-		   CrearListaRandom.setBounds(578, 84, 170, 30);
+		   CrearListaRandom.setBounds(533, 84, 170, 30);
 		   add(CrearListaRandom);
 		   
 		   BotonLabel(lblCrearListaRandom, crearRandomNaranjo, crearRandomBlanco, crearRandomGris, 5);
 		   lblCrearListaRandom.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_sort_by_creation_date_30px.png")));
-		   lblCrearListaRandom.setBounds(784, 84, 30, 30);
+		   lblCrearListaRandom.setBounds(742, 84, 30, 30);
 		   
 		   add(lblCrearListaRandom);
 		   
 		   utils.Label lblCantidadLista = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
 		   lblCantidadLista.setHorizontalAlignment(SwingConstants.LEFT);
 		   lblCantidadLista.setText("Tama\u00F1o de la lista: ");
-		   lblCantidadLista.setBounds(578, 43, 170, 30);
+		   lblCantidadLista.setBounds(533, 41, 170, 30);
 		   add(lblCantidadLista);
 		   
 		   utils.Label OrdenarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
 		   OrdenarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
 		   OrdenarListaRandom.setText("Ordenar lista random: ");
-		   OrdenarListaRandom.setBounds(578, 125, 199, 30);
+		   OrdenarListaRandom.setBounds(533, 125, 199, 30);
 		   add(OrdenarListaRandom);
 		   
 		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
 		   lblOrdenarRandom.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
-		   lblOrdenarRandom.setBounds(784, 125, 30, 30);
+		   lblOrdenarRandom.setBounds(742, 125, 30, 30);
 		   
 		   add(lblOrdenarRandom);
+		   
+		   
+		   panelGrafico.setBackground(new Color(208, 121, 3));
+		   panelGrafico.setBounds(109, 197, 699, 221);
+		   add(panelGrafico);
+		   
+		 /*  JButton btnGrafico = new JButton("Crear Gr\u00E1fico");
+		   btnGrafico.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		XYSeries oSeries = new XYSeries("HeapSort");
+		   	
+		   		for(int i = 0; i < tiempo.size();i++) {
+		   			oSeries.add(tiempo.get(i),tamano.get(i));
+		   		}
+		   	
+		   		XYSeriesCollection oDataset = new XYSeriesCollection();
+		   		oDataset.addSeries(oSeries);
+		   		
+		   		
+		   		JFreeChart oChart = ChartFactory.createXYLineChart("HeapSort", "Tiempo", "Tamaño", oDataset, PlotOrientation.VERTICAL, true, false, false);
+		   		oChart.setBackgroundPaint(new Color(208, 121, 3));
+		   		ChartPanel oPanel = new ChartPanel(oChart);
+		   		
+		   		panelGrafico.setLayout(new java.awt.BorderLayout());
+		   		panelGrafico.add(oPanel);
+		   		panelGrafico.validate();
+		   	}
+		   });
+		   btnGrafico.setBounds(42, 253, 110, 23);
+		   add(btnGrafico);
+		   */
+		   JButton btnEjemplo = new JButton("Ejemplo");
+		   btnEjemplo.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		ejemploAction();
+		   	}
+		   });
+		   btnEjemplo.setBounds(10, 197, 89, 23);
+		   add(btnEjemplo);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -163,6 +221,27 @@ public class HeapSort extends JLayeredPane{
 			
 			setVisible(true);
 		   
+	 }
+	 
+	 public void ejemploAction() {
+		 int tam = 100;
+		 ejemploFlag = 1;
+		 tamano.removeAll(tamano);
+		 tiempo.removeAll(tiempo);
+		 
+		 for(int i = 0; i < 60; i++) {
+			 ArrayList<Integer> lRan = new ArrayList<Integer>();
+			 lRan = Proceso.crearListaRandom(tam);
+			 tamano.add(tam);
+			 long inicio = System.currentTimeMillis();
+		   	 Ordenamientos.heapSort(lRan);
+		   	 long fin = System.currentTimeMillis();
+		   	 double time = (double) ((fin - inicio)/*/1000*/);
+		   	 tiempo.add(time);
+		   	 tam = tam + 5000;
+		 }
+		 crearGrafico();
+		 Princ.txtMensaje.setText("Ejemplo de 60 listas ordenadas por heapsort");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -367,10 +446,13 @@ public class HeapSort extends JLayeredPane{
    		long inicio = System.currentTimeMillis();
    		Ordenamientos.heapSort(listRandom);
    		long fin = System.currentTimeMillis();
-   		double tiempo = (double) ((fin - inicio)/*/1000*/);
-   		//imprimirListaNumerica(listRandom);
-   		lblTiempoEjec.setText(""+tiempo+"[ms]");
+   		double time = (double) ((fin - inicio)/*/1000*/);
+   		tiempo.add(time);
+   		
+   		
+   		lblTiempoEjec.setText(""+time+"[ms]");
    		Princ.txtMensaje.setText("Ordenamiento completado");
+   		crearGrafico();
 	}
 	
 	public static void ordenarLabelAction() {
@@ -416,13 +498,40 @@ public class HeapSort extends JLayeredPane{
 		}	
 	}
 	public static ArrayList<Integer> crearListaRandomLabelAction() {
-		int tamanoLista = Integer.parseInt(txtTamano.getText());
-		ArrayList<Integer> listRandom = new ArrayList<Integer>();
-		listRandom = Proceso.crearListaRandom(tamanoLista);
-		//imprimirListaNumerica(listRandom);
-   		txtTamano.setText("");
-   		lblTiempoEjec.setText("");
-		return listRandom;
+		if(ejemploFlag == 1) {
+			tamano.removeAll(tamano);
+			tiempo.removeAll(tiempo);
+			ejemploFlag = 0;
+		}
+			int tamanoLista = Integer.parseInt(txtTamano.getText());
+			tamano.add(tamanoLista);
+			listRan = new ArrayList<Integer>();
+			listRan = Proceso.crearListaRandom(tamanoLista);
+			//imprimirListaNumerica(listRandom);
+	   		txtTamano.setText("");
+	   		lblTiempoEjec.setText("");
+	   		return listRan;
+	}
+	
+	public static void crearGrafico() {
+		XYSeries oSeries = new XYSeries("");
+	   	
+   		for(int i = 0; i < tiempo.size()-1;i++) {
+   			oSeries.add(tamano.get(i),tiempo.get(i));
+   		}
+   	
+   		XYSeriesCollection oDataset = new XYSeriesCollection();
+   		
+   		oDataset.addSeries(oSeries);
+   		
+   		
+   		JFreeChart oChart = ChartFactory.createXYLineChart("HeapSort", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
+   		oChart.setBackgroundPaint(new Color(208, 121, 3));
+   		ChartPanel oPanel = new ChartPanel(oChart);
+   		
+   		panelGrafico.setLayout(new java.awt.BorderLayout());
+   		panelGrafico.add(oPanel);
+   		panelGrafico.validate();
 	}
 	
 	public static void agregarLabelAction() {
@@ -510,4 +619,5 @@ public class HeapSort extends JLayeredPane{
 	ImageIcon agregarVerde = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_4.png"));
 	ImageIcon agregarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_5.png"));
 	private final JLabel lblOrdenarRandom = new JLabel("");
+	private static ArrayList<Integer> listRan;
 }
