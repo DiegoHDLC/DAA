@@ -129,7 +129,7 @@ public class Animaciones implements Runnable{
 				a.set(pos, a.get(destino));
 				a.set(destino, tmp2);
 				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
-				QuickSort.imprimirListaNumericaDeLabels(a);
+				//QuickSort.imprimirListaNumericaDeLabels(a);
 				return a;
 				
 				
