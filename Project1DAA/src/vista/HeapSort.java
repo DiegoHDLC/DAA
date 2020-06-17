@@ -46,6 +46,7 @@ public class HeapSort extends JLayeredPane{
 		public static int punto = 0;
 		public static int ejemploFlag = 0;
 		public static JPanel panelGrafico = new JPanel();
+		public static int activarAnimacion = 1;
 	 public HeapSort() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
@@ -159,39 +160,13 @@ public class HeapSort extends JLayeredPane{
 		   panelGrafico.setBounds(109, 197, 699, 221);
 		   add(panelGrafico);
 		   
-		 /*  JButton btnGrafico = new JButton("Crear Gr\u00E1fico");
-		   btnGrafico.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		XYSeries oSeries = new XYSeries("HeapSort");
-		   	
-		   		for(int i = 0; i < tiempo.size();i++) {
-		   			oSeries.add(tiempo.get(i),tamano.get(i));
-		   		}
-		   	
-		   		XYSeriesCollection oDataset = new XYSeriesCollection();
-		   		oDataset.addSeries(oSeries);
-		   		
-		   		
-		   		JFreeChart oChart = ChartFactory.createXYLineChart("HeapSort", "Tiempo", "Tamaño", oDataset, PlotOrientation.VERTICAL, true, false, false);
-		   		oChart.setBackgroundPaint(new Color(208, 121, 3));
-		   		ChartPanel oPanel = new ChartPanel(oChart);
-		   		
-		   		panelGrafico.setLayout(new java.awt.BorderLayout());
-		   		panelGrafico.add(oPanel);
-		   		panelGrafico.validate();
-		   	}
-		   });
-		   btnGrafico.setBounds(42, 253, 110, 23);
-		   add(btnGrafico);
-		   */
-		   JButton btnEjemplo = new JButton("Ejemplo");
-		   btnEjemplo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploAction();
-		   	}
-		   });
-		   btnEjemplo.setBounds(10, 197, 89, 23);
-		   add(btnEjemplo);
+		   BotonLabel(lblBotonEjemplo, ejemploNaranjo, ejemploBlanco, ejemploGris, 7);
+		   lblBotonEjemplo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_graph_30px_2.png")));
+		   lblBotonEjemplo.setBounds(41, 301, 30, 30);
+		   add(lblBotonEjemplo);
+		   
+		   
+		   add(lblEjemplo);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -435,6 +410,7 @@ public class HeapSort extends JLayeredPane{
 				case 4: ordenarLabelAction();break;
 				case 5: listRandom = crearListaRandomLabelAction();break;
 				case 6: ordenarListaRandomLabelAction(listRandom);break;
+				case 7: ejemploAction();break;
 				}
 				
 			}
@@ -462,7 +438,12 @@ public class HeapSort extends JLayeredPane{
 			if(Proceso.verificaOrd(listaNumerica)) {
 				Princ.txtMensaje.setText("Lista ordenada");
 			}else {
-				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+				if(activarAnimacion == 1) {
+					activarAnimacion = 0;
+					Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+				}else {
+					Princ.txtMensaje.setText("Ordenando la lista, porfavor espere...");
+				}
 			}
 		}
 	}
@@ -573,6 +554,7 @@ public class HeapSort extends JLayeredPane{
 	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();
+	public static JLabel lblBotonEjemplo = new JLabel();
 	
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
 	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
@@ -586,7 +568,8 @@ public class HeapSort extends JLayeredPane{
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
 	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
 	
-	public static utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
+	private final utils.Label lblEjemplo = new utils.Label("Ejemplo",20, 280, 70, 14);
+	public static utils.Label lblTiempoEjec = new utils.Label("",24, 276, 46, 14);
 	
 	
 	static JLayeredPane panel = new JLayeredPane();
@@ -600,6 +583,9 @@ public class HeapSort extends JLayeredPane{
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	
 	
+	ImageIcon ejemploNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_1.png"));
+	ImageIcon ejemploBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_2.png"));
+	ImageIcon ejemploGris = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px.png"));
 	ImageIcon ordenarRandomNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px.png"));
 	ImageIcon ordenarRandomGris = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_1.png"));
 	ImageIcon ordenarRandomBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_2.png"));
@@ -620,4 +606,5 @@ public class HeapSort extends JLayeredPane{
 	ImageIcon agregarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_5.png"));
 	private final JLabel lblOrdenarRandom = new JLabel("");
 	private static ArrayList<Integer> listRan;
+	
 }

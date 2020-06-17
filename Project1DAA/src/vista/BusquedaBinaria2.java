@@ -3,6 +3,7 @@ package vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -21,6 +22,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import procesos.Animaciones;
+import procesos.Busqueda;
 import procesos.Ordenamientos;
 import procesos.Proceso;
 import utils.CajaTexto;
@@ -40,13 +42,16 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 	
-public class BubbleSort extends JLayeredPane{
+public class BusquedaBinaria2 extends JLayeredPane{
+	public static JLabel lblBuscar = new JLabel();
 		public static List<Double> tiempo = new ArrayList<Double>();
 		public static List<Integer> tamano = new ArrayList<Integer>();
 		public static int punto = 0;
 		public static int ejemploFlag = 0;
 		public static JPanel panelGrafico = new JPanel();
-	 public BubbleSort() {
+		public static CajaTexto txtBuscar = new CajaTexto(444, 34, 46, 20);
+		public static CajaTexto txtBuscarRandom = new CajaTexto(444, 34, 46, 20);
+	 public BusquedaBinaria2() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
@@ -72,6 +77,7 @@ public class BubbleSort extends JLayeredPane{
 	 
 	 public void initComponents() {
 		 txtNum.setBounds(10, 26, 46, 35);
+		 	
 		   
 		   txtNum.setColumns(10);
 		   
@@ -115,16 +121,23 @@ public class BubbleSort extends JLayeredPane{
 		   
 		   add(lblArchivo);
 		   
-		   utils.Label ordenar = new utils.Label("Ordenar", 463, 11, 78, 14);
-		   ordenar.setSize(78, 20);
-		   ordenar.setLocation(428, 8);
-		   add(ordenar);
+		   utils.Label buscar = new utils.Label("Buscar", 463, 11, 78, 14);
+			 
+		   buscar.setSize(78, 20);
+		   buscar.setLocation(452, 0);
+		   add(buscar);
 		   
+		   
+		   BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
+		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscar.setBounds(500, 31, 30, 30);
+		   add(lblBuscar);
+		   /*
 		   BotonLabel(lblOrdenar, ordenarNaranja, ordenarBlanco, ordenarGris, 4);
 		   lblOrdenar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_direction_30px_3.png")));
 		   lblOrdenar.setBounds(452, 31, 30, 30);
 		   add(lblOrdenar);
-		   
+		   */
 		   
 		   CrearListaRandom.setBounds(533, 84, 170, 30);
 		   add(CrearListaRandom);
@@ -141,31 +154,57 @@ public class BubbleSort extends JLayeredPane{
 		   lblCantidadLista.setBounds(533, 41, 170, 30);
 		   add(lblCantidadLista);
 		   
-		   utils.Label OrdenarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
-		   OrdenarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
-		   OrdenarListaRandom.setText("Ordenar lista random: ");
-		   OrdenarListaRandom.setBounds(533, 125, 199, 30);
-		   add(OrdenarListaRandom);
+		   utils.Label BuscarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
+		   BuscarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
+		   BuscarListaRandom.setText("Buscar en lista random: ");
+		   BuscarListaRandom.setBounds(533, 125, 199, 30);
+		   add(BuscarListaRandom);
 		   
-		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
-		   lblOrdenarRandom.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
-		   lblOrdenarRandom.setBounds(742, 125, 30, 30);
+		   BotonLabel(lblBuscarRandom, buscarNaranja, buscarBlanco, buscarGris, 6);
+		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscarRandom.setBounds(783, 120, 30, 35);
 		   
-		   add(lblOrdenarRandom);
+		   add(lblBuscarRandom);
 		   
 		   
 		   panelGrafico.setBackground(new Color(208, 121, 3));
 		   panelGrafico.setBounds(109, 197, 699, 221);
 		   add(panelGrafico);
-		
-		   JButton btnEjemplo = new JButton("Ejemplo");
+		   
+		   txtBuscar.setBounds(444, 26, 46, 35);
+		   add(txtBuscar);
+		   txtBuscar.setColumns(10);
+		   
+		   txtBuscarRandom.setColumns(10);
+		   txtBuscarRandom.setBounds(727, 120, 46, 35);
+		   add(txtBuscarRandom);
+		   
+		 
+		   JButton btnEjemplo = new JButton("Mejor caso");
 		   btnEjemplo.addActionListener(new ActionListener() {
 		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploAction();
+		   		ejemploMejorCasoAction();
 		   	}
 		   });
 		   btnEjemplo.setBounds(10, 197, 89, 23);
 		   add(btnEjemplo);
+		   
+		   JButton btnEjemplo_1 = new JButton("Encontrado");
+		   btnEjemplo_1.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent arg0) {
+		   		ejemploEncontrado();
+		   	}
+		   });
+		   btnEjemplo_1.setBounds(10, 255, 89, 23);
+		   add(btnEjemplo_1);
+		   btnEjemplo_1_1.addActionListener(new ActionListener() {
+		   	public void actionPerformed(ActionEvent e) {
+		   		ejemploNoEncontrado();
+		   	}
+		   });
+		   btnEjemplo_1_1.setBounds(10, 307, 89, 23);
+		   
+		   add(btnEjemplo_1_1);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -197,25 +236,70 @@ public class BubbleSort extends JLayeredPane{
 		   
 	 }
 	 
-	 public void ejemploAction() {
+	 public void ejemploMejorCasoAction() {
 		 int tam = 100;
 		 ejemploFlag = 1;
+		 double time;
+		 long fin;
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
 		 
 		 for(int i = 0; i < 30; i++) {
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
-			 lRan = Proceso.crearListaRandom(tam);
+			 lRan = Proceso.crearListaMejorCasoBusquedaBinaria(tam);
 			 tamano.add(tam);
 			 long inicio = System.currentTimeMillis();
-		   	 Ordenamientos.quickSort(lRan, 0, lRan.size()-1);
+		   	 Busqueda.binarySearch(lRan, 5, 0, lRan.size()-1);
+		   	 fin = System.currentTimeMillis();
+		   	 time = (double) ((fin - inicio)/*/1000*/);
+		   	 System.out.println(""+time);
+		   	 tiempo.add(time);
+		   	 tam = tam + 100000;
+		 }
+		 crearGrafico();
+		 Princ.txtMensaje.setText("Ejemplo mejor caso busqueda binaria en 30 listas distintas");
+	 }
+	 
+	 public void ejemploEncontrado() {
+		 int tam = 100;
+		 ejemploFlag = 1;
+		 tamano.removeAll(tamano);
+		 tiempo.removeAll(tiempo);
+		 
+		 for(int i = 0; i < 500; i++) {
+			 ArrayList<Integer> lRan = new ArrayList<Integer>();
+			 lRan = Proceso.crearListaEncontradoBusquedaBinaria(tam);
+			 tamano.add(tam);
+			 long inicio = System.currentTimeMillis();
+		   	 Busqueda.binarySearch(lRan, i, 0, lRan.size()-1);
 		   	 long fin = System.currentTimeMillis();
 		   	 double time = (double) ((fin - inicio)/*/1000*/);
 		   	 tiempo.add(time);
 		   	 tam = tam + 5000;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo de 30 listas ordenadas por bubblesort");
+		 Princ.txtMensaje.setText("Ejemplo numero encontrado busqueda binaria en 500 listas distintas");
+	 }
+	 
+	 public void ejemploNoEncontrado() {
+		 int tam = 100;
+		 ejemploFlag = 1;
+		 tamano.removeAll(tamano);
+		 tiempo.removeAll(tiempo);
+		 
+		 for(int i = 0; i < 500; i++) {
+			 ArrayList<Integer> lRan = new ArrayList<Integer>();
+			 lRan = Proceso.crearListaNoEncontradoBusquedaBinaria(tam);
+			 tamano.add(tam);
+			 long inicio = System.currentTimeMillis();
+		   	 Busqueda.binarySearch(lRan, 5, 0, lRan.size()-1);
+		   	 long fin = System.currentTimeMillis();
+		   	 double time = (double) ((fin - inicio)/*/1000*/);
+		   	 tiempo.add(time);
+		   	 tam = tam + 5000;
+		 }
+		 crearGrafico();
+		 Princ.txtMensaje.setText("Ejemplo numero no encontrado busqueda binaria en 500 listas distintas");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -227,8 +311,8 @@ public class BubbleSort extends JLayeredPane{
 			}else {
 				txtNum.requestFocus();
 				Princ.txtMensaje.setText("");
-				Princ.bubble.remove(listaNumericaUsuario.get(contadorNumeros));
-				Princ.bubble.repaint();
+				Princ.busBin.remove(listaNumericaUsuario.get(contadorNumeros));
+				Princ.busBin.repaint();
 				listaNumerica.remove(contadorNumeros);
 				listaNumericaUsuario.remove(contadorNumeros);
 				System.out.println(""+listaNumerica);
@@ -242,7 +326,7 @@ public class BubbleSort extends JLayeredPane{
 	 
 	 public static void eliminarListaCompleta(){
 			for(int i = listaNumericaUsuario.size()-1; i >= 0; i--) {
-				Princ.bubble.remove(listaNumericaUsuario.get(i));
+				Princ.busBin.remove(listaNumericaUsuario.get(i));
 				listaNumerica.remove(i);
 				listaNumericaUsuario.remove(i);
 				Proceso.lista.remove(i);
@@ -254,14 +338,14 @@ public class BubbleSort extends JLayeredPane{
 			txtNum.setEditable(true);
 			//btnAgregar.setEnabled(true);
 			System.out.println(""+listaNumerica);
-			Princ.bubble.repaint();
+			Princ.busBin.repaint();
 		}
 	 
 	 public static void agregarYMover(int lugarLectura, int posNumero) {
 		 	
 			if(lugarLectura == 0) {
 				listaNumericaUsuario.get(contadorNumeros).setBounds(0, 80, 46, 14);
-				Princ.bubble.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
+				Princ.busBin.add(listaNumericaUsuario.get(contadorNumeros),new Integer(3));
 				new Thread() {
 					public void run() {
 						int y1 = listaNumericaUsuario.get(contadorNumeros).getLocation().y;
@@ -274,7 +358,7 @@ public class BubbleSort extends JLayeredPane{
 				
 				System.out.println("posicion del arreglo: "+posNumero);
 				listaNumericaUsuario.get(posNumero).setBounds(0, 80, 46, 14);
-				Princ.bubble.add(listaNumericaUsuario.get(posNumero),new Integer(1));
+				Princ.busBin.add(listaNumericaUsuario.get(posNumero),new Integer(1));
 				new Thread() {
 					public void run() {
 						while(!Thread.currentThread().isInterrupted()) {
@@ -406,43 +490,49 @@ public class BubbleSort extends JLayeredPane{
 				case 1: agregarLabelAction();break;
 				case 2: eliminarLabelAction();break;
 				case 3: agregarArchivoLabelAction();break;
-				case 4: ordenarLabelAction();break;
+				case 4: buscarLabelAction();break;
 				case 5: listRandom = crearListaRandomLabelAction();break;
-				case 6: ordenarListaRandomLabelAction(listRandom);break;
+				case 6: buscarListaRandomLabelAction(listRandom);break;
 				}
 				
 			}
 		});
 	}
 	
-	public static void ordenarListaRandomLabelAction(ArrayList<Integer> listRandom) {
+	public static void buscarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
+   		
    		long inicio = System.currentTimeMillis();
-   		Ordenamientos.bubbleSort(listRandom);
+   		int numero = Integer.parseInt(txtBuscarRandom.getText());
+   		int resultado = Busqueda.binarySearch(listRandom, numero, 0, listRandom.size()-1);
+   		//Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario,tmpsArreglo);
    		long fin = System.currentTimeMillis();
    		double time = (double) ((fin - inicio)/*/1000*/);
    		tiempo.add(time);
-   		
-   		
+   		if(resultado == -1) {
+			Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
+		}else {
+			Princ.txtMensaje.setText("Numero "+numero+" encontrado");
+		}
    		lblTiempoEjec.setText(""+time+"[ms]");
-   		Princ.txtMensaje.setText("Ordenamiento completado");
    		crearGrafico();
 	}
 	
-	public static void ordenarLabelAction() {
+	public static void buscarLabelAction() {
 		if(listaNumerica.size() == 0) {
 			Princ.txtMensaje.setText("Primero agregue numeros a la lista");
 		}else {
 			if(Proceso.verificaOrd(listaNumerica)) {
-				Princ.txtMensaje.setText("Lista ordenada");
-			}else {
-				Ordenamientos.bubbleSort(listaNumerica);
-				System.out.println(""+listaNumerica);
-				for(int i = 0; i< listaNumerica.size(); i++) {
-					listaNumericaUsuario.get(i).setText(""+listaNumerica.get(i));
+				//txtBuscar.setText("");
+				int numero = Integer.parseInt(txtBuscar.getText());
+				int resultado = Busqueda.binarySearch(listaNumerica, numero, 0, listaNumerica.size()-1);
+				if(resultado == -1) {
+					Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
+				}else {
+					Princ.txtMensaje.setText("Numero "+numero+" encontrado");
 				}
-				Princ.bubble.repaint();
-				//Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+			}else {
+				Princ.txtMensaje.setText("La lista debe estar ordenada para usar este metodo de búsqueda");
 			}
 		}
 	}
@@ -485,18 +575,19 @@ public class BubbleSort extends JLayeredPane{
 		}
 			int tamanoLista = Integer.parseInt(txtTamano.getText());
 			tamano.add(tamanoLista);
-			listRan = new ArrayList<Integer>();
-			listRan = Proceso.crearListaRandom(tamanoLista);
+			ArrayList<Integer> listRandom = new ArrayList<Integer>();
+			listRandom = Proceso.crearListaRandom(tamanoLista);
+			Collections.sort(listRandom);
 			//imprimirListaNumerica(listRandom);
 	   		txtTamano.setText("");
 	   		lblTiempoEjec.setText("");
-	   		return listRan;
+			return listRandom;
 	}
 	
 	public static void crearGrafico() {
 		XYSeries oSeries = new XYSeries("");
 	   	
-   		for(int i = 0; i < tiempo.size()-1;i++) {
+   		for(int i = 0; i < tamano.size()-1;i++) {
    			oSeries.add(tamano.get(i),tiempo.get(i));
    		}
    	
@@ -505,7 +596,7 @@ public class BubbleSort extends JLayeredPane{
    		oDataset.addSeries(oSeries);
    		
    		
-   		JFreeChart oChart = ChartFactory.createXYLineChart("BubbleSort", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
+   		JFreeChart oChart = ChartFactory.createXYLineChart("Busqueda Binaria", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
    		oChart.setBackgroundPaint(new Color(208, 121, 3));
    		ChartPanel oPanel = new ChartPanel(oChart);
    		
@@ -553,7 +644,6 @@ public class BubbleSort extends JLayeredPane{
 	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();
-	public static JLabel lblBotonEjemplo = new JLabel();
 	
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
 	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
@@ -561,7 +651,6 @@ public class BubbleSort extends JLayeredPane{
 	public static ArrayList<JLabel> numerosArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
 	public static ArrayList<Integer> listRandom;
-	
 	
 	public static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
 	public static CajaTexto txtNum = new CajaTexto(10, 11, 46, 35);
@@ -581,10 +670,9 @@ public class BubbleSort extends JLayeredPane{
 	
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	
-	
-	ImageIcon ejemploNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_1.png"));
-	ImageIcon ejemploBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_2.png"));
-	ImageIcon ejemploGris = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px.png"));
+	ImageIcon buscarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px_2.png"));
+	ImageIcon buscarBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px.png"));
+	ImageIcon buscarNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px_1.png"));
 	ImageIcon ordenarRandomNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px.png"));
 	ImageIcon ordenarRandomGris = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_1.png"));
 	ImageIcon ordenarRandomBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_2.png"));
@@ -604,5 +692,7 @@ public class BubbleSort extends JLayeredPane{
 	ImageIcon agregarVerde = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_4.png"));
 	ImageIcon agregarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_add_new_30px_5.png"));
 	private final JLabel lblOrdenarRandom = new JLabel("");
+	private final JLabel lblBuscarRandom = new JLabel("");
 	private static ArrayList<Integer> listRan;
+	private final JButton btnEjemplo_1_1 = new JButton("No encontrado");
 }

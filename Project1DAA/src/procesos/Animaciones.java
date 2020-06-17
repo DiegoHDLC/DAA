@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import vista.QuickSort;
+import vista.HeapSort;
 import vista.Princ;
 
 
@@ -129,7 +130,6 @@ public class Animaciones implements Runnable{
 				a.set(pos, a.get(destino));
 				a.set(destino, tmp2);
 				System.out.println("El estado del hilo al empezar-vvv "+ Thread.currentThread().isInterrupted());
-				//QuickSort.imprimirListaNumericaDeLabels(a);
 				return a;
 				
 				
@@ -198,6 +198,7 @@ public class Animaciones implements Runnable{
 	      for (int i = n / 2 - 1; i >= 0; i--) {
 	    	  if(Proceso.verificaOrd(listInt)) {
 		        	Princ.txtMensaje.setText("Lista ordenada correctamete");
+		        	HeapSort.activarAnimacion = 1;
 		        	Proceso.dormir(3000);
 		        	Thread.currentThread().interrupt();
 		        	break;

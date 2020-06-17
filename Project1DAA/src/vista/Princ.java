@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Label;
+import java.awt.Window;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
@@ -52,7 +53,7 @@ public class Princ{
 	public static HeapSort heap = new HeapSort();
 	public static QuickSort qk = new QuickSort();
 	public static BubbleSort bubble = new BubbleSort();
-	public static BusquedaBinaria busBin = new BusquedaBinaria();
+	public static BusquedaBinaria2 busBin = new BusquedaBinaria2();
 	public static BusquedaSecuencial busSec = new BusquedaSecuencial();
 	public static BusquedaRandom busRan = new BusquedaRandom();
 	public static JFrame ventana = new JFrame();
@@ -125,6 +126,12 @@ public static void main(String[] args) {
 		labelMinimizar.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_minimize_window_30px_4.png")));
 		labelMinimizar.setBounds(825, 0, 30, 30);
 		panel.add(labelMinimizar);
+		
+		JLabel lblInfo = new JLabel("");
+		MouseActionBarra(lblInfo, infoBlanco, infoAmarillo, infoGris, 3);
+		lblInfo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_info_30px_2.png")));
+		lblInfo.setBounds(10, 0, 30, 30);
+		panel.add(lblInfo);
 		
 		//INICIALIZANDO PANELES
 		inicializarPanel(busBin, ventana,0);
@@ -277,11 +284,13 @@ public static void main(String[] args) {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(boton == 1) {
-					ventana.setState(JFrame.ICONIFIED);
-				}else {
-					System.exit(0);
+				switch(boton) {
+				case 1: ventana.setState(JFrame.ICONIFIED);
+				case 2: System.exit(0);
+				case 3: Informacion info= new Informacion();
+						info.setVisible(true);
 				}
+				
 			}
 		});
 	}
@@ -345,6 +354,9 @@ public static void main(String[] args) {
 		Thread.currentThread().notify();
 	}
 	
+	static ImageIcon infoGris = new ImageIcon(Princ.class.getResource("/Image/icons8_info_30px_3.png"));
+	static ImageIcon infoAmarillo = new ImageIcon(Princ.class.getResource("/Image/icons8_info_30px_2.png"));
+	static ImageIcon infoBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_info_30px_1.png"));
 	static ImageIcon cerrarBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_close_window_30px_1.png"));
 	static ImageIcon cerrarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_close_window_30px_5.png"));
 	static ImageIcon cerrarAmarillo = new ImageIcon(Princ.class.getResource("/Image/icons8_close_window_30px_8.png"));

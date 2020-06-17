@@ -38,6 +38,42 @@ class OrdenTest {
 		 assertEquals(1, resultado);
 	}
 	
+	@Test
+	public void ordenQuickSort() throws Exception{
+		int resultado = 0;
+		ArrayList<Integer> list = Proceso.crearListaRandom(20);
+		ArrayList<Integer> tmp = list;
+		Collections.sort(list);
+		Ordenamientos.quickSort(tmp, 0, tmp.size()-1);
+		
+		boolean isEqual = tmp.equals(list);
+		 if(isEqual == true) {
+			 resultado = 1;
+		 }
+		 else {
+			 resultado = 0;
+		 }
+		 assertEquals(1, resultado);
+	}
+	
+	@Test
+	public void ordenBubbleSort() throws Exception{
+		int resultado = 0;
+		ArrayList<Integer> list = Proceso.crearListaRandom(20);
+		ArrayList<Integer> tmp = list;
+		Collections.sort(list);
+		Ordenamientos.bubbleSort(list);
+		
+		boolean isEqual = tmp.equals(list);
+		 if(isEqual == true) {
+			 resultado = 1;
+		 }
+		 else {
+			 resultado = 0;
+		 }
+		 assertEquals(1, resultado);
+	}
+	
 	
 }
  

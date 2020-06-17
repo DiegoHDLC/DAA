@@ -25,4 +25,16 @@ public class Busqueda {
  	    }
  	    return -1;
    }
+	 
+	 public static int busquedaSecuencial(ArrayList<Integer> listInt, int x) {
+		  int n = listInt.size();
+
+		  // Going through array sequencially
+		  for (int i = 0; i < n; i++) {
+		    if (listInt.get(i) == x)
+		    return i;
+		  }
+		  return -1;
+		  }
+
 }

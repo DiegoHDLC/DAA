@@ -43,11 +43,48 @@ public class Proceso {
 		QuickSort.imprimirListaNumerica(lista);
 	}
 	
+	public static ArrayList<Integer> crearListaMejorCasoBusquedaBinaria(int tamanoLista){
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0; i < tamanoLista;i++) {
+			int numero = 5;
+			list.add(numero);
+		}
+		return (ArrayList<Integer>) list;
+	}
+	
+	public static ArrayList<Integer> crearListaEncontradoBusquedaBinaria(int tamanoLista){
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0; i < tamanoLista;i++) {
+			int numero = i;
+			list.add(numero);
+		}
+		//System.out.println(""+list);
+		return (ArrayList<Integer>) list;
+	}
+	
+	public static ArrayList<Integer> crearListaNoEncontradoBusquedaBinaria(int tamanoLista){
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0; i < tamanoLista;i++) {
+			int numero = i;
+			if(numero != 5) {
+				list.add(numero);
+			}
+		}
+		return (ArrayList<Integer>) list;
+	}
+	
 	public static ArrayList<Integer> crearListaRandom(int tamanoLista) {
 		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i < tamanoLista;i++) {
-			int numero = (int) Math.floor(Math.random()*99+1);
-			list.add(numero);
+			if(i == 30) {
+				list.add(300);
+			}else {
+
+				int numero = (int) Math.floor(Math.random()*999+1);
+				if(numero != 500) {
+					list.add(numero);
+				}
+			}
 		}
 		Princ.txtMensaje.setText("Lista de tamaño "+"["+tamanoLista+"]"+" creada con éxito");
 		return (ArrayList<Integer>) list;

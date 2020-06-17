@@ -145,8 +145,8 @@ public class BusquedaBinaria extends JLayeredPane{
 		   
 		   add(lblArchivo);
 		   
-		   utils.Label buscar = new utils.Label("Ordenar", 463, 11, 78, 14);
-		   buscar.setText("Buscar");
+		   utils.Label buscar = new utils.Label("Buscar", 463, 11, 78, 14);
+		 
 		   buscar.setSize(78, 20);
 		   buscar.setLocation(452, 0);
 		   add(buscar);
@@ -420,9 +420,8 @@ public class BusquedaBinaria extends JLayeredPane{
 	}
 	
 	public static void buscarListaRandomLabelAction(ArrayList<Integer> listRandom) {
+		
 		Princ.txtMensaje.setText("");
-   		
-   		String tamanoRandom = txtBuscarRandom.getText();
    		long inicio = System.currentTimeMillis();
    		int numero = Integer.parseInt(txtBuscarRandom.getText());
    		int resultado = Busqueda.binarySearch(listRandom, numero, 0, listRandom.size()-1);

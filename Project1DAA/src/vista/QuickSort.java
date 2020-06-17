@@ -102,6 +102,11 @@ public class QuickSort extends JLayeredPane{
 		   lblAgregar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_new_30px_4.png")));
 		   lblAgregar.setBounds(66, 31, 30, 30);
 		   add(lblAgregar);
+		  
+		   BotonLabel(lblBotonEjemplo, ejemploNaranjo, ejemploBlanco, ejemploGris, 7);
+		   lblBotonEjemplo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_graph_30px_2.png")));
+		   lblBotonEjemplo.setBounds(41, 301, 30, 30);
+		   add(lblBotonEjemplo);
 		   
 		   BotonLabel(lblEliminar, eliminarBlanco, eliminarRojo, eliminarGris, 2);
 		   lblEliminar.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_reduce_30px_1.png")));
@@ -153,20 +158,12 @@ public class QuickSort extends JLayeredPane{
 		   lblOrdenarRandom.setBounds(742, 125, 30, 30);
 		   
 		   add(lblOrdenarRandom);
+		   add(lblEjemplo);
 		   
 		   
 		   panelGrafico.setBackground(new Color(208, 121, 3));
 		   panelGrafico.setBounds(109, 197, 699, 221);
 		   add(panelGrafico);
-		
-		   JButton btnEjemplo = new JButton("Ejemplo");
-		   btnEjemplo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploAction();
-		   	}
-		   });
-		   btnEjemplo.setBounds(10, 197, 89, 23);
-		   add(btnEjemplo);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -204,7 +201,7 @@ public class QuickSort extends JLayeredPane{
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
 		 
-		 for(int i = 0; i < 30; i++) {
+		 for(int i = 0; i < 60; i++) {
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
 			 lRan = Proceso.crearListaRandom(tam);
 			 tamano.add(tam);
@@ -216,7 +213,7 @@ public class QuickSort extends JLayeredPane{
 		   	 tam = tam + 5000;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo de 30 listas ordenadas por heapsort");
+		 Princ.txtMensaje.setText("Ejemplo de 60 listas ordenadas por heapsort");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -410,11 +407,14 @@ public class QuickSort extends JLayeredPane{
 				case 4: ordenarLabelAction();break;
 				case 5: listRandom = crearListaRandomLabelAction();break;
 				case 6: ordenarListaRandomLabelAction(listRandom);break;
+				case 7: ejemploAction();break;
 				}
 				
 			}
 		});
 	}
+	
+	
 	
 	public static void ordenarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
@@ -437,7 +437,14 @@ public class QuickSort extends JLayeredPane{
 			if(Proceso.verificaOrd(listaNumerica)) {
 				Princ.txtMensaje.setText("Lista ordenada");
 			}else {
-				Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
+				Ordenamientos.quickSort(listaNumerica, 0, listaNumerica.size()-1);
+				System.out.println(""+listaNumerica);
+				for(int i = 0; i< listaNumerica.size(); i++) {
+					listaNumericaUsuario.get(i).setText(""+listaNumerica.get(i));
+				}
+				Princ.qk.repaint();
+				
+				//Animaciones.animacionHeapSort(listaNumericaUsuario, listaNumerica, tmpsArreglo);
 			}
 		}
 	}
@@ -548,6 +555,7 @@ public class QuickSort extends JLayeredPane{
 	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();
+	public static JLabel lblBotonEjemplo = new JLabel();
 	
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
 	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
@@ -561,6 +569,7 @@ public class QuickSort extends JLayeredPane{
 	public static CajaTexto txtMensaje = new CajaTexto(0, 0, 984, 46);
 	public static CajaTexto txtTamano = new CajaTexto(751, 72, 86, 20);
 	
+	private final utils.Label lblEjemplo = new utils.Label("Ejemplo",20, 280, 70, 14);
 	public static utils.Label lblTiempoEjec = new utils.Label("",811, 22, 70, 14);
 	
 	
@@ -574,7 +583,9 @@ public class QuickSort extends JLayeredPane{
 	
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	
-	
+	ImageIcon ejemploNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_1.png"));
+	ImageIcon ejemploBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px_2.png"));
+	ImageIcon ejemploGris = new ImageIcon(Princ.class.getResource("/Image/icons8_graph_30px.png"));
 	ImageIcon ordenarRandomNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px.png"));
 	ImageIcon ordenarRandomGris = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_1.png"));
 	ImageIcon ordenarRandomBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_front_sorting_30px_2.png"));
