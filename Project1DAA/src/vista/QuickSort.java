@@ -304,20 +304,6 @@ public class QuickSort extends JLayeredPane{
 			System.out.println(""+listaNumerica);
 		}
 	
-	public static synchronized void suspenderHilo() {
-		Animaciones.suspender = true;
-	}
-	
-	public static synchronized void reanudarHilo() {
-		Animaciones.suspender = false;
-		Thread.currentThread().notify();
-	}
-	
-	public static void tiempoEjecucion() {
-		
-	}
-	
-	
 	public static int leerNumeroArchivo() {
 		int n;
 		n = Proceso.lista.get(numeroArchivo);
@@ -333,8 +319,6 @@ public class QuickSort extends JLayeredPane{
 			return false;
 		}
 	}
-	
-	
 	
 	public static void colocarNumeroEnArreglo(int x, int y, int posObjetivo, JLabel numero, List<JLabel> listTmp) {
 		

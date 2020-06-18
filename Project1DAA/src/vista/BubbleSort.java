@@ -46,6 +46,8 @@ public class BubbleSort extends JLayeredPane{
 		public static int punto = 0;
 		public static int ejemploFlag = 0;
 		public static JPanel panelGrafico = new JPanel();
+		private final utils.Label lblEjemplo = new utils.Label("Ejemplo",20, 280, 70, 14);
+		
 	 public BubbleSort() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
@@ -150,22 +152,19 @@ public class BubbleSort extends JLayeredPane{
 		   BotonLabel(lblOrdenarRandom, ordenarRandomNaranja, ordenarRandomBlanco, ordenarRandomGris, 6);
 		   lblOrdenarRandom.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_front_sorting_30px_2.png")));
 		   lblOrdenarRandom.setBounds(742, 125, 30, 30);
-		   
 		   add(lblOrdenarRandom);
+		   
+		   BotonLabel(lblBotonEjemplo, ejemploNaranjo, ejemploBlanco, ejemploGris, 7);
+		   lblBotonEjemplo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_graph_30px_2.png")));
+		   lblBotonEjemplo.setBounds(41, 301, 30, 30);
+		   add(lblBotonEjemplo);
 		   
 		   
 		   panelGrafico.setBackground(new Color(208, 121, 3));
 		   panelGrafico.setBounds(109, 197, 699, 221);
 		   add(panelGrafico);
-		
-		   JButton btnEjemplo = new JButton("Ejemplo");
-		   btnEjemplo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploAction();
-		   	}
-		   });
-		   btnEjemplo.setBounds(10, 197, 89, 23);
-		   add(btnEjemplo);
+		   
+		   add(lblEjemplo);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -203,19 +202,19 @@ public class BubbleSort extends JLayeredPane{
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
 		 
-		 for(int i = 0; i < 30; i++) {
+		 for(int i = 0; i < 20; i++) {
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
 			 lRan = Proceso.crearListaRandom(tam);
 			 tamano.add(tam);
 			 long inicio = System.currentTimeMillis();
-		   	 Ordenamientos.quickSort(lRan, 0, lRan.size()-1);
+		   	 Ordenamientos.bubbleSort(lRan);
 		   	 long fin = System.currentTimeMillis();
 		   	 double time = (double) ((fin - inicio)/*/1000*/);
 		   	 tiempo.add(time);
-		   	 tam = tam + 5000;
+		   	 tam = tam + 1000;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo de 30 listas ordenadas por bubblesort");
+		 Princ.txtMensaje.setText("Ejemplo de 20 listas ordenadas por bubblesort");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -409,6 +408,7 @@ public class BubbleSort extends JLayeredPane{
 				case 4: ordenarLabelAction();break;
 				case 5: listRandom = crearListaRandomLabelAction();break;
 				case 6: ordenarListaRandomLabelAction(listRandom);break;
+				case 7: ejemploAction();break;
 				}
 				
 			}

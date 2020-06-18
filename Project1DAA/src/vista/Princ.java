@@ -55,7 +55,7 @@ public class Princ{
 	public static BubbleSort bubble = new BubbleSort();
 	public static BusquedaBinaria2 busBin = new BusquedaBinaria2();
 	public static BusquedaSecuencial busSec = new BusquedaSecuencial();
-	public static BusquedaRandom busRan = new BusquedaRandom();
+	public static BusquedaRandom2 busRan = new BusquedaRandom2();
 	public static JFrame ventana = new JFrame();
 	
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
@@ -74,11 +74,7 @@ public class Princ{
 	public static int TAMANOARREGLO = 11;
 	public static ArrayList<JLabel> tmpsArreglo = new ArrayList<JLabel>();
 	public static List<JLabel> listCuadrados;
-	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
-	private JTextField txtTamano;
-	private final JButton btnCrearListRandom = new JButton("Crear lista random");
-	
-public static void main(String[] args) {
+	public static void main(String[] args) {
 	initComponents();
 		   try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
