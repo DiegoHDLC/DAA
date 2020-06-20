@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+
 import procesos.Animaciones;
 import procesos.Busqueda;
 import procesos.Ordenamientos;
@@ -35,23 +37,27 @@ import java.io.File;
 import java.lang.reflect.Array;
 
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import utils.Label;
 
 @SuppressWarnings("serial")
 	
-public class BusquedaSecuencial extends JLayeredPane{
+public class BusquedaSecuencial2 extends JLayeredPane{
 	public static JLabel lblBuscar = new JLabel();
 		public static List<Double> tiempo = new ArrayList<Double>();
 		public static List<Integer> tamano = new ArrayList<Integer>();
+		public static List<Integer> comparaciones = new ArrayList<Integer>();
 		public static int punto = 0;
 		public static int ejemploFlag = 0;
-		public static JPanel panelGrafico = new JPanel();
+		public static JPanel panelGraficoTiempo = new JPanel();
+		public static JPanel panelGraficoComparaciones = new JPanel();
 		public static CajaTexto txtBuscar = new CajaTexto(444, 34, 46, 20);
 		public static CajaTexto txtBuscarRandom = new CajaTexto(444, 34, 46, 20);
-	 public BusquedaSecuencial() {
+	 public BusquedaSecuencial2() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
@@ -99,7 +105,30 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   txtTamano.setBounds(713, 31, 100, 35);
 		   add(txtTamano);
 		   txtTamano.setColumns(10);
+		   rdTiempo.setHorizontalAlignment(SwingConstants.CENTER);
 		   
+		   rdTiempo.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		   rdTiempo.setForeground(new Color(255, 255, 255));
+		   rdTiempo.setBackground(new Color(235, 137, 4));
+		   rdTiempo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_2.png")));
+		   rdTiempo.setBounds(814, 239, 61, 39);
+		   add(rdTiempo);
+		   rdComparaciones.setHorizontalAlignment(SwingConstants.CENTER);
+		   
+		   rdComparaciones.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		   rdComparaciones.setForeground(new Color(255, 255, 255));
+		   rdComparaciones.setBackground(new Color(235, 137, 4));
+		   rdComparaciones.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_compare_git_30px.png")));
+		   
+		   MouseActionRadio(rdComparaciones, rdTiempo, rdCompararGris, rdCompararNaranjo, rdCompararBlanco, rdTiempoBlanco, 1);
+		   MouseActionRadio(rdTiempo, rdComparaciones, rdTiempoGris, rdTiempoNaranjo, rdTiempoBlanco, rdCompararBlanco, 2);
+			
+		   rdComparaciones.setBounds(814, 310, 61, 39);
+		   add(rdComparaciones);
+		   
+		   ButtonGroup grupoRadioBotones = new ButtonGroup();
+		   grupoRadioBotones.add(rdTiempo);
+		   grupoRadioBotones.add(rdComparaciones);
 		   utils.Label CrearListaRandom = new utils.Label("Crear lista random: ",697, 151, 160, 23);
 		   CrearListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
 		 
@@ -117,21 +146,22 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   
 		   BotonLabel(lblArchivo, archivoNaranja, archivoBlanco, archivoGris, 3);
 		   lblArchivo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_2.png")));
-		   lblArchivo.setBounds(384, 31, 30, 30);
+		   lblArchivo.setBounds(384, 26, 30, 35);
 		   
 		   add(lblArchivo);
 		   
 		   utils.Label buscar = new utils.Label("Buscar", 463, 11, 78, 14);
 			 
-		   buscar.setSize(78, 20);
-		   buscar.setLocation(452, 0);
+		   buscar.setSize(78, 31);
+		   buscar.setLocation(424, 0);
 		   add(buscar);
 		   
 		   
 		   BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
-		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
-		   lblBuscar.setBounds(500, 31, 30, 30);
+		   lblBuscar.setIcon(new ImageIcon(BusquedaSecuencial2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscar.setBounds(480, 26, 30, 35);
 		   add(lblBuscar);
+		   
 		   
 		   CrearListaRandom.setBounds(533, 84, 170, 30);
 		   add(CrearListaRandom);
@@ -155,17 +185,23 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   add(BuscarListaRandom);
 		   
 		   BotonLabel(lblBuscarRandom, buscarNaranja, buscarBlanco, buscarGris, 6);
-		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaSecuencial2.class.getResource("/Image/icons8_search_30px.png")));
 		   lblBuscarRandom.setBounds(783, 120, 30, 35);
 		   
 		   add(lblBuscarRandom);
 		   
 		   
-		   panelGrafico.setBackground(new Color(208, 121, 3));
-		   panelGrafico.setBounds(109, 197, 699, 221);
-		   add(panelGrafico);
+		   panelGraficoTiempo.setBackground(new Color(208, 121, 3));
+		   panelGraficoTiempo.setBounds(109, 197, 699, 221);
+		   add(panelGraficoTiempo);
 		   
-		   txtBuscar.setBounds(444, 26, 46, 35);
+		   panelGraficoComparaciones.setBackground(new Color(208, 121, 3));
+		   panelGraficoComparaciones.setBounds(109, 197, 699, 221);
+		   add(panelGraficoComparaciones);
+		   panelGraficoComparaciones.setVisible(false);
+		   
+		   
+		   txtBuscar.setBounds(424, 26, 46, 35);
 		   add(txtBuscar);
 		   txtBuscar.setColumns(10);
 		   
@@ -173,32 +209,51 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   txtBuscarRandom.setBounds(727, 120, 46, 35);
 		   add(txtBuscarRandom);
 		   
-		 
-		   JButton btnEjemplo = new JButton("Mejor caso");
-		   btnEjemplo.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploMejorCasoAction();
-		   	}
-		   });
-		   btnEjemplo.setBounds(10, 197, 89, 23);
-		   add(btnEjemplo);
+		   final utils.Label lblTtam = new utils.Label("T/TAM", 814, 218, 46, 14);
+		   lblTtam.setLocation(817, 223);
+		   lblTtam.setSize(58, 20);
+		   add(lblTtam);
 		   
-		   JButton btnEjemplo_1 = new JButton("Encontrado");
-		   btnEjemplo_1.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent arg0) {
-		   		ejemploEncontrado();
-		   	}
-		   });
-		   btnEjemplo_1.setBounds(10, 255, 89, 23);
-		   add(btnEjemplo_1);
-		   btnEjemplo_1_1.addActionListener(new ActionListener() {
-		   	public void actionPerformed(ActionEvent e) {
-		   		ejemploNoEncontrado();
-		   	}
-		   });
-		   btnEjemplo_1_1.setBounds(10, 307, 89, 23);
+		   Label lblCtam = new Label("T/TAM", 814, 218, 46, 14);
+		   lblCtam.setText("C/TAM");
+		   lblCtam.setBounds(814, 291, 61, 20);
+		   add(lblCtam);
 		   
-		   add(btnEjemplo_1_1);
+		   BotonLabel(lblMejorCasoBoton, MCasoNaranja, MCasoBlanco, MCasoGris, 7);
+		   lblMejorCasoBoton.setIcon(new ImageIcon(BusquedaSecuencial2.class.getResource("/Image/icons8_facebook_like_30px_2.png")));
+		   lblMejorCasoBoton.setBounds(39, 213, 30, 30);
+		   
+		   add(lblMejorCasoBoton);
+		   
+		   BotonLabel(lblEncontradoBoton, encontradoNaranjo, encontradoBlanco, encontradoGris, 8);
+		   lblEncontradoBoton.setIcon(new ImageIcon(BusquedaSecuencial2.class.getResource("/Image/icons8_happy_30px.png")));
+		   lblEncontradoBoton.setBounds(39, 277, 30, 30);
+		   
+		   add(lblEncontradoBoton);
+		   
+		   Label lblMejorCaso = new Label("Crear lista random: ", 697, 151, 160, 23);
+		   lblMejorCaso.setText("Mejor Caso");
+		   lblMejorCaso.setHorizontalAlignment(SwingConstants.LEFT);
+		   lblMejorCaso.setBounds(6, 196, 90, 20);
+		   add(lblMejorCaso);
+		   
+		   Label lblEncontrado = new Label("Crear lista random: ", 697, 151, 160, 23);
+		   lblEncontrado.setText("Encontrado");
+		   lblEncontrado.setHorizontalAlignment(SwingConstants.LEFT);
+		   lblEncontrado.setBounds(6, 258, 93, 20);
+		   add(lblEncontrado);
+		   
+		   Label lblNoEncontrado = new Label("Crear lista random: ", 697, 151, 160, 23);
+		   lblNoEncontrado.setFont(new Font("Sitka Small", Font.BOLD, 13));
+		   lblNoEncontrado.setText("No encontrado");
+		   lblNoEncontrado.setHorizontalAlignment(SwingConstants.LEFT);
+		   lblNoEncontrado.setBounds(6, 320, 102, 17);
+		   add(lblNoEncontrado);
+		   
+		   BotonLabel(lblNoEncontradoBoton, noEncontradoNaranjo, noEncontradoBlanco, noEncontradoGris, 9);
+		   lblNoEncontradoBoton.setIcon(new ImageIcon(BusquedaSecuencial2.class.getResource("/Image/icons8_sad_30px_2.png")));
+		   lblNoEncontradoBoton.setBounds(39, 338, 30, 30);
+		   add(lblNoEncontradoBoton);
 		   
 		   for(int i = 0;i < TAMANOARREGLO; i++){
 				JLabel label = new JLabel();
@@ -230,68 +285,124 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   
 	 }
 	 
-	 public void ejemploMejorCasoAction() {
-		 int tam = 100;
+	 private void MouseActionRadio(JRadioButton rd1,JRadioButton rd2, Icon rdPrinGris, Icon rdPrinNaranjo, Icon rdPrinBlanco, Icon SecBlanco, int radio) {
+			rd1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(radio == 1) {
+						panelGraficoComparaciones.setVisible(true);
+						panelGraficoTiempo.setVisible(false);
+						rd1.setIcon(rdPrinGris);
+						if(rd1.isSelected()) { rdTiempo.setIcon(SecBlanco);}
+					}else {
+						panelGraficoTiempo.setVisible(true);
+						panelGraficoComparaciones.setVisible(false);
+						
+						rd1.setIcon(rdPrinGris);
+						rd2.setIcon(SecBlanco);
+						
+					}
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if(radio == 1) {
+						if(rd1.isSelected()== false) { rd1.setIcon(rdPrinNaranjo);}
+					}else {
+						if(rd1.isSelected() == false) { rdTiempo.setIcon(rdPrinNaranjo);}
+					}
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if(radio == 1) {
+						rd1.setIcon(rdPrinBlanco);
+						if(rd1.isSelected()) { rd1.setIcon(rdPrinGris);}
+					}else {
+						rd1.setIcon(rdPrinBlanco);
+						if(rd1.isSelected() == true) { rd1.setIcon(rdPrinGris);}
+					}
+				}});
+		}
+	 
+	 public static void ejemploMejorCasoAction() {
+		 int tam = 0;
 		 ejemploFlag = 1;
+		 double time;
+		 long fin;
+		 int cantListas = 20;
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
+		 comparaciones.removeAll(comparaciones);
 		 
-		 for(int i = 0; i < 20; i++) {
+		 
+		 for(int i = 0; i < cantListas; i++) {
+			 Busqueda.numComparaciones = 0;
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
 			 lRan = Proceso.crearLista(tam);
 			 tamano.add(tam);
 			 long inicio = System.currentTimeMillis();
 		   	 Busqueda.busquedaSecuencial(lRan, 0);
-		   	 long fin = System.currentTimeMillis();
-		   	 double time = (double) ((fin - inicio)/*/1000*/);
+		   	 fin = System.currentTimeMillis();
+		   	 time = (double) ((fin - inicio)/*/1000*/);
 		   	 tiempo.add(time);
-		   	 tam = tam + 200;
+		   	 int potencia = (int) Math.pow(2,i);;
+		   	 comparaciones.add(Busqueda.numComparaciones);
+		   	 tam = potencia;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo mejor caso busqueda secuencial en 20 listas distintas");
+		 Princ.txtMensaje.setText("Ejemplo mejor caso busqueda secuencial en "+cantListas+" listas distintas");
 	 }
 	 
 	 public void ejemploEncontrado() {
-		 int tam = 100;
+		 int tam = 0;
 		 ejemploFlag = 1;
+		 int cantListas = 20;
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
+		 comparaciones.removeAll(comparaciones);
 		 
-		 for(int i = 0; i < 500; i++) {
+		 for(int i = 0; i < cantListas; i++) {
+			 Busqueda.numComparaciones = 0;
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
-			 lRan = Proceso.crearListaRandom(tam);
+			 lRan = Proceso.crearListaEncontradoBusquedaBinaria(tam);
 			 tamano.add(tam);
 			 long inicio = System.currentTimeMillis();
 		   	 Busqueda.busquedaSecuencial(lRan, 300);
 		   	 long fin = System.currentTimeMillis();
 		   	 double time = (double) ((fin - inicio)/*/1000*/);
 		   	 tiempo.add(time);
-		   	 tam = tam + 200;
+		   	 int potencia = (int) Math.pow(2,i);;
+		   	 comparaciones.add(Busqueda.numComparaciones);
+		   	 tam = potencia;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo numero encontrado busqueda secuencial en 500 listas distintas");
+		 Princ.txtMensaje.setText("Ejemplo numero encontrado busqueda secuencial en "+cantListas+" listas de tamaño 2 elevado a 'n'");
+		// Princ.txtMensaje.setText("Ejemplo numero encontrado busqueda binaria en 20 listas de tamaño 2 elevado a 'n'");
 	 }
 	 
 	 public void ejemploNoEncontrado() {
-		 int tam = 100;
+		 int tam = 0;
+		 int cantListas = 20;
 		 ejemploFlag = 1;
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
+		 comparaciones.removeAll(comparaciones);
 		 
-		 for(int i = 0; i < 500; i++) {
+		 for(int i = 0; i < cantListas; i++) {
+			 Busqueda.numComparaciones = 0;
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
 			 lRan = Proceso.crearListaRandom(tam);
 			 tamano.add(tam);
 			 long inicio = System.currentTimeMillis();
-		   	 Busqueda.busquedaSecuencial(lRan, 500);
+		 	 Busqueda.busquedaSecuencial(lRan, 500);
 		   	 long fin = System.currentTimeMillis();
 		   	 double time = (double) ((fin - inicio)/*/1000*/);
-		   	 
 		   	 tiempo.add(time);
-		   	 tam = tam + 200;
+		   	 int potencia = (int) Math.pow(2,i);;
+		   	 comparaciones.add(Busqueda.numComparaciones);
+		   	 tam = potencia;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo numero no encontrado busqueda secuencial en 500 listas distintas");
+		 Princ.txtMensaje.setText("Ejemplo numero NO encontrado busqueda secuencial en "+cantListas+" listas de tamaño 2 elevado a 'n'");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -382,20 +493,6 @@ public class BusquedaSecuencial extends JLayeredPane{
 			System.out.println(""+listaNumerica);
 		}
 	
-	public static synchronized void suspenderHilo() {
-		Animaciones.suspender = true;
-	}
-	
-	public static synchronized void reanudarHilo() {
-		Animaciones.suspender = false;
-		Thread.currentThread().notify();
-	}
-	
-	public static void tiempoEjecucion() {
-		
-	}
-	
-	
 	public static int leerNumeroArchivo() {
 		int n;
 		n = Proceso.lista.get(numeroArchivo);
@@ -485,6 +582,9 @@ public class BusquedaSecuencial extends JLayeredPane{
 				case 4: buscarLabelAction();break;
 				case 5: listRandom = crearListaRandomLabelAction();break;
 				case 6: buscarListaRandomLabelAction(listRandom);break;
+				case 7: ejemploMejorCasoAction();break;
+				case 8: ejemploEncontrado();break;
+				case 9: ejemploNoEncontrado();break;
 				}
 				
 			}
@@ -496,7 +596,7 @@ public class BusquedaSecuencial extends JLayeredPane{
    		
    		long inicio = System.currentTimeMillis();
    		int numero = Integer.parseInt(txtBuscarRandom.getText());
-   		int resultado = Busqueda.busquedaSecuencial(listRandom, numero);
+   		int resultado = Busqueda.binarySearch(listRandom, numero, 0, listRandom.size()-1);
    		//Ordenamientos.heapSort(listaNumerica, listaNumericaUsuario,tmpsArreglo);
    		long fin = System.currentTimeMillis();
    		double time = (double) ((fin - inicio)/*/1000*/);
@@ -514,14 +614,18 @@ public class BusquedaSecuencial extends JLayeredPane{
 		if(listaNumerica.size() == 0) {
 			Princ.txtMensaje.setText("Primero agregue numeros a la lista");
 		}else {
+			if(Proceso.verificaOrd(listaNumerica)) {
+				//txtBuscar.setText("");
 				int numero = Integer.parseInt(txtBuscar.getText());
-				int resultado = Busqueda.busquedaSecuencial(listaNumerica, numero);
+				int resultado = Busqueda.binarySearch(listaNumerica, numero, 0, listaNumerica.size()-1);
 				if(resultado == -1) {
 					Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
 				}else {
 					Princ.txtMensaje.setText("Numero "+numero+" encontrado");
 				}
-			
+			}else {
+				Princ.txtMensaje.setText("La lista debe estar ordenada para usar este metodo de búsqueda");
+			}
 		}
 	}
 	
@@ -565,7 +669,7 @@ public class BusquedaSecuencial extends JLayeredPane{
 			tamano.add(tamanoLista);
 			ArrayList<Integer> listRandom = new ArrayList<Integer>();
 			listRandom = Proceso.crearListaRandom(tamanoLista);
-			//Collections.sort(listRandom);
+			Collections.sort(listRandom);
 			//imprimirListaNumerica(listRandom);
 	   		txtTamano.setText("");
 	   		lblTiempoEjec.setText("");
@@ -574,23 +678,36 @@ public class BusquedaSecuencial extends JLayeredPane{
 	
 	public static void crearGrafico() {
 		XYSeries oSeries = new XYSeries("");
+		XYSeries cSeries = new XYSeries("");
 	   	
-   		for(int i = 0; i < tamano.size()-1;i++) {
+   		for(int i = 0; i < comparaciones.size();i++) {
    			oSeries.add(tamano.get(i),tiempo.get(i));
+   			cSeries.add(tamano.get(i), comparaciones.get(i));
+   			//System.out.println("comparaciones: "+comparaciones.get(i)+ "tamaño: "+tamano.get(i));
    		}
    	
    		XYSeriesCollection oDataset = new XYSeriesCollection();
+   		XYSeriesCollection cDataset = new XYSeriesCollection();
+   		
    		
    		oDataset.addSeries(oSeries);
+   		cDataset.addSeries(cSeries);
    		
    		
-   		JFreeChart oChart = ChartFactory.createXYLineChart("Busqueda Secuencial", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
+   		JFreeChart oChart = ChartFactory.createXYLineChart("Tiempo/Tamaño", "Tamaño del arreglo", "Tiempo[ms]", oDataset, PlotOrientation.VERTICAL, true, false, false);
+   		JFreeChart cChart = ChartFactory.createXYLineChart("Comparaciones/Tamaño", "Tamaño del arreglo", "Comparaciones", cDataset, PlotOrientation.VERTICAL, true, false, false);
    		oChart.setBackgroundPaint(new Color(208, 121, 3));
+   		cChart.setBackgroundPaint(new Color(208, 121, 3));
    		ChartPanel oPanel = new ChartPanel(oChart);
+   		ChartPanel cPanel = new ChartPanel(cChart);
    		
-   		panelGrafico.setLayout(new java.awt.BorderLayout());
-   		panelGrafico.add(oPanel);
-   		panelGrafico.validate();
+   		panelGraficoTiempo.setLayout(new java.awt.BorderLayout());
+   		panelGraficoTiempo.add(oPanel);
+   		panelGraficoTiempo.validate();
+   		
+   		panelGraficoComparaciones.setLayout(new java.awt.BorderLayout());
+   		panelGraficoComparaciones.add(cPanel);
+   		panelGraficoComparaciones.validate();
 	}
 	
 	public static void agregarLabelAction() {
@@ -616,18 +733,27 @@ public class BusquedaSecuencial extends JLayeredPane{
 				txtNum.setEditable(false);
 				lblAgregar.setEnabled(false);
 				Princ.txtMensaje.setText("Lista llena, no puede agregar más números.");	
-			}	
+			}
+		
+		
 	}
+	
+	
 	
 	public static void eliminarLabelAction() {
 		eliminarNumeros();
 	}
 	
+	JRadioButton rdTiempo = new JRadioButton("");
+	JRadioButton rdComparaciones = new JRadioButton("");
+	
+	public static JLabel lblNoEncontradoBoton = new JLabel("");
 	public static JLabel lblCrearListaRandom = new JLabel();
-	public static JLabel lblOrdenar = new JLabel();
 	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();
+	public static JLabel lblMejorCasoBoton = new JLabel("");
+	public static JLabel lblEncontradoBoton = new JLabel("");
 	
 	public static ArrayList<JLabel> listaNumericaUsuario = new ArrayList<JLabel>();
 	public static ArrayList<Integer> listaNumerica = new ArrayList<Integer>();
@@ -654,6 +780,21 @@ public class BusquedaSecuencial extends JLayeredPane{
 	
 	private final utils.Label tmpEjec = new utils.Label("Tiempo de Ejecuccion", 586, 22, 109, 14);
 	
+	ImageIcon noEncontradoGris = new ImageIcon(Princ.class.getResource("/Image/icons8_sad_30px.png"));
+	ImageIcon noEncontradoBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_sad_30px_2.png"));
+	ImageIcon noEncontradoNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_sad_30px_1.png"));
+	ImageIcon encontradoNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_happy_30px_1.png"));
+	ImageIcon encontradoBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_happy_30px.png"));
+	ImageIcon encontradoGris = new ImageIcon(Princ.class.getResource("/Image/icons8_happy_30px_2.png"));
+	ImageIcon MCasoGris = new ImageIcon(Princ.class.getResource("/Image/icons8_facebook_like_30px_1.png"));
+	ImageIcon MCasoBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_facebook_like_30px_2.png"));
+	ImageIcon MCasoNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_facebook_like_30px.png"));
+	ImageIcon rdCompararGris = new ImageIcon(Princ.class.getResource("/Image/icons8_compare_git_30px_1.png"));
+	ImageIcon rdCompararBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_compare_git_30px.png"));
+	ImageIcon rdCompararNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_compare_git_30px_2.png"));
+	ImageIcon rdTiempoNaranjo = new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px.png"));
+	ImageIcon rdTiempoGris = new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_1.png"));
+	ImageIcon rdTiempoBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_2.png"));
 	ImageIcon buscarGris = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px_2.png"));
 	ImageIcon buscarBlanco = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px.png"));
 	ImageIcon buscarNaranja = new ImageIcon(Princ.class.getResource("/Image/icons8_search_30px_1.png"));
@@ -678,5 +819,4 @@ public class BusquedaSecuencial extends JLayeredPane{
 	private final JLabel lblOrdenarRandom = new JLabel("");
 	private final JLabel lblBuscarRandom = new JLabel("");
 	private static ArrayList<Integer> listRan;
-	private final JButton btnEjemplo_1_1 = new JButton("No encontrado");
 }

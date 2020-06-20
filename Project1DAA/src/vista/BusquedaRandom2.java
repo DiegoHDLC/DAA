@@ -116,20 +116,20 @@ public class BusquedaRandom2 extends JLayeredPane{
 		   
 		   BotonLabel(lblArchivo, archivoNaranja, archivoBlanco, archivoGris, 3);
 		   lblArchivo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_2.png")));
-		   lblArchivo.setBounds(384, 31, 30, 30);
+		   lblArchivo.setBounds(384, 26, 30, 35);
 		   
 		   add(lblArchivo);
 		   
 		   utils.Label buscar = new utils.Label("Buscar", 463, 11, 78, 14);
 			 
-		   buscar.setSize(78, 20);
-		   buscar.setLocation(452, 0);
+		   buscar.setSize(78, 31);
+		   buscar.setLocation(424, 0);
 		   add(buscar);
 		   
 		   
 		   BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
 		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
-		   lblBuscar.setBounds(474, 26, 30, 30);
+		   lblBuscar.setBounds(447, 26, 30, 30);
 		   add(lblBuscar);
 		   
 		   CrearListaRandom.setBounds(533, 84, 170, 30);
@@ -207,7 +207,7 @@ public class BusquedaRandom2 extends JLayeredPane{
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
 		 
-		 for(int i = 0; i < 20; i++) {
+		 for(int i = 0; i < 100; i++) {
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
 			 lRan = Proceso.crearListaRandom(tam);
 			 int numero = (int) Math.floor(Math.random()*999+1);
@@ -220,7 +220,7 @@ public class BusquedaRandom2 extends JLayeredPane{
 		   	 tam = tam + 5000;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo mejor caso busqueda secuencial en 20 listas distintas");
+		 Princ.txtMensaje.setText("Ejemplo busqueda random en 100 listas distintas");
 	 }
 	 
 		public static void eliminarNumeros() {
@@ -540,7 +540,6 @@ public class BusquedaRandom2 extends JLayeredPane{
 	}
 	
 	public static JLabel lblCrearListaRandom = new JLabel();
-	public static JLabel lblOrdenar = new JLabel();
 	public static JLabel lblArchivo = new JLabel();
 	public static JLabel lblEliminar = new JLabel();
 	public static JLabel lblAgregar = new JLabel();

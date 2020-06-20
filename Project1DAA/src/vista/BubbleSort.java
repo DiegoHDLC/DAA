@@ -113,7 +113,7 @@ public class BubbleSort extends JLayeredPane{
 		   
 		   BotonLabel(lblArchivo, archivoNaranja, archivoBlanco, archivoGris, 3);
 		   lblArchivo.setIcon(new ImageIcon(HeapSort.class.getResource("/Image/icons8_add_file_30px_2.png")));
-		   lblArchivo.setBounds(384, 31, 30, 30);
+		   lblArchivo.setBounds(384, 26, 30, 35);
 		   
 		   add(lblArchivo);
 		   

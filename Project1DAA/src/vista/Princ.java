@@ -16,11 +16,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 
 import javax.swing.JPanel;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
 import java.awt.Window;
@@ -40,10 +42,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 
-
 import javax.swing.event.ChangeEvent;
 
-public class Princ{
+public class Princ {
+	int xx,xy;
+	
 	/**
 	 * 
 	 */
@@ -54,7 +57,7 @@ public class Princ{
 	public static QuickSort qk = new QuickSort();
 	public static BubbleSort bubble = new BubbleSort();
 	public static BusquedaBinaria2 busBin = new BusquedaBinaria2();
-	public static BusquedaSecuencial busSec = new BusquedaSecuencial();
+	public static BusquedaSecuencial2 busSec = new BusquedaSecuencial2();
 	public static BusquedaRandom2 busRan = new BusquedaRandom2();
 	public static JFrame ventana = new JFrame();
 	
@@ -76,25 +79,14 @@ public class Princ{
 	public static List<JLabel> listCuadrados;
 	public static void main(String[] args) {
 	initComponents();
-		   try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedLookAndFeelException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		  
+		   
 		//Proceso.crearListaCero();
 	}
+	
+	
 	public Princ() {
-			
+	
 	}
 
 	@SuppressWarnings("deprecation")
