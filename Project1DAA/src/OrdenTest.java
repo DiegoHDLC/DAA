@@ -16,7 +16,7 @@ import junit.framework.Assert;
 import procesos.Busqueda;
 import procesos.Ordenamientos;
 import procesos.Proceso;
-import vista.BusquedaBinaria2;
+import vista.BusquedaBinaria;
 
 class OrdenTest {
 

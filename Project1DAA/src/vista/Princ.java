@@ -56,9 +56,9 @@ public class Princ {
 	public static HeapSort heap = new HeapSort();
 	public static QuickSort qk = new QuickSort();
 	public static BubbleSort bubble = new BubbleSort();
-	public static BusquedaBinaria2 busBin = new BusquedaBinaria2();
-	public static BusquedaSecuencial2 busSec = new BusquedaSecuencial2();
-	public static BusquedaRandom2 busRan = new BusquedaRandom2();
+	public static BusquedaBinaria busBin = new BusquedaBinaria();
+	public static BusquedaSecuencial busSec = new BusquedaSecuencial();
+	public static BusquedaRandom busRan = new BusquedaRandom();
 	public static JFrame ventana = new JFrame();
 	
 	private static CajaTexto txtRuta = new CajaTexto(165, 11, 156, 35);
@@ -273,10 +273,10 @@ public class Princ {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				switch(boton) {
-				case 1: ventana.setState(JFrame.ICONIFIED);
-				case 2: System.exit(0);
+				case 1: ventana.setState(JFrame.ICONIFIED);break;
+				case 2: System.exit(0);break;
 				case 3: Informacion info= new Informacion();
-						info.setVisible(true);
+						info.setVisible(true);break;
 				}
 				
 			}

@@ -46,7 +46,7 @@ import utils.Label;
 
 @SuppressWarnings("serial")
 	
-public class BusquedaBinaria2 extends JLayeredPane{
+public class BusquedaBinaria extends JLayeredPane{
 	public static JLabel lblBuscar = new JLabel();
 		public static List<Double> tiempo = new ArrayList<Double>();
 		public static List<Integer> tamano = new ArrayList<Integer>();
@@ -57,7 +57,7 @@ public class BusquedaBinaria2 extends JLayeredPane{
 		public static JPanel panelGraficoComparaciones = new JPanel();
 		public static CajaTexto txtBuscar = new CajaTexto(444, 34, 46, 20);
 		public static CajaTexto txtBuscarRandom = new CajaTexto(444, 34, 46, 20);
-	 public BusquedaBinaria2() {
+	 public BusquedaBinaria() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
@@ -158,7 +158,7 @@ public class BusquedaBinaria2 extends JLayeredPane{
 		   
 		   
 		   BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
-		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
 		   lblBuscar.setBounds(480, 26, 30, 35);
 		   add(lblBuscar);
 		   
@@ -185,7 +185,7 @@ public class BusquedaBinaria2 extends JLayeredPane{
 		   add(BuscarListaRandom);
 		   
 		   BotonLabel(lblBuscarRandom, buscarNaranja, buscarBlanco, buscarGris, 6);
-		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
 		   lblBuscarRandom.setBounds(783, 120, 30, 35);
 		   
 		   add(lblBuscarRandom);
@@ -220,13 +220,13 @@ public class BusquedaBinaria2 extends JLayeredPane{
 		   add(lblCtam);
 		   
 		   BotonLabel(lblMejorCasoBoton, MCasoNaranja, MCasoBlanco, MCasoGris, 7);
-		   lblMejorCasoBoton.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_facebook_like_30px_2.png")));
+		   lblMejorCasoBoton.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_facebook_like_30px_2.png")));
 		   lblMejorCasoBoton.setBounds(39, 213, 30, 30);
 		   
 		   add(lblMejorCasoBoton);
 		   
 		   BotonLabel(lblEncontradoBoton, encontradoNaranjo, encontradoBlanco, encontradoGris, 8);
-		   lblEncontradoBoton.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_happy_30px.png")));
+		   lblEncontradoBoton.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_happy_30px.png")));
 		   lblEncontradoBoton.setBounds(39, 277, 30, 30);
 		   
 		   add(lblEncontradoBoton);
@@ -251,7 +251,7 @@ public class BusquedaBinaria2 extends JLayeredPane{
 		   add(lblNoEncontrado);
 		   
 		   BotonLabel(lblNoEncontradoBoton, noEncontradoNaranjo, noEncontradoBlanco, noEncontradoGris, 9);
-		   lblNoEncontradoBoton.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_sad_30px_2.png")));
+		   lblNoEncontradoBoton.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_sad_30px_2.png")));
 		   lblNoEncontradoBoton.setBounds(39, 338, 30, 30);
 		   add(lblNoEncontradoBoton);
 		   

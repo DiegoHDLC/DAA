@@ -53,7 +53,7 @@ public class Informacion extends JDialog {
 			cancelButton.setFocusTraversalKeysEnabled(false);
 			cancelButton.setFocusPainted(false);
 			cancelButton.setBounds(327, 250, 102, 39);
-			cancelButton.setBackground(new Color(246, 201, 140));
+			cancelButton.setBackground(new Color(196, 114, 3));
 			cancelButton.setFont(new Font("Sitka Small", Font.BOLD, 15));
 			//cancelButton.setBounds(197, 179, 65, 23);
 			contentPanel.add(cancelButton);

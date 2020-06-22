@@ -42,7 +42,7 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 	
-public class BusquedaRandom2 extends JLayeredPane{
+public class BusquedaRandom extends JLayeredPane{
 	public static JLabel lblBuscar = new JLabel();
 		public static List<Double> tiempo = new ArrayList<Double>();
 		public static List<Integer> tamano = new ArrayList<Integer>();
@@ -50,7 +50,7 @@ public class BusquedaRandom2 extends JLayeredPane{
 		public static int ejemploFlag = 0;
 		private final utils.Label lblEjemplo = new utils.Label("Ejemplo",20, 280, 70, 14);
 		public static JPanel panelGrafico = new JPanel();
-	 public BusquedaRandom2() {
+	 public BusquedaRandom() {
 		   setBackground(new Color(235, 137, 4));//color medio naranjo
 		   setBounds(0, 132, 984, 429);
 		   setLayout(null);
@@ -128,7 +128,7 @@ public class BusquedaRandom2 extends JLayeredPane{
 		   
 		   
 		   BotonLabel(lblBuscar, buscarNaranja, buscarBlanco, buscarGris, 4);
-		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscar.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
 		   lblBuscar.setBounds(447, 26, 30, 30);
 		   add(lblBuscar);
 		   
@@ -159,7 +159,7 @@ public class BusquedaRandom2 extends JLayeredPane{
 		   add(lblBotonEjemplo);
 		   
 		   BotonLabel(lblBuscarRandom, buscarNaranja, buscarBlanco, buscarGris, 6);
-		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria2.class.getResource("/Image/icons8_search_30px.png")));
+		   lblBuscarRandom.setIcon(new ImageIcon(BusquedaBinaria.class.getResource("/Image/icons8_search_30px.png")));
 		   lblBuscarRandom.setBounds(742, 120, 30, 35);
 		   
 		   add(lblBuscarRandom);
