@@ -110,8 +110,9 @@ public class BusquedaBinaria extends JLayeredPane{
 		   rdTiempo.setFont(new Font("Sitka Small", Font.BOLD, 14));
 		   rdTiempo.setForeground(new Color(255, 255, 255));
 		   rdTiempo.setBackground(new Color(235, 137, 4));
-		   rdTiempo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_2.png")));
+		   rdTiempo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_1.png")));
 		   rdTiempo.setBounds(814, 239, 61, 39);
+		   rdTiempo.setSelected(true);
 		   add(rdTiempo);
 		   rdComparaciones.setHorizontalAlignment(SwingConstants.CENTER);
 		   
@@ -130,6 +131,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		   grupoRadioBotones.add(rdTiempo);
 		   grupoRadioBotones.add(rdComparaciones);
 		   utils.Label CrearListaRandom = new utils.Label("Crear lista random: ",697, 151, 160, 23);
+		   CrearListaRandom.setText("Crear lista: ");
 		   CrearListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
 		 
 		   BotonLabel(lblAgregar, agregarBlanco, agregarVerde, agregarGris, 1);
@@ -180,7 +182,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		   
 		   utils.Label BuscarListaRandom = new utils.Label("Crear lista random: ", 697, 151, 160, 23);
 		   BuscarListaRandom.setHorizontalAlignment(SwingConstants.LEFT);
-		   BuscarListaRandom.setText("Buscar en lista random: ");
+		   BuscarListaRandom.setText("Buscar en lista: ");
 		   BuscarListaRandom.setBounds(533, 125, 199, 30);
 		   add(BuscarListaRandom);
 		   
@@ -360,6 +362,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		 tiempo.removeAll(tiempo);
 		 comparaciones.removeAll(comparaciones);
 		 
+		 
 		 for(int i = 0; i < cantListas; i++) {
 			 Busqueda.numComparaciones = 0;
 			 ArrayList<Integer> lRan = new ArrayList<Integer>();
@@ -386,6 +389,7 @@ public class BusquedaBinaria extends JLayeredPane{
 		 tamano.removeAll(tamano);
 		 tiempo.removeAll(tiempo);
 		 comparaciones.removeAll(comparaciones);
+		 Busqueda.numComparaciones = 0;
 		 
 		 for(int i = 0; i < cantListas; i++) {
 			 Busqueda.numComparaciones = 0;
@@ -580,7 +584,7 @@ public class BusquedaBinaria extends JLayeredPane{
 				case 2: eliminarLabelAction();break;
 				case 3: agregarArchivoLabelAction();break;
 				case 4: buscarLabelAction();break;
-				case 5: listRandom = crearListaRandomLabelAction();break;
+				case 5: listRandom = crearListaLabelAction();break;
 				case 6: buscarListaRandomLabelAction(listRandom);break;
 				case 7: ejemploMejorCasoAction();break;
 				case 8: ejemploEncontrado();break;
@@ -592,6 +596,7 @@ public class BusquedaBinaria extends JLayeredPane{
 	}
 	
 	public static void buscarListaRandomLabelAction(ArrayList<Integer> listRandom) {
+		Busqueda.numComparaciones = 0;
 		Princ.txtMensaje.setText("");
    		
    		long inicio = System.currentTimeMillis();
@@ -601,6 +606,7 @@ public class BusquedaBinaria extends JLayeredPane{
    		long fin = System.currentTimeMillis();
    		double time = (double) ((fin - inicio)/*/1000*/);
    		tiempo.add(time);
+   		comparaciones.add(Busqueda.numComparaciones);
    		if(resultado == -1) {
 			Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
 		}else {
@@ -659,21 +665,24 @@ public class BusquedaBinaria extends JLayeredPane{
 			lblAgregar.setEnabled(false);
 		}	
 	}
-	public static ArrayList<Integer> crearListaRandomLabelAction() {
+	public static ArrayList<Integer> crearListaLabelAction() {
 		if(ejemploFlag == 1) {
 			tamano.removeAll(tamano);
 			tiempo.removeAll(tiempo);
+			comparaciones.removeAll(comparaciones);
 			ejemploFlag = 0;
 		}
 			int tamanoLista = Integer.parseInt(txtTamano.getText());
 			tamano.add(tamanoLista);
-			ArrayList<Integer> listRandom = new ArrayList<Integer>();
-			listRandom = Proceso.crearListaRandom(tamanoLista);
-			Collections.sort(listRandom);
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			list = Proceso.crearLista(tamanoLista);
+			Collections.sort(list);
 			//imprimirListaNumerica(listRandom);
 	   		txtTamano.setText("");
 	   		lblTiempoEjec.setText("");
-			return listRandom;
+	   		System.out.println(""+list);
+	   		Princ.txtMensaje.setText("Lista de tamaño ["+tamanoLista+"] creada con éxito");
+			return list;
 	}
 	
 	public static void crearGrafico() {

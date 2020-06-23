@@ -110,9 +110,11 @@ public class BusquedaSecuencial extends JLayeredPane{
 		   rdTiempo.setFont(new Font("Sitka Small", Font.BOLD, 14));
 		   rdTiempo.setForeground(new Color(255, 255, 255));
 		   rdTiempo.setBackground(new Color(235, 137, 4));
-		   rdTiempo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_2.png")));
+		   rdTiempo.setIcon(new ImageIcon(Princ.class.getResource("/Image/icons8_time_30px_1.png")));
 		   rdTiempo.setBounds(814, 239, 61, 39);
+		   rdTiempo.setSelected(true);
 		   add(rdTiempo);
+		   
 		   rdComparaciones.setHorizontalAlignment(SwingConstants.CENTER);
 		   
 		   rdComparaciones.setFont(new Font("Sitka Small", Font.BOLD, 14));
@@ -593,7 +595,7 @@ public class BusquedaSecuencial extends JLayeredPane{
 	
 	public static void buscarListaRandomLabelAction(ArrayList<Integer> listRandom) {
 		Princ.txtMensaje.setText("");
-   		
+   		Busqueda.numComparaciones = 0;
    		long inicio = System.currentTimeMillis();
    		int numero = Integer.parseInt(txtBuscarRandom.getText());
    		int resultado = Busqueda.binarySearch(listRandom, numero, 0, listRandom.size()-1);
@@ -601,6 +603,7 @@ public class BusquedaSecuencial extends JLayeredPane{
    		long fin = System.currentTimeMillis();
    		double time = (double) ((fin - inicio)/*/1000*/);
    		tiempo.add(time);
+   		comparaciones.add(Busqueda.numComparaciones);
    		if(resultado == -1) {
 			Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
 		}else {
@@ -618,6 +621,7 @@ public class BusquedaSecuencial extends JLayeredPane{
 				//txtBuscar.setText("");
 				int numero = Integer.parseInt(txtBuscar.getText());
 				int resultado = Busqueda.binarySearch(listaNumerica, numero, 0, listaNumerica.size()-1);
+				
 				if(resultado == -1) {
 					Princ.txtMensaje.setText("Numero "+numero+" no encontrado");
 				}else {
