@@ -213,7 +213,7 @@ public class QuickSort extends JLayeredPane{
 		   	 tam = tam + 5000;
 		 }
 		 crearGrafico();
-		 Princ.txtMensaje.setText("Ejemplo de 60 listas ordenadas por heapsort");
+		 Princ.txtMensaje.setText("Ejemplo de 60 listas ordenadas por QuickSort");
 	 }
 	 
 		public static void eliminarNumeros() {
